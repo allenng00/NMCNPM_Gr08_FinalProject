@@ -1,15 +1,15 @@
-const bookModel = require('../models/bookModel');
+const postModel = require('../models/postModel');
 const listController = require('../controllers/listController');
 
 exports.index = async (req, res, next) => {
     const search = req.query.search;
-    // Get books from model
-    const books = await bookModel.list();
+    // Get posts from model
+    const posts = await postModel.list();
     if (search)
     {
-        res.redirect('/listbook?search='+search);
+        res.redirect('/listpost?search='+search);
     }
     else
-    // Pass data to view to display list of books
-        res.render('index', {title: "Trang chủ", books});
+    // Pass data to view to display list of posts
+        res.render('index', {title: "Trang chủ", posts});
 };

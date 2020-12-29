@@ -10,9 +10,9 @@ const fileupload = require('express-fileupload');
 
 
 exports.index = async(req, res, next) => {
-    // Get books from model
-    //const books = bookModel.list();
-    // Pass data to view to display list of books
+    // Get posts from model
+    //const posts = postModel.list();
+    // Pass data to view to display list of posts
     var user;
     if (ISLOGIN)
         user = await userModel.menu(ID);
@@ -50,7 +50,7 @@ exports.update_profile = async(req, res, next) => {
                     });
             });
         }
-        //  // Update books from model
+        //  // Update posts from model
         // console.log(tmp);
         // userModel.update_profile(fields,ID).then(()=>{
         // res.redirect('../../');
@@ -104,15 +104,15 @@ exports.addUser = async (req, res) => {
     }
 };
 // exports.logout = async (req, res, next) => {
-//     // Get books from model
-//     //const books = bookModel.list();
-//     // Pass data to view to display list of books
+//     // Get posts from model
+//     //const posts = postModel.list();
+//     // Pass data to view to display list of posts
 //     await res.render('account');
 // };
 
 // exports.register = async (req, res, next) => {
-//     // Get books from model
-//     //const books = bookModel.list();
-//     // Pass data to view to display list of books
+//     // Get posts from model
+//     //const posts = postModel.list();
+//     // Pass data to view to display list of posts
 //     await res.render('account');
 // };

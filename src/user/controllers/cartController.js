@@ -1,36 +1,36 @@
 
 const { ObjectId } = require('mongodb');
 
-const bookModel = require('../models/bookModel');
+const postModel = require('../models/postModel');
 const cartModel = require('../models/cartModel');
 
 exports.add_to_cart = async (req, res, next) => {
-    const bookID = req.params.id;
+    const postID = req.params.id;
     const qty = parseInt(req.body.qty);
     console.log(qty);
     const cart = new cartModel(req.session.cart ? req.session.cart : {});
  
-    const book = await bookModel.get(bookID);
-        if (!book)
+    const post = await postModel.get(postID);
+        if (!post)
             return res.redirect('/');
 
-        cart.add(book, book._id, qty);
+        cart.add(post, post._id, qty);
         req.session.cart = cart;
-        res.redirect('../../listbook/' + bookID);
+        res.redirect('../../listpost/' + postID);
     
 };
 
 exports.listcart = async (req, res, next) => {
     if (!req.session.cart)
-        return res.render('cart',{title: 'Giỏ hàng', books: null});
+        return res.render('cart',{title: 'Giỏ hàng', posts: null});
     const cart = new cartModel(req.session.cart);
-    res.render('cart',{title: 'Giỏ hàng', books: cart.generateArray(), totalPrice: cart.totalPrice});
+    res.render('cart',{title: 'Giỏ hàng', posts: cart.generateArray(), totalPrice: cart.totalPrice});
 };
 
 exports.deleteItem = async (req, res, next) => {
     var cart = new cartModel(req.session.cart);
-    const book = await bookModel.get(req.params.id);
-    cart.deleteItem(book._id);
+    const post = await postModel.get(req.params.id);
+    cart.deleteItem(post._id);
     req.session.cart = cart;
     res.redirect('../../listcart');
 };
