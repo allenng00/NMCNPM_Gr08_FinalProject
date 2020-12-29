@@ -1,0 +1,39 @@
+	<!-- Start My Account Area -->
+		<section class="my_account_area  pt--80 pb--55 bg--white">
+			<div class="container  center_login_register ">
+				<div class="row">
+					<div class="col-6 text-center">
+						
+						<div class="my__account__wrapper  ">
+							<h3 class="account__title">Register</h3>
+							<form method="post">
+								<div class="account__form">
+                                    <div class="input__box" width="200">
+										<label>Username <span>*</span></label>
+										<input type="text" name="username" value="{{username}}" required>
+									</div>
+									<div class="input__box">
+										<label>Email address <span>*</span></label>
+										<input type="email" name="email" value="{{email}}" required>
+									</div>
+									<div class="input__box">
+										<label>Password<span>*</span></label>
+										<input type="password" name="password" value="{{password}}" required>
+									</div>
+									{{#if hasErr}}
+										<div class="alert alert-danger">
+											{{message}}
+										</div>
+									{{/if}}
+									<div class="form__btn">
+										<button type="submit">Register</button>
+									</div>
+									{{!-- <br>
+										<p id="error" style="color: red;" >{{err}}</p> --}}
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
