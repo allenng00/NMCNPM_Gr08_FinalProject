@@ -1,0 +1,242 @@
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+     <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+
+            <!-- Sidebar -->
+            <!-- <nav class="mt-2"> -->
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                       with font-awesome or any other icon font library -->
+
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a href="/home/users" class="nav-link">
+                    <i class="nav-icon fas fa-table"></i>
+                    <p>Người dùng</p>
+                </a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a href="/home/products" class="nav-link">
+                    <i class="nav-icon fas fa-table"></i>
+                    <p>Sách</p>
+                </a>
+
+            </ul>
+            <!-- </nav> -->
+            <!-- /.sidebar -->
+        </aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div  class="row mb-2">
+            <div class="col-sm-9">
+              <h1>Thông tin sách</h1>
+            </div>
+            <div class="col-sm-3">
+                <!-- Navbar Search -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="navbar-search-block">
+                      <form class="form-inline">
+                          <button class="btn btn-navbar" type="submit">
+                              <i class="fas fa-search"></i>
+                          </button>
+                          <input class="form-control form-control-navbar" href="/home/products/?txtSearch={{Search}}" type="search" placeholder="Tìm kiếm" aria-label="Search" name="txtSearch">
+                      </form>
+                    </div>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </div><!-- /.container-fluid -->
+      <div class="row container-fluid">
+          <div class="col-10">
+            <a class="btn-add btn btn-secondary btn-lg" href="/home/products/addbook/">+ Thêm sản phẩm</a>
+          </div>
+          <div class="dropdown show combobox_catalog col">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{nameCategory}}
+            </a>
+            <div class="dropdown-menu col" aria-labelledby="dropdownMenuLink">
+              {{#each category}}
+              <a class="dropdown-item" href="/home/products?catID={{_id}}">{{nameCategory}}</a>
+              {{/each}}
+            </div>
+          </div>
+    </section>
+
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                  <thead>
+                      <th>Tên sách</th>
+                      <th>Tác giả</th>
+                      <th>Thể loại</th>
+                      <th>Giá sale</th>
+                      <th>Giá cũ</th>
+                      <th>Sửa</th>
+                  </thead>
+                  <tbody>
+                    {{#each books}}
+                      <tr>
+                      <td>{{title}}</td>
+                      <td>{{decription}}</td>
+                      <td>{{nameCategory}}</td>
+                      <td>{{salePrice}}</td>
+                      <td>{{oldPrice}}</td>
+                      <td><a class="drop with--one--item btn-add " href="/home/products/update/{{_id}}">Edit</a></td>              
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>    
+
+                <div class="clearfix"></div>
+                {{!-- <ul class="pagination pull-right">
+                  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                  <li class="active"><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                </ul> --}}
+                <h3>{{totalDocs}} sản phẩm</h3>
+                <nav aria-label="Page navigation example" style="..."> 
+                    <ul class="pagination justify-content-center pull-right">
+                        {{#isnt currentPage 1}}
+                        <li >
+                            <a href="/home/products?{{prevPageQueryString}}" aria-label="Previous">
+                              <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                        </li>
+                        {{/isnt}}
+                        {{#if hasPreviousPage}}
+                        <li >
+                          <a href="/home/products?{{prevPageQueryString}}">{{prevPage}}
+                          </a>
+                        </li>
+                        {{/if}}
+                        <li class="active">
+                            <a href="javascript:void(0)" tabindex="-1">{{currentPage}}
+                            </a>
+                        </li>
+                        {{#if hasNextPage}}
+                        <li >
+                           <a href="/home/products?{{nextPageQueryString}}">{{nextPage}}
+                          </a>
+                        </li>
+                        {{/if}}
+                        {{#gt lastPage currentPage}}
+                        <li >
+                            <a href="/home/products?{{nextPageQueryString}}" aria-label="Next">
+                              <span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </li>
+                        {{/gt}}
+                    </ul>
+                </nav>
+              </div>
+            </div>
+	        </div>
+        </div>
+
+        <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <input class="form-control " type="text" placeholder="Mohsin">
+                </div>
+                <div class="form-group"> 
+                  <input class="form-control " type="text" placeholder="Irshad">
+                </div>
+                <div class="form-group">
+                  <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
+                </div>
+              </div>
+              <div class="modal-footer ">
+                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+              </div>
+            </div>
+            <!-- /.modal-content --> 
+          </div>
+          <!-- /.modal-dialog --> 
+        </div>
+
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+              </div>
+              <div class="modal-body">
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+              </div>
+              <div class="modal-footer ">
+                <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+              </div>
+            </div>
+          <!-- /.modal-content --> 
+          </div>
+           <!-- /.modal-dialog --> 
+        </div>
+      </div>
+       
+    </section>
+    <!-- /.content -->
+   
+  </div>
+
+
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.1.0-rc
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+</body>
