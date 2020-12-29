@@ -15,7 +15,7 @@ require('dotenv').config();
 
 const validator = require('express-validator');
 const session = require('express-session');
-const passport = require('./passport');
+//const passport = require('./passport');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo')(session);
 
@@ -38,11 +38,6 @@ const cartRouter = require('./routes/cart');
 const app = express();
 app.use(bodyParser.urlencoded({'extended':false}));
 app.use(validator());
-// hbs.registerPartials(__dirname + '/views/partials');
-// hbs.registerPartial('bestseller', fs.readFileSync(__dirname + '/views/partials/bestseller.hbs', 'utf8'));
-// hbs.registerPartial('related', fs.readFileSync(__dirname + '/views/partials/related.hbs', 'utf8'));
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -86,8 +81,8 @@ app.use(session({
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   cookie: {maxAge: 180 * 60 * 1000}
 }));
-app.use(passport.initialize());
-app.use(passport.session({secret: process.env.SESSION_SECRET}));
+// app.use(passport.initialize());
+// app.use(passport.session({secret: process.env.SESSION_SECRET}));
 app.use(flash());
 
 //pass req.user to res.local

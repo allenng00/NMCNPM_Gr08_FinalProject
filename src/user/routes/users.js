@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const passport = require('../passport');
+//const passport = require('../passport');
 const userController = require('../controllers/userController');
 
 /* GET users listing. */
@@ -12,9 +12,9 @@ router.get('/login', function(req, res, next){
   res.render('users/login',{title: 'Đăng nhập', message, hasErr: message.length > 0});
 })
 
-router.post('/login',  passport.authenticate('local', { successRedirect: '/',
-failureRedirect: '/users/login',
-failureFlash: true}))
+// router.post('/login',  passport.authenticate('local', { successRedirect: '/',
+// failureRedirect: '/users/login',
+// failureFlash: true}))
 
 router.get('/register', function(req, res, next){
   res.render('users/register',{title: 'Đăng ký'});

@@ -1,10 +1,10 @@
 const { ObjectId} = require('mongodb');
-const booksCollection = require('./MongooseModel/bookMongooseModel');
+const postsCollection = require('./MongooseModel/postMongooseModel');
 const categoryCollection = require ('./MongooseModel/categoryMongooseModel');
 
 exports.listcategory = async () => {
     //console.log('model db');
-    //const booksCollection = db().collection('Books');
+    //const postsCollection = db().collection('Books');
     const cat = await categoryCollection.find({});
     return cat;
 }
@@ -25,29 +25,29 @@ exports.get_name_cat = async (id) => {
 
 exports.list = async () => {
     console.log('model db');
-    //const booksCollection = db().collection('Books');
-    const books = await booksCollection.find({isDeleted: false});
-    //console.dir(books);
-    return books;
+    //const postsCollection = db().collection('Books');
+    const posts = await postsCollection.find({isDeleted: false});
+    //console.dir(posts);
+    return posts;
 }
-exports.listbook = async (filter, pageNumber, itemPerPage) => {
-    //const booksCollection = db().collection('Books');
-    let books = await booksCollection.paginate(filter, {
+exports.listpost = async (filter, pageNumber, itemPerPage) => {
+    //const postsCollection = db().collection('Books');
+    let posts = await postsCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
     });
-    return books;
+    return posts;
 }
 
 exports.get = async (id) => {
-    //const booksCollection = db().collection('Books');
-    const book = await booksCollection.findOne({_id: ObjectId(id)})
-    return book;
+    //const postsCollection = db().collection('Books');
+    const post = await postsCollection.findOne({_id: ObjectId(id)})
+    return post;
 }
 
-exports.getRelatedBooks = async (catID, bookID) => {
-    //const booksCollection = db().collection('Books');
-    const listRelatedBooks = await booksCollection.find({catID: ObjectId(catID), _id: {$ne:  ObjectId(bookID)}});
+exports.getRelatedBooks = async (catID, postID) => {
+    //const postsCollection = db().collection('Books');
+    const listRelatedBooks = await postsCollection.find({catID: ObjectId(catID), _id: {$ne:  ObjectId(postID)}});
     if (listRelatedBooks.length>=1)
     {
         return listRelatedBooks;
@@ -58,6 +58,6 @@ exports.getRelatedBooks = async (catID, bookID) => {
 }
 
 
-// exports.list = () => books;
+// exports.list = () => posts;
 
-// exports.get = (id) => books.find(b=>b.id ===id);
+// exports.get = (id) => posts.find(b=>b.id ===id);

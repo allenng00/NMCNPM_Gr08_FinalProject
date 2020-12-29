@@ -18,9 +18,9 @@ const post = new Schema(
     catID: ObjectId,
     isDeleted: Boolean
 },
-  {collection: 'posts'}
+  {collection: 'Books'}
   );
 
   post.plugin(mongoosePaginate);
 
-  module.exports = mongoose.model('posts', post);
+  module.exports = mongoose.model('Books', post);
