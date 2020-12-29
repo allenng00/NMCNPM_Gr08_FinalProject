@@ -8,7 +8,7 @@ const indexController = require('../controllers/indexController');
 
 router.get('/', indexController.renderIndex);
 
-router.use('/products', require('./product'));
+router.use('/posts', require('./post'));
 
 
 module.exports = router;
