@@ -1,0 +1,37 @@
+	<section class="my_account_area pt--80 pb--55 bg--white">
+			<div class="container  center_login_register">
+				<div class="row ">
+					<div class="col-6 text-center ">
+						<div class="my__account__wrapper">
+							<h3 class="account__title">Login</h3>
+							<form action="/users/login" method="post"> 
+								<div class="account__form">
+									<div class="input__box">
+										<label>Username <span>*</span></label>
+										<input type="text" name="username" value="{{username}}" required>
+									</div>
+									<div class="input__box">
+										<label>Password<span>*</span></label>
+										<input type="password" name="password" value="{{password}}" required>
+									</div>
+									<div class="form__btn">
+										<button type="submit">Login</button>
+										<label class="label-for-checkbox">
+											<input id="rememberme" class="input-checkbox" name="rememberme" value="forever" type="checkbox">
+											<span>Remember me</span>
+										</label>
+									</div>
+									<br>
+									{{#if hasErr}}
+										<div class="alert alert-danger">
+											{{message}}
+										</div>
+									{{/if}}
+									<a class="forget_pass" href="#">Lost your password?</a>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+    </section>
