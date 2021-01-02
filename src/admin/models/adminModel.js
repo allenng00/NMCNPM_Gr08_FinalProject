@@ -24,6 +24,11 @@ exports.getAdmin = async(id) => {
     return user;
 }
 
+exports.getUsername = async(username) => {
+    const user = await adminCollection.findOne({ username: username });
+    return user;
+}
+
 exports.saveProfile = async(req, id) => {
     const txtImage = req.imagePath;
     if (!txtImage) {

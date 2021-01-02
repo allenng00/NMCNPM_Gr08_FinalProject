@@ -58,6 +58,7 @@
                       <th>Thể loại</th>
                       <th>Giá sale</th>
                       <th>Giá cũ</th>
+                      <th>Bình luận</th>
                       <th>Sửa</th>
                   </thead>
                   <tbody>
@@ -68,6 +69,8 @@
                       <td>{{nameCategory}}</td>
                       <td>{{salePrice}}</td>
                       <td>{{oldPrice}}</td>
+                      <td><a class="drop with--one--item btn-add " href="/home/products/comments/{{_id}}">Xem</a></td>              
+
                       <td><a class="drop with--one--item btn-add " href="/home/products/update/{{_id}}">Edit</a></td>              
                       </tr>
                     {{/each}}

@@ -14,7 +14,8 @@ const book = new Schema({
     nameCategory: String,
     categoryID: ObjectId,
     titleUnsigned: String,
-    status: String
+    status: String,
+    comments: Array
 }, { collection: 'books' });
 
 book.plugin(mongoosePaginate);

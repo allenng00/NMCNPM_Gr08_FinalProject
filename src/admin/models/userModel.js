@@ -15,6 +15,11 @@ exports.get = async(id) => {
     return user;
 }
 
+exports.getUsername = async(username) => {
+    const user = await usersCollection.findOne({ username: username })
+    return user;
+}
+
 exports.close = async(id) => {
     await usersCollection.updateOne({ _id: ObjectId(id) }, {
         status: "Khoá"
