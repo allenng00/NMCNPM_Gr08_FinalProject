@@ -1,0 +1,32 @@
+<br><br><br>
+<form  method="post" enctype="multipart/form-data">
+    <div class="container rounded bg-white mt-5 content-wrapper">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" src="{{user.imageProfile}}" width="200" height="200" name="imagePath" id="blah">
+                    <div >
+                        <input type="file" name="imagePath" accept="image/*" onchange="readURL(this);">
+                        <label class=" " >Thay đổi ảnh</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <h4 class="text-right">Thông tin cá nhân</h4>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label name="txtUser">{{user.username}}</label></div>
+                    </div>
+
+                    
+                    <div class="mt-2 text-right"><button class="btn btn-warning profile-button" type="button">&nbsp;Đổi mật khẩu&nbsp;</button></div>
+                    
+                    <div class="mt-2 text-right"><button class="btn btn-success profile-button" type="submit"> Lưu chỉnh sửa </button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

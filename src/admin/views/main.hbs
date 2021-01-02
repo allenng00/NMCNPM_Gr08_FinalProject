@@ -28,6 +28,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+	
 
 
 
@@ -56,16 +58,15 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
+                
                 <!-- Sidebar user (optional) -->
-		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-			<div class="image">
-			<img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-			</div>
-			<div class="info">
-			<a href="/home/profile" class="d-block">Admin</a>
-			</div>
-		
-            </div>
+		        <div class=" mt-3 pb-3 mb-3 d-flex">
+                    <div class="">
+                        &nbsp;&nbsp;<a href="/profile/{{user._id}}" class="d-block"><img class="rounded-circle" src="{{user.imageProfile}}" width="40" height="40" name="imagePath" >&nbsp; Admin</a>
+                    </div>                    
+                </div>
+                <div class=" mt-3 pb-3 mb-3 d-flex "><a href="/logout">Đăng xuất</a></div>
+                
             <!-- <nav class="mt-2"> -->
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
@@ -78,18 +79,22 @@
                 <a class="nav-link"></a>
                 <a class="nav-link"></a>
                 <a class="nav-link"></a>
-                <a class="nav-link"></a>
-                <a class="nav-link"></a>
-                <a class="nav-link"></a>
+
                 <a href="/home/users" class="nav-link">
-                    <i class="nav-icon fas fa-table"></i>
+                    <i class="nav-icon fas fa-user"></i>
                     <p>Người dùng</p>
                 </a>
                 <a class="nav-link"></a>
                 <a class="nav-link"></a>
                 <a href="/home/products" class="nav-link">
-                    <i class="nav-icon fas fa-table"></i>
+                    <i class="nav-icon fas fa-book"></i>
                     <p>Sách</p>
+                </a>
+                <a class="nav-link"></a>
+                <a class="nav-link"></a>
+                <a href="/home/orders" class="nav-link">
+                    <i class="nav-icon fas fa-credit-card"></i>
+                    <p>Đơn hàng</p>
                 </a>
 
             </ul>
@@ -154,3 +159,18 @@
     <script src="/plugins/jsgrid/jsgrid.min.js"></script>
 
     <script src="/dist/js/demo.js"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(200)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }</script>

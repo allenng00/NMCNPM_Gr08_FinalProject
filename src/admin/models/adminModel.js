@@ -23,3 +23,16 @@ exports.getAdmin = async(id) => {
     const user = await adminCollection.findOne({ _id: ObjectId(id) });
     return user;
 }
+
+exports.saveProfile = async(req, id) => {
+    const txtImage = req.imagePath;
+    if (!txtImage) {
+        const user = await adminCollection.findOne({ _id: ObjectId(id) });
+        txtImage = user.imageProfile;
+    }
+    await adminCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            imageProfile: txtImage
+        }
+    });
+}

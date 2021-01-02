@@ -1,0 +1,127 @@
+
+<div class="content-wrapper">
+    
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div  class="row mb-2">
+            <div class="col-sm-9">
+              <h1>Thông tin các đơn hàng</h1>
+            </div>
+            <div class="col-sm-3">
+                <!-- Navbar Search -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="navbar-search-block">
+                      <form class="form-inline">
+                          <button class="btn btn-navbar" type="submit">
+                              <i class="fas fa-search"></i>
+                          </button>
+                          <input class="form-control form-control-navbar" href="/home/users/?txtSearch={{Search}}" type="search" placeholder="Tìm kiếm" aria-label="Search" name="txtSearch">
+                      </form>
+                    </div>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </div><!-- /.container-fluid -->
+            <div class="row container-fluid text-right">
+              <div class="col-10"></div>
+              <div class="dropdown show combobox_catalog">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Phân loại
+                </a>
+                <div class="dropdown-menu col" aria-labelledby="dropdownMenuLink">
+
+                  <a class="dropdown-item" href="/home/orders/?stt=1">Đợi duyệt</a>
+                  <a class="dropdown-item" href="/home/orders/?stt=2">Đã duyệt</a>
+                  <a class="dropdown-item" href="/home/orders/?stt=3">Đã giao</a>
+                  <a class="dropdown-item" href="/home/orders/?stt=4">Đã huỷ</a>
+
+                </div>
+                
+              </div>
+           </div>
+    </section>
+
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                  <thead>
+                      <th>User</th>
+                      <th>Tên người đặt</th>
+                      <th>Trạng thái</th>
+                      <th>Số điện thoại</th>
+                      <th>Email</th>
+                      <th>Chi tiết</th>
+                  </thead>
+                  <tbody>
+                    {{#each orders}}
+                      <tr>
+                          <td>{{user}}</td>
+                      <td>{{name}}</td>
+                      <td>{{status}}</td>
+                      <td>{{phone}}</td>
+                      <td>{{email}}</td>
+                      <td><a class="drop with--one--item btn-add " href="/home/orders/detail/{{_id}}">Xem</a></td>              
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>    
+
+                <div class="clearfix"></div>
+                <h3>{{totalDocs}} đơn hàng</h3>
+                <nav aria-label="Page navigation example" style="..."> 
+                    <ul class="pagination justify-content-center pull-right">
+                        {{#isnt currentPage 1}}
+                        <li >
+                            <a href="/home/orders?{{prevPageQueryString}}" aria-label="Previous">
+                              <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                        </li>
+                        {{/isnt}}
+                        {{#if hasPreviousPage}}
+                        <li >
+                          <a href="/home/orders?{{prevPageQueryString}}">{{prevPage}}
+                          </a>
+                        </li>
+                        {{/if}}
+                        <li class="active">
+                            <a href="javascript:void(0)" tabindex="-1">{{currentPage}}
+                            </a>
+                        </li>
+                        {{#if hasNextPage}}
+                        <li >
+                           <a href="/home/orders?{{nextPageQueryString}}">{{nextPage}}
+                          </a>
+                        </li>
+                        {{/if}}
+                        {{#gt lastPage currentPage}}
+                        <li >
+                            <a href="/home/orders?{{nextPageQueryString}}" aria-label="Next">
+                              <span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </li>
+                        {{/gt}}
+                    </ul>
+                </nav>
+              </div>
+            </div>
+	        </div>
+        </div>
+
+        
+      </div>
+       
+    </section>
+    <!-- /.content -->
+   
+  </div>

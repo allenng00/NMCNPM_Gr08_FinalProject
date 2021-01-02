@@ -12,8 +12,9 @@ function isLogged(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.render('./login/login', { title: 'Đăng nhập', fade: "fade" });
+        res.redirect('../');
     }
 }
+
 
 module.exports = router;

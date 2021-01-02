@@ -12,7 +12,6 @@ cloudinary.config({
 });
 const ITEM_PER_PAGE = 4;
 const categoryCollection = require('../models/MongooseModel/categoryMongooseModel');
-const booksCollection = require('../models/MongooseModel/bookMongooseModel');
 const AllID = "5fceeb7ed1d96a1a74e255fe";
 
 function showUnsignedString(search) {
@@ -56,7 +55,7 @@ exports.renderProducts = async(req, res, next) => {
         id_category = "";
     }
     res.render('./products/products', {
-        title: 'products',
+        title: 'Sản phẩm',
         books: paginate.docs,
         hasNextPage: paginate.hasNextPage,
         nextPage: paginate.nextPage,
@@ -77,12 +76,12 @@ exports.renderProducts = async(req, res, next) => {
 
 exports.renderUpdate = async(req, res, next) => {
     const book = await bookModel.get(req.params.id);
-    res.render('./products/updatebook', { book, title: 'update', fade: "fade" });
+    res.render('./products/updatebook', { book, title: 'Cập nhật sản phẩm', fade: "fade" });
 };
 
 exports.renderAddbook = async(req, res, next) => {
     const category = await bookModel.listCategory();
-    res.render('./products/addbook', { category, title: 'addbook', fade: "fade" });
+    res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
 };
 exports.add = (req, res, next) => {
     const form = formidable({ multiples: true });
@@ -99,13 +98,13 @@ exports.add = (req, res, next) => {
                 bookModel.post(fields).then(() => {
                     const category = bookModel.listCategory();
                     // Pass data to view to display list of books
-                    res.render('./products/addbook', { category, title: 'addbook' });
+                    res.render('./products/addbook', { category, title: 'Thêm sản phẩm' });
                 });
             });
         } else {
             const category = bookModel.listCategory();
             // Pass data to view to display list of books
-            res.render('./products/addbook', { category, title: 'addbook' });
+            res.render('./products/addbook', { category, title: 'Thêm sản phẩm' });
         }
     });
 };

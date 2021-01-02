@@ -1,0 +1,47 @@
+<header>
+	<link rel="stylesheet" href="/css1/plugins.css">
+    	<link rel="stylesheet" href="/fonts_1">
+
+</header>
+<br><br><br>
+    <div class="container rounded bg-white mt-5 content-wrapper">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-3"><img class="rounded-circle mt-5" src="{{user_user.imageProfile}}" width="200" height="200" name="imagePath" >
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <h4 class="text-right">Thông tin cá nhân</h4>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label name="txtUser">{{user_user.username}}</label></div>
+                    </div>
+                     <div class="row mt-2">
+                        <div class="col-md-6"><label  class="form-control"  name="txtName">{{user_user.name}}</label></div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="form-control"  name="txtPhone">{{user_user.phone}}</label></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="form-control"  name="txtAddress">{{user_user.address}}</label></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label  class="form-control" name="txtEmail">{{user_user.email}}</label></div>
+                    </div>
+                     <div class="row mt-3">
+                        <div class="col-md-6"><label  class="form-control" name="txtStatus">{{user_user.status}}</label></div>
+                    </div>
+                    
+                </div>
+                    <div class="text-left"><a class="btn btn-primary profile-button" href="/home/users"> << Trở lại </a></div>
+                    <div class=" text-right"><a class="btn btn-success profile-button" href="/home/users/detail/{{user_user._id}}/open">&nbsp;Mở tài khoản&nbsp;&nbsp; </a></div>
+                    <div class="mt-2 text-right"><a class="btn btn-danger profile-button" href="/home/users/detail/{{user_user._id}}/close">Khoá tài khoản </a></div>
+
+            </div>
+        </div>
+    </div>
+

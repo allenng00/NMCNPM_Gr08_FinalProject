@@ -7,7 +7,7 @@ function isLogged(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.render('./login/login', { title: 'Đăng nhập', fade: "fade" });
+        res.redirect('../../');
     }
 }
 
@@ -20,7 +20,6 @@ router.get('/update/:id', isLogged, productsController.renderUpdate);
 router.post('/update/:id', productsController.update);
 
 router.get('/delete/:id', isLogged, productsController.delete);
-
 
 
 module.exports = router;

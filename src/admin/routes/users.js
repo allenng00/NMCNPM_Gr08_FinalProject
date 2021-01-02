@@ -1,22 +1,23 @@
-// const app = require('../app');
-// var express = require('express');
-// var router = express.Router();
-// const passport = require('../passport');
+const app = require('../app');
+var express = require('express');
+var router = express.Router();
+const usersController = require('../controllers/usersController');
 
-// const loginController = require('../controllers/loginController');
+function isLogged(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('../../');
+    }
+}
 
-// /* GET users listing. */
+router.get('/', isLogged, usersController.renderUsers);
 
-// router.get('/', loginController.renderLogin);
+router.get('/detail/:id', isLogged, usersController.renderDetail);
 
-// //router.use('/home', require('./index'));
+router.get('/detail/:id/open', isLogged, usersController.openUser);
+router.get('/detail/:id/close', isLogged, usersController.closeUser);
 
-// router.post('/',
-//     passport.authenticate('local', {
-//         successRedirect: '/home',
-//         failureRedirect: '/',
-//         failureFlash: true
-//     })
-// );
 
-// module.exports = router;
+
+module.exports = router;

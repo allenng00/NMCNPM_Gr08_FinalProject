@@ -1,0 +1,79 @@
+
+<head>
+    	<!-- Stylesheets -->
+	<link rel="stylesheet" href="/order/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/order/css/plugins.css">
+	<link rel="stylesheet" href="/order/style.css">
+	<link rel="stylesheet" href="/order/plugins/fontawesome-free/css/all.min.css">
+
+
+	<!-- Cusom css -->
+   <link rel="stylesheet" href="/order/css/custom.css">
+</head>
+<div class="content-wrapper">
+<br><br>
+        <section class="wn__checkout__area section-padding--lg bg__white">
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-lg-5 col-12">
+        				<div class="customer_details ">
+        					<h2>Chi tiết giao hàng</h2>
+        					<div class="customar__field">
+                                <div class="input_box">
+                                   <label>Tên</label>
+                                    <p>{{order.name}}</p>
+                                </div>
+        						<div class="input_box">
+        							<strong><label>Địa chỉ </label></strong>
+        							 <p>{{order.address}}</p>
+        						</div>
+								<div class="margin_between">    
+									<div class="input_box space_between">
+										<strong><label>Số điện thoại </label></strong>
+										 <p>{{order.phone}}</p>
+									</div>
+									<div class="input_box space_between">
+										<strong><label>Địa chỉ email </label></strong>
+										 <p>{{order.email}}</p>
+									</div>
+								</div>
+        					</div>
+                            <div class="mt-2 text-left"><a class="btn btn-primary profile-button" href="/home/orders" ><< Quay lại</a></div>
+                           
+
+        				</div>
+						
+        			</div>
+					<div class="col-lg-7 col-12 md-mt-40 sm-mt-40">
+        				<div class="wn__order__box">
+        					<ul class="order__total">
+        						<li><h3>Sản phẩm</h3></li>
+        						<li><h3>Tổng cộng</h3></li>
+        					</ul>
+        					<ul class="order_product">
+								 {{#each order.order.items}}
+        							<li >
+										<img src="{{item.cover}}" width="22" height="25" name="imagePath" id="blah">&nbsp;{{item.title}}&nbsp;<strong>x{{qty}}</strong>
+										<span>{{price}} VNĐ</span>
+									</li>
+								{{/each}}
+        					</ul>
+        					<ul class="shipping__method">
+        						<li >Tiền ship <span>30000 VNĐ</span></li>
+        					</ul>
+        					<ul class="total__amount">
+        						<li>Tổng cộng <span>{{order.order.totalPrice}} VNĐ</span></li>
+        					</ul>
+                            <ul class="shipping__method">
+        						<li>Trạng thái <span style="color: red; font-size:medium">{{order.status}}</span></li>
+        					</ul>
+                             
+        				</div>
+                        <div class="mt-2 text-right"><a class="btn btn-info profile-button" href="/home/orders/detail/{{order._id}}/checked" >&nbsp;&nbsp;Duyệt&nbsp;&nbsp;</a></div>
+                        <div class="mt-2 text-right"><a class="btn btn-danger profile-button" href="/home/orders/detail/{{order._id}}/cancel" >&nbsp;&nbsp;&nbsp;&nbsp;Huỷ&nbsp;&nbsp;&nbsp;</a></div>
+                        <div class="mt-2 text-right"><a class="btn btn-success profile-button" href="/home/orders/detail/{{order._id}}/delivered" >&nbsp;Đã giao</a></div>
+        			</div>
+                </div>
+            </div>
+        </section>
+</div>

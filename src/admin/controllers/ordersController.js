@@ -1,33 +1,38 @@
 const queryString = require('query-string');
-const userModel = require('../models/userModel');
+const orderModel = require('../models/orderModel');
 const { ObjectId } = require('mongodb');
 
-const ITEM_PER_PAGE = 1;
+const ITEM_PER_PAGE = 3;
 
-exports.renderUsers = async(req, res, next) => {
+
+exports.renderOrders = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const search = req.query.txtSearch;
     const stt = req.query.stt;
     var filter = {};
 
     if (search) {
-        filter.username = new RegExp(search, 'i');
+        filter.user = new RegExp(search, 'i');
     }
     if (stt) {
-        if (stt === "Mo")
-            filter.status = "Mở";
-        else
-            filter.status = "Khoá";
+        if (stt === "1")
+            filter.status = "Đợi duyệt";
+        if (stt === "2")
+            filter.status = "Đã duyệt";
+        if (stt === "3")
+            filter.status = "Đã giao";
+        if (stt === "4")
+            filter.status = "Đã huỷ";
     }
     //filter.status = "Mở";
 
-    const paginate = await userModel.listUser(filter, page, ITEM_PER_PAGE);
+    const paginate = await orderModel.listUser(filter, page, ITEM_PER_PAGE);
     const nextQuery = {...req.query, page: paginate.nextPage };
     const preQuery = {...req.query, page: paginate.prevPage };
 
-    res.render('./users/users', {
+    res.render('./orders/orders', {
         title: 'User',
-        users: paginate.docs,
+        orders: paginate.docs,
         hasNextPage: paginate.hasNextPage,
         nextPage: paginate.nextPage,
         nextPageQueryString: queryString.stringify(nextQuery),
@@ -43,17 +48,22 @@ exports.renderUsers = async(req, res, next) => {
 };
 
 exports.renderDetail = async(req, res, next) => {
-    const user_user = await userModel.get(req.params.id);
-
-    res.render('./users/userProfile', { title: 'Thông tin cá nhân', user_user });
+    const order = await orderModel.get(req.params.id);
+    res.render('./orders/orderDetail', { title: 'Chi tiết giao hàng', order: order });
 };
 
-exports.closeUser = async(req, res, next) => {
-    await userModel.close(req.params.id);
+
+exports.checked = async(req, res, next) => {
+    await orderModel.checked(req.params.id);
     res.redirect('./');
 };
 
-exports.openUser = async(req, res, next) => {
-    await userModel.open(req.params.id);
+exports.cancel = async(req, res, next) => {
+    await orderModel.cancel(req.params.id);
+    res.redirect('./');
+};
+
+exports.delivered = async(req, res, next) => {
+    await orderModel.delivered(req.params.id);
     res.redirect('./');
 };

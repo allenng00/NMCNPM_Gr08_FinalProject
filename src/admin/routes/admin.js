@@ -3,11 +3,19 @@ var express = require('express');
 var router = express.Router();
 const passport = require('../passport');
 
-const loginController = require('../controllers/loginController');
+const adminController = require('../controllers/adminController');
 
 /* GET users listing. */
 
-router.get('/', loginController.renderLogin);
+function isLogged(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('../');
+    }
+}
+
+router.get('/', adminController.renderLogin);
 
 router.post('/',
     passport.authenticate('local', {
@@ -16,5 +24,15 @@ router.post('/',
         failureFlash: true
     })
 );
+
+router.get('/logout', isLogged, function(req, res, next) {
+    req.logOut();
+    res.redirect('/');
+});
+
+router.get('/profile/:id', adminController.renderProfile);
+router.post('/profile/:id', adminController.saveProfile);
+
+
 
 module.exports = router;
