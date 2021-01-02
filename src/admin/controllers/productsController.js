@@ -1,7 +1,7 @@
 const formidable = require('formidable');
 const fs = require('fs');
 const queryString = require('query-string');
-const postModel = require('../models/postModel');
+const bookModel = require('../models/bookModel');
 const { ObjectId } = require('mongodb');
 const cloudinary = require('cloudinary').v2;
 
@@ -12,7 +12,7 @@ cloudinary.config({
 });
 const ITEM_PER_PAGE = 4;
 const categoryCollection = require('../models/MongooseModel/categoryMongooseModel');
-const postsCollection = require('../models/MongooseModel/postMongooseModel');
+const booksCollection = require('../models/MongooseModel/bookMongooseModel');
 const AllID = "5fceeb7ed1d96a1a74e255fe";
 
 function showUnsignedString(search) {
@@ -25,7 +25,7 @@ function showUnsignedString(search) {
     });
     return output;
 }
-exports.renderposts = async(req, res, next) => {
+exports.renderProducts = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const catid = req.query.catID;
     const search = req.query.txtSearch;
@@ -41,10 +41,10 @@ exports.renderposts = async(req, res, next) => {
     }
     filter.isDeleted = false;
 
-    const paginate = await postModel.listPost(filter, page, ITEM_PER_PAGE);
+    const paginate = await bookModel.listBook(filter, page, ITEM_PER_PAGE);
     const nextQuery = {...req.query, page: paginate.nextPage };
     const preQuery = {...req.query, page: paginate.prevPage };
-    const category = await postModel.listCategory();
+    const category = await bookModel.listCategory();
     var nameCategory = "";
     var id_category = "";
     if (catid) {
@@ -55,9 +55,9 @@ exports.renderposts = async(req, res, next) => {
         nameCategory = "Thể loại";
         id_category = "";
     }
-    res.render('./posts/posts', {
-        title: 'posts',
-        posts: paginate.docs,
+    res.render('./products/products', {
+        title: 'products',
+        books: paginate.docs,
         hasNextPage: paginate.hasNextPage,
         nextPage: paginate.nextPage,
         nextPageQueryString: queryString.stringify(nextQuery),
@@ -76,13 +76,13 @@ exports.renderposts = async(req, res, next) => {
 };
 
 exports.renderUpdate = async(req, res, next) => {
-    const post = await postModel.get(req.params.id);
-    res.render('./posts/updatepost', { post, title: 'update' });
+    const book = await bookModel.get(req.params.id);
+    res.render('./products/updatebook', { book, title: 'update', fade: "fade" });
 };
 
-exports.renderAddpost = async(req, res, next) => {
-    const category = await postModel.listCategory();
-    res.render('./posts/addpost', { category, title: 'addpost' });
+exports.renderAddbook = async(req, res, next) => {
+    const category = await bookModel.listCategory();
+    res.render('./products/addbook', { category, title: 'addbook', fade: "fade" });
 };
 exports.add = (req, res, next) => {
     const form = formidable({ multiples: true });
@@ -96,16 +96,16 @@ exports.add = (req, res, next) => {
             cloudinary.uploader.upload(coverImage.path, function(err, result) {
                 fields.txtImagePath = result.url;
 
-                postModel.post(fields).then(() => {
-                    const category = postModel.listCategory();
-                    // Pass data to view to display list of posts
-                    res.render('./posts/addpost', { category, title: 'addpost' });
+                bookModel.post(fields).then(() => {
+                    const category = bookModel.listCategory();
+                    // Pass data to view to display list of books
+                    res.render('./products/addbook', { category, title: 'addbook' });
                 });
             });
         } else {
-            const category = postModel.listCategory();
-            // Pass data to view to display list of posts
-            res.render('./posts/addpost', { category, title: 'addpost' });
+            const category = bookModel.listCategory();
+            // Pass data to view to display list of books
+            res.render('./products/addbook', { category, title: 'addbook' });
         }
     });
 };
@@ -121,26 +121,26 @@ exports.update = (req, res, next) => {
         if (coverImage && coverImage.size > 0) {
             cloudinary.uploader.upload(coverImage.path, function(err, result) {
                 fields.txtImagePath = result.url;
-                postModel.update(fields, req.params.id).then(() => {
-                    // Pass data to view to display list of posts
-                    res.redirect('../../posts');
+                bookModel.update(fields, req.params.id).then(() => {
+                    // Pass data to view to display list of books
+                    res.redirect('../../products');
                 });
             });
         } else {
-            postModel.update_no_image(fields, req.params.id).then(() => {
-                // Pass data to view to display list of posts
-                res.redirect('../../posts');
+            bookModel.update_no_image(fields, req.params.id).then(() => {
+                // Pass data to view to display list of books
+                res.redirect('../../products');
             });
         }
-        // Get posts from model
+        // Get books from model
 
 
     });
 };
 
 exports.delete = async(req, res, next) => {
-    // Get posts from model
-    await postModel.delete(req.params.id);
-    // Pass data to view to display list of posts
-    res.redirect('../../posts');
+    // Get books from model
+    await bookModel.delete(req.params.id);
+    // Pass data to view to display list of books
+    res.redirect('../../products');
 };

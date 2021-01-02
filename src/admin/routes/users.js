@@ -1,15 +1,22 @@
-const app = require('../app');
-var express = require('express');
-var router = express.Router();
-const loginController = require('../controllers/loginController');
+// const app = require('../app');
+// var express = require('express');
+// var router = express.Router();
+// const passport = require('../passport');
 
-/* GET users listing. */
+// const loginController = require('../controllers/loginController');
 
-router.get('/', loginController.renderLogin);
+// /* GET users listing. */
 
-router.use('/home', require('./index'));
+// router.get('/', loginController.renderLogin);
 
-router.post('/', loginController.renderAdmin);
+// //router.use('/home', require('./index'));
 
+// router.post('/',
+//     passport.authenticate('local', {
+//         successRedirect: '/home',
+//         failureRedirect: '/',
+//         failureFlash: true
+//     })
+// );
 
-module.exports = router;
+// module.exports = router;

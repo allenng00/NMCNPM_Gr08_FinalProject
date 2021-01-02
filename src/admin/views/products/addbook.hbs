@@ -1,0 +1,55 @@
+<head>
+
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/style.css'/>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data">
+         
+        <h1  id="title">Thêm sản phẩm</h1>
+     
+        <div class="container">
+           
+            <label><b >Tên sách (*)</b></label>
+            <input type="text" name="txtTitle" placeholder="Enter Title" required>
+
+            <label><b>Link ảnh (*)</b></label>
+            {{!-- <input type="text" name="txtImagePath" placeholder="Enter ImagePath or Upload file" required> --}}
+            <input name="txtImagePath" type="file" required>
+            <br>
+
+            <label><b>Tác giả (*)</b></label>
+            <input type="text" name="txtDescription" placeholder="Nhập tác giả" required>
+
+            <label><b>Chi tiết (*)</b></label>
+            <input type="text" name="txtDetail" placeholder="Nhập chi tiết" required>
+
+            <label><b>Giá cũ (*)</b></label>
+            <input type="text" name="txtOldPrice" placeholder="Nhập giá cũ" required>
+
+            <label><b>Giá hiện tại (*)</b></label>
+            <input type="text" name="txtSalePrice" placeholder="Nhập giá hiện tại" required>
+
+            <label><b>Thể loại (*)</b></label>
+            <input type="text" name="txtCategory" placeholder="Nhập Thể loại" required>
+
+            <label><b>Trạng thái </b></label>
+            <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" >
+
+            <br>
+           <div class="row">
+                <div class="col-lg-2   ">
+                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/products/"><< Trở lại</a>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="drop with--one--item btn-add btn btn-secondary btn-lg">+ Thêm</button>
+                </div>
+            </div>
+</div>
+        </div>
+    </form>
+</body>

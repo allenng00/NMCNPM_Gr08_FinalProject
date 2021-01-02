@@ -6,9 +6,14 @@ const indexController = require('../controllers/indexController');
 
 /* GET home page. */
 
-router.get('/', indexController.renderIndex);
+router.get('/', isLogged, indexController.renderIndex);
 
-router.use('/posts', require('./post'));
-
+function isLogged(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.render('./login/login', { title: 'Đăng nhập', fade: "fade" });
+    }
+}
 
 module.exports = router;

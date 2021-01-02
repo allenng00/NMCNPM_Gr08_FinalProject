@@ -1,7 +1,7 @@
 const formidable = require('formidable');
 const { ObjectId } = require('mongodb');
 
-const postsCollection = require('./MongooseModel/postMongooseModel');
+const booksCollection = require('./MongooseModel/bookMongooseModel');
 const categoryCollection = require('./MongooseModel/categoryMongooseModel');
 
 const AllID = "5fceeb7ed1d96a1a74e255fe";
@@ -18,21 +18,21 @@ function showUnsignedString(search) {
 }
 
 exports.list = async() => {
-    const posts = await postsCollection.find({}).toArray();
-    return posts;
+    const books = await booksCollection.find({}).toArray();
+    return books;
 }
 
-exports.listPost = async(filter, pageNumber, itemPerPage) => {
-    let posts = await postsCollection.paginate(filter, {
+exports.listBook = async(filter, pageNumber, itemPerPage) => {
+    let books = await booksCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
     });
-    return posts;
+    return books;
 }
 
 exports.get = async(id) => {
-    const post = await postsCollection.findOne({ _id: ObjectId(id) })
-    return post;
+    const book = await booksCollection.findOne({ _id: ObjectId(id) })
+    return book;
 }
 
 exports.listCategory = async() => {
@@ -61,7 +61,7 @@ exports.post = async(req) => {
     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     const id_category = ObjectId(category2._id);
 
-    await postsCollection.create({
+    await booksCollection.create({
         cover: txtImagePath,
         title: txtTitle,
         decription: txtDescription,
@@ -87,8 +87,8 @@ exports.update = async(req, id) => {
     const txtStatus = req.txtStatus;
 
     if (!txtImagePath) {
-        const post = await postsCollection.findOne({ _id: ObjectId(id) });
-        txtImagePath = post.cover;
+        const book = await booksCollection.findOne({ _id: ObjectId(id) });
+        txtImagePath = book.cover;
     }
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
@@ -99,7 +99,7 @@ exports.update = async(req, id) => {
     }
     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     const id_category = ObjectId(category2._id);
-    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+    await booksCollection.updateOne({ _id: ObjectId(id) }, {
         $set: {
             cover: txtImagePath,
             title: txtTitle,
@@ -132,7 +132,7 @@ exports.update_no_image = async(req, id) => {
     }
     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     const id_category = ObjectId(category2._id);
-    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+    await booksCollection.updateOne({ _id: ObjectId(id) }, {
         $set: {
             title: txtTitle,
             decription: txtDescription,
@@ -148,8 +148,8 @@ exports.update_no_image = async(req, id) => {
 }
 
 exports.delete = async(id) => {
-    const post = await postsCollection.findOne({ _id: ObjectId(id) });
-    await post.updateOne({
+    const book = await booksCollection.findOne({ _id: ObjectId(id) });
+    await book.updateOne({
         isDeleted: true
     });
 }
