@@ -1,0 +1,189 @@
+<!-- Main wrapper -->
+	<div class="wrapper" id="wrapper ">
+		<!-- Start Portfolio Area -->
+		<section class="wn__portfolio__area gallery__masonry__activation bg--white mt--50 pb--100 ">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="gallery__menu nav nav-tabs">
+                            <button data-filter="*" class="is-checked" >Tất cả</button>
+                            <button data-filter=".cat--1">Đợi xử lý</button>
+                            <button data-filter=".cat--2">Đang giao</button>
+                            <button data-filter=".cat--3">Đã giao</button>
+                      	</div>                     
+					</div>
+				</div>
+				<div class="row masonry__wrap">
+					<!-- Đơn hàng đợi xử lý -->
+					<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12 gallery__item cat--1">
+                            {{#each orders_pending}}
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                                            <div class="table-content wnro__table table-responsive">
+                                                <table>
+                                                    <tbody>
+                                                        {{#each cart.items}}
+                                                        <tr>
+                                                            <td class="product-thumbnail"><a href="/listbook/{{item._id}}"><img src={{item.cover}} alt="product img" width="70" height="70"></a></td>
+                                                            <td class="product-name"><a href="/listbook/{{item._id}}">{{item.title}} x {{qty}}</a></td>
+                                                            <td class="product-subtotal" id="totalPriceOneItem">{{this.price}} vnđ</td>
+                                                        </tr>
+                                                        {{/each}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 offset-lg-6">
+                                       
+                                            <div class=" d-flex justify-content-between">
+                                                <ul class="cart__total__list">
+                                                    <li>Tổng số tiền</li>
+                                                </ul>
+                                                <ul class="cart__total__tk">
+                                                    <li id="totalPrice">{{totalOrder}} vnđ</li>
+                                                </ul>
+                                                <ul class="cart__total__tk">
+                                                    <li><a class="btn border button" href="order/{{_id}}">Xem chi tiết đơn hàng</a></li>
+                                                </ul>
+                                            </div>
+                                      
+                                    </div>
+                                </div>
+                            <div class="row"><br></div>
+                            {{/each}}
+					</div>
+
+                    <!-- Đơn hàng đang giao -->
+					<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12 gallery__item cat--2">
+                       
+                            {{#each orders_delivering}}
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                                            <div class="table-content wnro__table table-responsive">
+                                                <table>
+                                                    <tbody>
+                                                        {{#each cart.items}}
+                                                        <tr>
+                                                            <td class="product-thumbnail"><a href="/listbook/{{item._id}}"><img src={{item.cover}} alt="product img" width="70" height="70"></a></td>
+                                                            <td class="product-name"><a href="/listbook/{{item._id}}">{{item.title}} x {{qty}}</a></td>
+                                                            <td class="product-subtotal" id="totalPriceOneItem">{{this.price}} vnđ</td>
+                                                        </tr>
+                                                        {{/each}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 offset-lg-6">
+                                       
+                                            <div class=" d-flex justify-content-between">
+                                                <ul class="cart__total__list">
+                                                    <li>Tổng số tiền</li>
+                                                </ul>
+                                                <ul class="cart__total__tk">
+                                                    <li id="totalPrice">{{totalOrder}} vnđ</li>
+                                                </ul>
+                                                <ul class="cart__total__tk">
+                                                    <li><a class="btn border button" href="order/{{_id}}">Xem chi tiết đơn hàng</a></li>
+                                                </ul>
+                                            </div>
+                                      
+                                    </div>
+                                </div>
+                            <div class="row"><br></div>
+                            {{/each}}
+					</div>
+					<!-- End Single Portfolio -->
+
+					<!-- Đơn hàng đã giao -->
+					<div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12 gallery__item cat--3">                       
+                            {{#each orders_delivered}}                                                           
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                                            <div class="table-content wnro__table table-responsive">
+                                                <table>
+                                                    <tbody>
+                                                        {{#each cart.items}}
+                                                        <tr>
+                                                            <td class="product-thumbnail"><a href="/listbook/{{item._id}}"><img src={{item.cover}} alt="product img" width="70" height="70"></a></td>
+                                                            <td class="product-name"><a href="/listbook/{{item._id}}">{{item.title}} x {{qty}}</a></td>
+                                                            <td class="product-subtotal" id="totalPriceOneItem">{{this.price}} vnđ</td>
+                                                        </tr>
+                                                        {{/each}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 offset-lg-6">
+                                       
+                                            <div class=" d-flex justify-content-between">
+                                                <ul class="cart__total__list">
+                                                    <li>Tổng số tiền</li>
+                                                </ul>
+                                                <ul class="cart__total__tk">
+                                                    <li id="totalPrice">{{totalOrder}} vnđ</li>
+                                                </ul>
+                                               <ul class="cart__total__tk">
+                                                    <li><a class="btn border button" href="order/{{_id}}">Xem chi tiết đơn hàng</a></li>
+                                                </ul>
+                                            </div>
+                                      
+                                    </div>
+                                </div>
+                            <div class="row"><br></div>
+                            {{/each}}
+					</div>
+					<!-- End Single Portfolio -->
+				</div> 
+                 
+                
+                {{!-- <div class="product__info__detailed">
+                    <div class="pro_details_nav nav justify-content-start" role="tablist">
+                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Nội dung</a>
+                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-review" role="tab">Bình luận</a>
+                    </div>
+                    <div class="tab__container">
+                        <!-- Start Single Tab Content -->
+                        <div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
+                            <div class="description__attribute">
+                                {{book.detail}}
+                            </div>
+                        </div>
+                        <!-- End Single Tab Content -->
+                        <!-- Start Single Tab Content -->
+                        <div class="pro__tab_label tab-pane fade" id="nav-review" role="tabpanel">									
+                            <div class="review-fieldset">
+                                <h2>Để lại bình luận của bạn</h2>
+                                <div class="review_form_field">
+                                    <div class="input__box">
+                                        <span>Tên của bạn</span>
+                                        <input id="nickname_field" type="text" name="nickname">
+                                    </div>
+                                    <div class="input__box">
+                                        <span>Bình luận</span>
+                                        <textarea name="review"></textarea>
+                                    </div>
+                                    <div class="review-form-actions">
+                                        <button>Gửi bình luận</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Tab Content -->
+                    </div>
+                </div> --}}
+
+			</div>
+		</section>
+		<!-- End Portfolio Area -->
+	
+	</div>
+	<!-- //Main wrapper -->
+
+
+    

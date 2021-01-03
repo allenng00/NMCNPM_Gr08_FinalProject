@@ -10,9 +10,10 @@ const user = new Schema(
     email: String,
     password: String,
     phone: String,
-    lastName: String,
     address: String,
     profilePic: String,
+    cart: Object, 
+    status: String
 },
   {collection: 'Users'}
   );

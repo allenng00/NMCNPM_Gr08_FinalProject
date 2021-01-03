@@ -3,7 +3,9 @@ const { ObjectId } = require('mongodb');
 const queryString = require('query-string');
 const buildUrl = require('build-url');
 
-const postModel = require('../models/postModel');
+const bookModel = require('../models/bookModel');
+const commentModel = require('../models/commentModel');
+const userModel = require('../models/userModel');
 const { Query } = require('mongoose');
 const item_per_page = 2;
 
@@ -27,7 +29,7 @@ exports.index = async (req, res, next) => {
     if (catid)
     {
         var catID =  ObjectId(catid);
-        var tmp_nameCat = await postModel.get_name_cat(catid);
+        var tmp_nameCat = await bookModel.get_name_cat(catid);
     }
     if (tmp_nameCat)
        nameCat = tmp_nameCat;
@@ -46,12 +48,12 @@ exports.index = async (req, res, next) => {
 
     filter.isDeleted =  false;
     
-    const paginate = await postModel.listpost(filter,page,item_per_page);
-    const category =  await postModel.listcategory();
-    //const listcatID = await postModel.getlistcatID(category);
+    const paginate = await bookModel.listbook(filter,page,item_per_page);
+    const category =  await bookModel.listcategory();
+    //const listcatID = await bookModel.getlistcatID(category);
 
     // const querystring = buildUrl('', {
-    //     path: 'listpost',
+    //     path: 'listbook',
     //     queryParams: {
     //       catID: 'id',
     //       id: listcatID
@@ -61,10 +63,10 @@ exports.index = async (req, res, next) => {
     const nextPageQueryString = {...req.query, page:paginate.nextPage};
     // const catQueryString = { }
     
-    res.render('./posts/listpost', {
+    res.render('./books/listbook', {
         title: "Sách",
-        posts: paginate.docs,
-        totalPosts: paginate.totalDocs,
+        books: paginate.docs,
+        totalBooks: paginate.totalDocs,
         category,
         nameCat,
         catID,
@@ -83,19 +85,42 @@ exports.index = async (req, res, next) => {
 
 
 exports.detail = async (req, res, next) => {
-    const category =  await postModel.listcategory();
-    const postID = req.params.id;
-    const post = await postModel.get(postID);
-    const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
-
-    //console.log(relatedBook);
-    res.render('./posts/detail', 
+    const category =  await bookModel.listcategory();
+    const bookID = req.params.id;
+    const book = await bookModel.get(bookID);
+    const bookCat = await bookModel.get_name_cat(book.catID);
+    const relatedBook = await bookModel.getRelatedBooks(book.catID, bookID);
+    const comment = book.comment ? book.comment:[];
+    var avatar;
+    for (id in comment)
+    {
+        avatar = await userModel.getProfilePicUser(comment[id].nickname);
+        if (avatar)
+            comment[id].avatar = avatar;
+    }
+    
+    res.render('./books/detail', 
     {   
         title: "Chi tiết",
         category,
-        post,
-        relatedPost,
-        countRelatedPosts: relatedPost.length
+        book,
+        bookCat,
+        relatedBook,
+        countRelatedBooks: relatedBook.length,
+        comment,
+        show_active_1: "show active"
     });
   
 };
+
+// exports.index = (req, res, next) => {
+//     // Get books from model
+//     const books =  bookModel.list();
+//     // Pass data to view to display list of books
+//     res.render('list', {books});
+// };
+
+// exports.detail = (req,res, next) => {
+    
+//     res.render('detail', bookModel.get(parseInt(req.params.id))) ;
+//};

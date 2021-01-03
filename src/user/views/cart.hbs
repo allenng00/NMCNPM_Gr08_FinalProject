@@ -1,0 +1,75 @@
+<div class="wrapper" id="wrapper">
+        <!-- cart-main-area start -->
+        <div class="cart-main-area section-padding--lg bg--white">
+        <form method="post">
+            <div class="container">
+                {{#if books}}
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ol-lg-12">
+                                     
+                            <div class="table-content wnro__table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top">
+                                            <th class="product-thumbnail">Sản phẩm</th>
+                                            <th class="product-name">Tiêu đề</th>
+                                            <th class="product-price">Giá</th>
+                                            <th class="product-quantity">Số lượng</th>
+                                            <th class="product-subtotal">Tổng tiền</th>
+                                            <th class="product-remove">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each books}}
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="/listbook/{{this.item._id}}"><img src={{this.item.cover}} alt="product img"></a></td>
+                                            <td class="product-name"><a href="/listbook/{{this.item._id}}">{{this.item.title}}</a></td>
+                                            <td class="product-price"><span id="price" class="amount" >{{this.item.basePrice}} vnđ</span></td>
+                                            <td class="product-price" ><span class="amount" name="qty">{{this.qty}}</span></td>
+                                            <td class="product-subtotal" id="totalPriceOneItem">{{this.price}} vnđ</td>
+                                            <td class="product-remove"><a href="/carts/listcart/remove/{{this.item._id}}">X</a></td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                 
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="cartbox__total__area">
+                            <div class="cartbox-total d-flex justify-content-between">
+                                <ul class="cart__total__list">
+                                    <li>Tổng tiền</li>
+                                </ul>
+                                <ul class="cart__total__tk">
+                                    <li id="totalPrice">{{totalPrice}} vnđ</li>
+                                </ul>
+                                <ul>
+                                    <li><a class="cart__total__amount  btn btn-success" href="/carts/checkout">Mua hàng</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                               
+                    </div>
+                </div>
+                
+                {{else}}
+                <section class="my_account_area pt--80 pb--55 bg--white">
+			        <div class="container  center_login_register">
+                        <div class="row">
+                            <div class="col-6 text-center ">
+                                Không có sản phẩm nào trong giỏ hàng
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {{/if}}
+            </div>  
+        </form>
+        </div>
+        <!-- cart-main-area end -->
+
+</div>

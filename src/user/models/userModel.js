@@ -5,7 +5,7 @@ const userCollection = require('./MongooseModel/userMongooseModel');
 
 exports.menu = async(id) => {
     //console.log('model db');
-    //const postsCollection = db().collection('Books');
+    //const booksCollection = db().collection('Books');
     const user = await userCollection.findOne({_id: ObjectId(id)});
     return user;
 }
@@ -33,13 +33,13 @@ exports.update_profile = async (req,id) => {
 
 exports.addUser = async (newUser) => {
     const saltRounds = 10;
-    console.log("hello");
     bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(newUser.password, salt, function(err, hash) {
             let user = new userCollection({
                 username: newUser.username,
                 email: newUser.email,
-                password: hash
+                password: hash, 
+                status: "Normal"
             });
             user
             .save()
@@ -65,6 +65,13 @@ exports.checkCredential = async(username, password) => {
     if (checkPassword)
         return user;
     return false;
+};
+
+exports.checkIsBlocked = async(username) => {
+    const user = await userCollection.findOne({username: username});
+    if (user.status === "Blocked")
+        return true;
+    return false;
 }  
 
 exports.getUser = (id) => {
@@ -76,4 +83,19 @@ exports.getNameUser = (username)=>{
     if (!kt)
         return false;
     return kt;
+}
+
+exports.getProfilePicUser = async(username)=>{
+    const user = await userCollection.findOne({username: username});
+    if (user)
+        return user.profilePic;
+    else 
+        return null;
+}
+exports.createCart = async (id, cart) => {
+
+    await userCollection.updateOne(   
+        {_id: ObjectId(id)},
+        {cart: cart}
+    )
 }

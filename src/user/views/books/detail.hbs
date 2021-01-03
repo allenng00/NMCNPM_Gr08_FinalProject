@@ -1,0 +1,159 @@
+ <!-- Start main Content -->
+        <div class="maincontent bg--white pt--80 pb--55">
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-lg-9 col-12">
+        				<div class="wn__single__product">
+        					<div class="row">
+        						<div class="col-lg-6 col-12">
+        							<div class="wn__fotorama__wrapper">
+	        							<div class="fotorama wn__fotorama__action" data-nav="thumbs">
+		        							 <img src="{{book.cover}}" alt="" width="450px" height="565px"></a>
+	        							</div>
+        							</div>
+        						</div>
+                               
+        						<div class="col-lg-6 col-12">
+        							<div class="product__info__main">
+        								<h1>{{book.title}}</h1>
+                                       
+        								<div class="price-box">
+        									<span>{{book.basePrice}} vnđ</span>
+        								</div>
+											
+										<div class="product__overview">
+											<span>Thể loại: {{bookCat}}</span>
+											<br>
+        									<p>{{book.descript}}</p>
+        									
+        								</div>
+										<form method="post">
+        								<div class="box-tocart d-flex">
+        									<span>Số lượng: </span>
+        									<input id="qty" class="input-text qty" name="qty" min="1" value="1"  title="Qty" type="number">
+										</div>
+										<div class="box-tocart d-flex">
+											<div class="addtocart__actions">
+        										<button class="tocart" type="submit" title="Add to Cart" >Thêm vào giỏ hàng </button>
+        									</div>
+										</div>
+										</form>
+        							</div>
+        						</div>
+        					</div>
+        				</div>
+        				<div class="product__info__detailed">
+							<div class="pro_details_nav nav justify-content-start" role="tablist">
+	                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Nội dung</a>
+	                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-review" role="tab">Bình luận</a>
+	                        </div>
+	                        <div class="tab__container">
+	                        	<!-- Start Single Tab Content -->
+	                        	<div class="pro__tab_label tab-pane fade {{show_active_1}}" id="nav-details" role="tabpanel">
+									<div class="description__attribute">
+										{{book.detail}}
+									</div>
+	                        	</div>
+	                        	<!-- End Single Tab Content -->
+	                        	<!-- Start Single Tab Content -->
+								
+	                        	<div class="pro__tab_label tab-pane fade {{show_active_2}}" id="nav-review" role="tabpanel">
+									<form action="/listbook/submit_comment/{{book._id}}" method="POST">
+									<div class="review__attribute">
+										{{#if comment}}										
+												<div class="col-md-7">											
+													
+													{{#each comment}}
+													<div class="mt-3">
+														{{#if avatar}} 
+															<div class="d-flex flex-row p-3"> <img src="{{avatar}}" width="40" height="40" class="rounded-circle mr-2">
+														{{else}}
+															<div class="d-flex flex-row p-3"> <img src="/images/users/user.png" width="40" height="40" class="rounded-circle mr-2">
+														{{/if}}
+															<div class="w-100">
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="d-flex flex-row align-items-center"> <span class="mr-2"><strong>{{nickname}}</strong></span> <small class="c-badge"></small> </div> <small></small>
+																</div>
+																<p class="text-justify comment-text mb-0">{{content}}</p>
+															</div>
+														</div>																								
+													</div>	
+													{{/each}}										
+												</div>												
+										{{else}}
+											<p>Không có bình luận nào.</p>
+										{{/if}}																			
+									</div>								
+									<div class="review-fieldset">
+										<h3>Để lại bình luận của bạn</h3>
+										<br>
+										<div class="review_form_field">
+											<div class="input__box">
+												{{#if user}}
+													{{!-- <label>Tên của bạn</label>
+													<div><label><b>{{user.username}}</b></label> </div> --}}
+													{{!-- <span>Tên của bạn</span><input id="nickname_field" type="text" name="nickname"> --}}
+												{{else}}
+													<span>Tên của bạn</span><input id="nickname_field" type="text" name="nickname">
+													{{#if err}}
+													<br>
+														<div class="alert alert-danger">
+															{{err}}
+														</div>
+													{{/if}}
+												{{/if}}
+											</div>
+											<div class="input__box">
+												<span>Bình luận</span>
+												<textarea name="content" value="{{content}}"></textarea>
+											</div>
+											<div class="review-form-actions">
+												<button class="btn border button" type="submit" >Gửi bình luận</button>
+											</div>
+										</div>
+									</div>
+									</form>
+	                        	</div>								
+	                        	<!-- End Single Tab Content -->
+	                        </div>
+        				</div>
+
+					{{#isnt relatedBook false}}
+					<div class="wn__related__product pt--80 pb--50">
+						<div class="section__title text-center">
+							<h2 class="title__be--2">Sản phẩm liên quan</h2>
+						</div>
+						<div class="row mt--60">
+						{{#gt countRelatedBooks 2}}
+						<div class="productcategory__slide--2 arrows_style owl-carousel owl-theme">
+							{{#each relatedBook}}
+								{{>related this}}
+							{{/each}}
+						</div>
+						{{/gt}}
+						{{#lte countRelatedBooks 2}}
+							{{#each relatedBook}}
+								{{>related this}}
+							{{/each}}
+						{{/lte}}
+						</div>
+					</div>
+					{{/isnt}}
+        			</div>
+        			<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
+        				<div class="shop__sidebar">
+        					<aside class="wedget__categories poroduct--cat">
+        						 <h3 class="wedget__title">Danh mục sản phẩm</h3>
+								<ul>
+									{{#each category}}
+										<li><a href="?catid={{_id}}">{{catogory}}</a></li>
+									{{/each}}
+								</ul>
+        					</aside>
+
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <!-- End main Content -->

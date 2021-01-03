@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const mongoosePaginate = require('mongoose-paginate-v2');
 const {Schema} = mongoose;
 
-const post = new Schema(
+const book = new Schema(
 {
     title: String,
     unsigned_title: String,
@@ -16,11 +16,12 @@ const post = new Schema(
     status: String,
     catogory: String,
     catID: ObjectId,
-    isDeleted: Boolean
+    isDeleted: Boolean,
+    comment: Array
 },
   {collection: 'Books'}
   );
 
-  post.plugin(mongoosePaginate);
+  book.plugin(mongoosePaginate);
 
-  module.exports = mongoose.model('Books', post);
+  module.exports = mongoose.model('Books', book);

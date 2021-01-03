@@ -15,13 +15,12 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> 
-
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/plugins.css">
 	<link rel="stylesheet" href="/style.css">
-	<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
 	<!-- Cusom css -->
    <link rel="stylesheet" href="/css/custom.css">
 
@@ -46,51 +45,48 @@
 							</a>
 						</div>
 					</div>
-					<div class="col-lg-6 d-none d-lg-block">
+					<div class="col-lg-7 d-none d-lg-block">
 						<nav class="mainmenu__nav">
 							<ul class="meninmenu d-flex justify-content-start">
 								<li class="drop with--one--item"><a href="/">Trang chủ</a></li>
-								<li class="drop"><a href="/listpost">Danh mục</a></li>
-								<li class="drop"><a href="blog.html">Đóng góp bài viết</a>
+								<li class="drop"><a href="/listbook">Cửa hàng</a></li>
+								<li class="drop"><a href="blog.html">Blog</a>
 									<div class="megamenu dropdown">
 										<ul class="item item01">
-											<li><a href="blog.html">Hỏi đáp</a></li>
+											<li><a href="blog.html">Blog</a></li>
 										</ul>
 									</div>
 								</li>
-								<li><a href="contact.html">Hỏi đáp</a></li>
+								<li><a href="contact.html">Về chúng tôi</a></li>
 							</ul>
 						</nav>
 					</div>
-					<div class="col-md-6 col-sm-6 col-6 col-lg-5">
+					<div class="col-md-6 col-sm-6 col-6 col-lg-4">
 						<ul class="header__sidebar__right d-flex justify-content-end align-items-center">
-							<li class="nav-item ">
-								<div class="navbar-search-block">
-								<form >
-									<div class="row">
-										<div class="col-lg-1.5">
-											<button class="btn btn-navbar" type="submit" height="40" width="40">
-												<i class="fas fa-search " width="40"></i>
-											</button>
-										</div>
-										<div class="col-lg-10">
-											<input class="form-control form-control-navbar" href="/listpost/?search={{nameSearch}}" type="search" placeholder="Tìm kiếm" aria-label="Search" name="txtSearch" >
-										</div>
-									</div>
-								</form>
-								</div>
-               				 </li>
+							<li class="shop_search"><a class="search__active" ></a></li>
 							<li>&nbsp; &nbsp;&nbsp;&nbsp;</li>
 							<li class="shopcart"><a  href="/carts/listcart">
-							{{#if session.cart}}
-							<span class="product_qun">{{session.cart.totalQty}}</span>
+							{{#if user}}
+								{{#if user.cart}}
+									<span class="product_qun">{{user.cart.totalQty}}</span>
+								{{else}}
+									<span class="product_qun">0</span>
+								{{/if}}
 							{{else}}
-							<span class="product_qun">0</span>
+								{{#if session.cart}}
+									<span class="product_qun">{{session.cart.totalQty}}</span>
+								{{else}}
+									<span class="product_qun">0</span>
+								{{/if}}
 							{{/if}}
 							</a>
 							</li>
 							{{#if user}}
-							<li class="setting__bar__icon"><a class="setting__active" title="Tài khoản của tôi"></a>
+							<li class="setting__bar__icon"><a class="setting__active" title="Tài khoản của tôi">
+								{{#if user.profilePic }}
+									<img src="{{user.profilePic}}" width="30" height="30">
+								{{/if}}
+							</a>
 								<div class="searchbar__content setting__block">
 									<div class="content-inner">
 										<div class="switcher-currency">
@@ -102,8 +98,9 @@
 												<div class="switcher-currency-trigger">
 													<div class="setting__menu">
 													
-														<span><a href="/users/profile/{{user._id}}">Chỉnh sửa thông tin cá nhân</a></span>
-														<span><a href="/users/login">Đăng nhập tài khoản khác</a></span>
+														<span><a href="/users/profile/{{user._id}}">Tài khoản của tôi</a></span>
+														<span><a href="/users/order">Đơn hàng của tôi</a></span>
+														<span><a href="/users/switch_login">Đăng nhập tài khoản khác</a></span>
 														<span><a href="/users/register">Đăng ký</a></span>
 														<span><a href="/users/logout">Đăng xuất</a></span>
 													</div>
@@ -113,7 +110,8 @@
 									</div>
 								</div>
 							</li>
-							{{else }}
+							{{/if}}
+							{{#not user }}
 								<li>
 									<a href="/users/login"><span class="color--theme">Đăng nhập</span></a>
 								</li>
@@ -121,7 +119,7 @@
 								<li>
 									<a href="/users/register"><span class="color--theme">Đăng ký</span></a>
 								</li>
-							{{/if}}
+							{{/not}}
 						</ul>
 					</div>
 				</div>
@@ -132,7 +130,7 @@
 							<ul class="meninmenu">
 								<li><a href="/">Trang chủ</a></li>
 								
-								<li><a href="/listpost">Cửa hàng</a>
+								<li><a href="/listbook">Cửa hàng</a>
 									<ul>
 										<li><a href="shop-grid.html">Shop Grid</a></li>
 										<li><a href="single-product.html">Single Product</a></li>
@@ -158,11 +156,11 @@
 		<!-- //Header -->
 		<!-- Start Search Popup -->
 		<div class="brown--color box-search-content search_active block-bg close__top">
-			<form id="search_mini_form" class="minisearch" action="/listpost?search={{nameSearch}}">
+			<form id="search_mini_form" class="minisearch" action="/listbook?search={{nameSearch}}">
 				<div class="field__search">
 					<input type="text" name="search"  placeholder="Tìm sản phẩm">
 					<div class="action">
-						<a href="/listpost?search={{nameSearch}}"><i class="zmdi zmdi-search"></i></a>
+						<a href="/listbook?search={{nameSearch}}"><i class="zmdi zmdi-search"></i></a>
 					</div>
 				</div>
 			</form>
@@ -191,7 +189,7 @@
 								</div>
 								<div class="footer__content">
 									<ul class="social__net social__net--2 d-flex justify-content-center">
-										<li><a href="#"><i class="bi bi-facepost"></i></a></li>
+										<li><a href="#"><i class="bi bi-facebook"></i></a></li>
 										<li><a href="#"><i class="bi bi-google"></i></a></li>
 										<li><a href="#"><i class="bi bi-twitter"></i></a></li>
 										<li><a href="#"><i class="bi bi-linkedin"></i></a></li>
@@ -288,7 +286,7 @@
 		                                <div class="widget widget_socialsharing_widget">
 		                                    <h3 class="widget-title-modal">Share this product</h3>
 		                                    <ul class="social__net social__net--2 d-flex justify-content-start">
-		                                        <li class="facepost"><a href="#" class="rss social-icon"><i class="zmdi zmdi-rss"></i></a></li>
+		                                        <li class="facebook"><a href="#" class="rss social-icon"><i class="zmdi zmdi-rss"></i></a></li>
 		                                        <li class="linkedin"><a href="#" class="linkedin social-icon"><i class="zmdi zmdi-linkedin"></i></a></li>
 		                                        <li class="pinterest"><a href="#" class="pinterest social-icon"><i class="zmdi zmdi-pinterest"></i></a></li>
 		                                        <li class="tumblr"><a href="#" class="tumblr social-icon"><i class="zmdi zmdi-tumblr"></i></a></li>

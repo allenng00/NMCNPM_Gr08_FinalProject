@@ -4,30 +4,13 @@ const formidable = require('formidable');
 const cloudinary = require('cloudinary').v2;
 const fileupload = require('express-fileupload');
 
-//const ISLOGIN = true;
-//const ID = "5fce291f0c30b818400d4ce1";
-
-
-
-exports.index = async(req, res, next) => {
-    // Get posts from model
-    //const posts = postModel.list();
-    // Pass data to view to display list of posts
-    var user;
-    if (ISLOGIN)
-        user = await userModel.menu(ID);
-
-    res.render('users/login');
+exports.index = (req, res, next) => {
+    res.render('users/login',{title: 'Đăng Nhập'});
 };
 
 exports.profile = async(req, res, next) => {
-  
-    //const user = await userModel.menu(req.params.id);
-    if (req.isAuthenticated())
-        res.render('users/profile',{title: 'Profile'});
-    else 
-        res.redirect('../login');
-  
+ 
+     res.render('users/profile',{title: 'Profile'}); 
 };
 
 exports.update_profile = async(req, res, next) => {
@@ -50,7 +33,7 @@ exports.update_profile = async(req, res, next) => {
                     });
             });
         }
-        //  // Update posts from model
+        //  // Update books from model
         // console.log(tmp);
         // userModel.update_profile(fields,ID).then(()=>{
         // res.redirect('../../');
@@ -103,16 +86,21 @@ exports.addUser = async (req, res) => {
         return;
     }
 };
+
+
+exports.listOrder =  (req, res, next) =>{
+    res.render('order',{title: 'Đơn hàng'});
+};
 // exports.logout = async (req, res, next) => {
-//     // Get posts from model
-//     //const posts = postModel.list();
-//     // Pass data to view to display list of posts
+//     // Get books from model
+//     //const books = bookModel.list();
+//     // Pass data to view to display list of books
 //     await res.render('account');
 // };
 
 // exports.register = async (req, res, next) => {
-//     // Get posts from model
-//     //const posts = postModel.list();
-//     // Pass data to view to display list of posts
+//     // Get books from model
+//     //const books = bookModel.list();
+//     // Pass data to view to display list of books
 //     await res.render('account');
 // };

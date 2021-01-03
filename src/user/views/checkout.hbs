@@ -1,0 +1,95 @@
+
+	
+	<div class="wrapper pt--30 pb--30" id="wrapper">
+        <!-- Start Checkout Area -->
+        <section class="wn__checkout__area section-padding--lg bg__white">
+            <form method="post">
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-lg-6 col-12">
+        				<div class="customer_details">
+        					<h3>Thông tin đơn hàng</h3>
+        					<div class="customar__field">
+        						<div class="margin_between">
+	        						<div class="input_box space_between">
+	        							<label>Họ <span>*</span></label>
+	        							<input type="text" name="firstName" value="{{user.firstName}}" required>
+	        						</div>
+	        						<div class="input_box space_between">
+	        							<label>Tên <span>*</span></label>
+	        							<input type="text" name="lastName" value="{{user.lastName}}" required>
+	        						</div>
+                                    <div class="input_box space_between">
+										<label>Số điện thoại <span>*</span></label>
+										<input type="text" name="phone" value="{{user.phone}}" required>
+									</div>
+        						</div>
+                                <div class="customer_details mt--20">
+                                    <div class="differt__address">
+                                        <button class="btn primary-btn">Điền thông tin địa chỉ </button>
+                                    </div>
+                                    <div class="customar__field differt__form mt--40" required>
+                                        
+                                            <div class="input_box">
+                                                <label>Tỉnh/Thành phố <span>*</span></label>
+                                                <input type="text"  name="city" required>
+                                            </div>
+                                            <div class="input_box">
+                                                <label>Quận/Huyện <span>*</span></label>
+                                                <input type="text"  name="district" required>
+                                            </div>
+                                            <div class="input_box">
+                                                <label>Phường/Xã <span>*</span></label>
+                                                <input type="text" name="ward" required>
+                                            </div>
+                                            <div class="input_box">
+                                                <label>Địa chỉ cụ thể <span>*</span></label>
+                                                <input type="text" placeholder="Số nhà, tên tòa nhà, tên đường, tên khu vực" name="address" required>
+                                            </div>
+                                      
+                                    </div>
+                                </div>
+								
+        					</div>
+        				
+        				</div>
+        			</div>
+        			<div class="col-lg-6 col-12 md-mt-40 sm-mt-40">
+        				<div class="wn__order__box">
+        					<h3 class="onder__title">Chi tiết đơn hàng</h3>
+        					<ul class="order__total">
+        						<li>Sản phẩm</li>
+        						<li>Thành tiền</li>
+        					</ul>
+        					<ul class="order_product">
+                                {{#each books}}
+        						<li>{{this.item.title}} x {{this.qty}}
+                                      <span>{{this.price}} vnđ</span>
+                                </li>
+                              
+                                   
+                                {{/each}}
+        					</ul>
+        					<ul class="shipping__method">
+        						<li>Tổng số tiền<span>{{totalPrice}} vnđ</span></li>
+        						<li>Phí vận chuyển<span>30000 vnđ</span> </li>
+                                <li><p>Phương thức thanh toán:</p>Thanh toán khi nhận hàng</li>
+        					</ul>
+        					<ul class="total__amount">
+        						<li>Tổng thanh toán <span>{{totalOrder}} vnđ</span></li>
+        					</ul>
+                           
+        				</div>
+                        <div class="pt--30 pb--30 d-flex justify-content-center">
+                            <button class="input_box btn btn-success" type="submit">Đặt hàng</button>
+                        </div>
+        			</div>
+                  
+        		</div>
+        	</div>
+            </form>
+        </section>
+        <!-- End Checkout Area -->
+
+	</div>
+	<!-- //Main wrapper -->

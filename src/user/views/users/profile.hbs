@@ -1,6 +1,6 @@
 <form enctype="multipart/form-data" method="post">
 <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
-<div class="container">
+<div class="container pt--40 pb--55">
     <h3 class="wedget__title">Chỉnh sửa thông tin cá nhân</h3>
     <div class="d-flex  py-4 ">
         <img src={{user.profilePic}} class="img align-items-start" id="image" width="150" height="150" name="txtProfilePic">
@@ -22,12 +22,12 @@
             <div class="col-md-6"> <label for="email">Email</label> <input type="text" name="txtEmail" class="bg-light form-control" value="{{user.email}}"> </div>
             <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Số điện thoại</label> <input name="txtPhone" class="bg-light form-control" value="{{user.phone}}"> </div>
         </div>
-        <div class="row py-1">
-            <div class="col-md-6"> <label for="email">Địa chỉ</label> <input type="text" name="txtAddress" class="bg-light form-control" value="{{user.address}}"> </div>
-        </div>
-           
+      
+        <div class="py-3 pb-4 border-bottom"> <a class="btn border button"  href="/" >Đổi mật khẩu</a> 
     </div>
-        <div class="py-3 pb-4 border-bottom"> <button class="btn btn-primary mr-3" type="submit">Lưu chỉnh sửa</button> <button class="btn border button" href="/">Trở lại trang chủ</button> </div>
+        <div class="py-3 pb-4 border-bottom"> 
+            <button class="btn btn-primary mr-3" type="submit">Lưu chỉnh sửa</button> 
+            <a class="btn border button" href="/">Trở lại trang chủ</a> </div>
     </div>
 
 </div>
