@@ -1,15 +1,23 @@
 const app = require('../app');
 var express = require('express');
 var router = express.Router();
-const loginController = require('../controllers/loginController');
+const usersController = require('../controllers/usersController');
 
-/* GET users listing. */
+function isLogged(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('../../');
+    }
+}
 
-router.get('/', loginController.renderLogin);
+router.get('/', isLogged, usersController.renderUsers);
 
-router.use('/home', require('./index'));
+router.get('/detail/:id', isLogged, usersController.renderDetail);
 
-router.post('/', loginController.renderAdmin);
+router.get('/detail/:id/open', isLogged, usersController.openUser);
+router.get('/detail/:id/close', isLogged, usersController.closeUser);
+
 
 
 module.exports = router;

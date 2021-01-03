@@ -6,9 +6,15 @@ const indexController = require('../controllers/indexController');
 
 /* GET home page. */
 
-router.get('/', indexController.renderIndex);
+router.get('/', isLogged, indexController.renderIndex);
 
-router.use('/products', require('./product'));
+function isLogged(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect('../');
+    }
+}
 
 
 module.exports = router;

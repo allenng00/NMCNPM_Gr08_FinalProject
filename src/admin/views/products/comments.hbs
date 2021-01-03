@@ -1,0 +1,70 @@
+
+
+<head>
+    	<!-- Stylesheets -->
+	<link rel="stylesheet" href="/order/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/order/css/plugins.css">
+	<link rel="stylesheet" href="/order/style.css">
+	<link rel="stylesheet" href="/order/plugins/fontawesome-free/css/all.min.css">
+
+
+	<!-- Cusom css -->
+   <link rel="stylesheet" href="/order/css/custom.css">
+</head>
+<div class="content-wrapper container">
+<div class="row d-flex justify-content-center mt-100 mb-100">
+									{{#if comments}}
+										<div class="col-lg">
+											<div class="card">
+												<div class="comment-widgets">
+													<!-- Comment Row -->
+													{{#each comments}}
+													<div class="d-flex flex-row comment-row m-t-0">
+														{{#if imagePath}}
+														<div class="p-2"><img src="{{imagePath}}" alt="user" width="30" height="30" class="rounded-circle"></div>
+														{{else}}
+														<div class="p-2"><img src="/images/user.png" alt="user" width="30" height="30" class="rounded-circle"></div>
+														{{/if}}
+														<div class="comment-text w-100">
+															<h6 class="font-medium">{{nickname}}</h6> <span class="m-b-15 d-block">{{comment}} </span>
+															{{!-- <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div> --}}
+														</div>
+													</div> <!-- Comment Row -->
+													<br>
+													{{/each}}
+													
+												</div> <!-- Card -->
+											</div>
+										</div>
+									{{else}}
+									<p>Không có bình luận nào!</p>
+									{{/if}}
+</div>
+<div class="review-fieldset">
+    <h3>Nhập bình luận của bạn</h3>
+    <div class="review-field-ratings">
+        
+    </div>
+    <form  method="POST">
+    <div class="review_form_field">
+            <div class="input__box">
+
+                <span>Tên của bạn:&nbsp;</span>
+                {{#if user.imageProfile}}
+                    <Strong><label id="nickname_field" ><img class="rounded-circle" src="{{user.imageProfile}}" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+                {{else}}
+                    <Strong><label id="nickname_field" ><img class="rounded-circle" src="/images/user.png" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+                {{/if}}
+            </div>
+
+        <div class="input__box">
+            <span>Bình luận</span>
+            <textarea name="comment" required></textarea>
+        </div>
+        <div class="review-form-actions">
+            <button class="btn btn-success"  type="submit">Gửi</button>
+        </div>
+    </div>
+    </form>
+</div>
+</div>

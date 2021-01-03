@@ -8,14 +8,34 @@ const Handlebars = require('handlebars');
 const hbs = require('express-handlebars');
 const helpers = require('handlebars-helpers')();
 require('dotenv').config();
+const passport = require('./passport');
+const session = require("express-session");
 
+const flash = require('connect-flash');
+const MongoStore = require('connect-mongo')(session);
 const { MongoClient } = require("mongodb");
-const mongoose = require('./dal/db');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
-mongoose.mongoose();
+const mongoose = require('mongoose');
 
+console.log('RUNNING DB...');
+try {
+    mongoose.connect(process.env.URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+    });
+    console.log("DB is connected");
+} catch (error) {
+    console.error(error);
+}
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
+var productRouter = require('./routes/product');
+var userRouter = require('./routes/users');
+var orderRouter = require('./routes/order');
+
+
 
 const app = express();
 app.use(bodyParser.urlencoded({ 'extended': false }));
@@ -38,14 +58,40 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 
-app.use('/', usersRouter);
-// app.use('/home', indexRouter);
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    cookie: { maxAge: 180 * 60 * 1000 }
+}));
+app.use(passport.initialize());
+app.use(passport.session({
+    secret: process.env.SESSION_SECRET
+}));
+app.use(flash());
+app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    next()
+});
+
+app.use('/', adminRouter);
+app.use('/home', indexRouter);
+app.use('/home/products', productRouter);
+app.use('/home/users', userRouter);
+app.use('/home/orders', orderRouter);
+app.use('/logout', adminRouter);
+app.use('/profile', adminRouter);
+
+
+
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -55,7 +101,7 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error', { title: 'Lỗi', fade: "fade" });
 });
 
 module.exports = app;
