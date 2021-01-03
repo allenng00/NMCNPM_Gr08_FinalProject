@@ -13,38 +13,43 @@
 
         <div class="container">
             
-            <label><b>Title (*)</b></label>
-            <input type="text" name="txtTitle" placeholder="Enter Title" value="{{book.title}}" required>
+            <label><b>Tên sách (*)</b></label>
+            <input type="text" name="txtTitle" placeholder="Nhập tên sách" value="{{book.title}}" required>
 
-            <label><b>ImagePath (*)</b></label>
-            <input type="text" name="txtImagePath" placeholder="Enter ImagePath or Upload file" value="{{book.cover}}">
+            <label><b>Link ảnh (*)</b></label>
+            <input type="text" name="txtImagePath" placeholder="Nhập link ảnh hoặc upload" value="{{book.cover}}">
             <input name="txtImagePath" type="file" value="{{book.cover}}">
             <br>
 
-            <label><b>Description (*)</b></label>
-            <input type="text" name="txtDescription" placeholder="Enter Description" value="{{book.decription}}" required>
+            <label><b>Link ảnh thêm </b></label>
+            <input type="text" name="txtImagePath_more" placeholder="Upload" value="{{book.listImages}}">
+            <input name="txtImagePath_more" type="file" value={{book.listImages}} multiple>
+            <br>
 
-            <label><b>Detail (*)</b></label>
-            <input type="text" name="txtDetail" placeholder="Enter Detail" value="{{book.detail}}"required>
+            <label><b>Tác giả (*)</b></label>
+            <input type="text" name="txtDescription" placeholder="Nhập tác giả" value="{{book.decription}}" required>
 
-            <label><b>Old Price (*)</b></label>
-            <input type="text" name="txtOldPrice" placeholder="Enter Old Price" value="{{book.oldPrice}}" required>
+            <label><b>Chi tiết (*)</b></label>
+            <input type="text" name="txtDetail" placeholder="Nhập chi tiết" value="{{book.detail}}"required>
 
-            <label><b>Sale Price</b></label>
-            <input type="text" name="txtSalePrice" placeholder="Enter Sale Price" value="{{book.salePrice}}"required>
+            <label><b>Giá cũ (*)</b></label>
+            <input type="text" name="txtOldPrice" placeholder="Nhập giá cũ" value="{{book.oldPrice}}" required>
+
+            <label><b>Giá hiện tại (*)</b></label>
+            <input type="text" name="txtSalePrice" placeholder="Nhập giá hiện tại" value="{{book.salePrice}}"required>
 
             <label><b>Thể loại (*)</b></label>
-            <input type="text" name="txtCategory" placeholder="Enter Thể loại" value="{{book.nameCategory}}" required>
+            <input type="text" name="txtCategory" placeholder="Nhập Thể loại" value="{{book.nameCategory}}" required>
 
             <label><b>Trạng thái </b></label>
-            <input type="text" name="txtStatus" placeholder="Enter Trạng thái" value="{{book.status}}" >
+            <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{book.status}}" >
             
             <div class="row">
                  <div class="col-lg-2">
-                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/products/">Back</a>
+                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/products/"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</a>
                 </div>
                 <div class="col-lg-4">
-                    <button type="submit" class="drop with--one--item btn-add btn btn-secondary btn-lg">Update</button>
+                    <button type="submit" class="drop with--one--item btn-add btn btn-secondary btn-lg">Cập nhật</button>
 
                 </div>
                 <div class="col-2">

@@ -45,10 +45,12 @@ exports.post = async(req) => {
     const txtImagePath = req.txtImagePath;
     const txtDescription = req.txtDescription;
     const txtDetail = req.txtDetail;
-    const txtOldPrice = req.txtOldPrice;
-    const txtSalePrice = req.txtSalePrice;
+    const txtOldPrice = parseInt(req.txtOldPrice);
+    const txtSalePrice = parseInt(req.txtSalePrice);
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
+    const listImages = req.txtImagePath_more;
+
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 
@@ -64,6 +66,7 @@ exports.post = async(req) => {
     await booksCollection.create({
         cover: txtImagePath,
         title: txtTitle,
+        listImages: listImages,
         decription: txtDescription,
         detail: txtDetail,
         oldPrice: txtOldPrice,
@@ -76,20 +79,17 @@ exports.post = async(req) => {
     });
 }
 
-exports.update = async(req, id) => {
+exports.update_1_1 = async(req, id, arr) => {
     const txtTitle = req.txtTitle;
-    const txtImagePath = req.txtImagePath;
     const txtDescription = req.txtDescription;
     const txtDetail = req.txtDetail;
-    const txtOldPrice = req.txtOldPrice;
-    const txtSalePrice = req.txtSalePrice;
+    const txtOldPrice = parseInt(req.txtOldPrice);
+    const txtSalePrice = parseInt(req.txtSalePrice);
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
 
-    if (!txtImagePath) {
-        const book = await booksCollection.findOne({ _id: ObjectId(id) });
-        txtImagePath = book.cover;
-    }
+    const txtImagePath = req.txtImagePath;
+    const listImages = req.txtImagePath_more;
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     if (!category1) {
@@ -99,8 +99,10 @@ exports.update = async(req, id) => {
     }
     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     const id_category = ObjectId(category2._id);
+
     await booksCollection.updateOne({ _id: ObjectId(id) }, {
         $set: {
+            listImages: listImages,
             cover: txtImagePath,
             title: txtTitle,
             decription: txtDescription,
@@ -115,12 +117,81 @@ exports.update = async(req, id) => {
     })
 }
 
-exports.update_no_image = async(req, id) => {
+exports.update_1_0 = async(req, id, arr) => {
     const txtTitle = req.txtTitle;
     const txtDescription = req.txtDescription;
     const txtDetail = req.txtDetail;
-    const txtOldPrice = req.txtOldPrice;
-    const txtSalePrice = req.txtSalePrice;
+    const txtOldPrice = parseInt(req.txtOldPrice);
+    const txtSalePrice = parseInt(req.txtSalePrice);
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const listImages = req.txtImagePath_more;
+
+    const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoryCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+
+    await booksCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            listImages: listImages,
+            title: txtTitle,
+            decription: txtDescription,
+            detail: txtDetail,
+            oldPrice: txtOldPrice,
+            salePrice: txtSalePrice,
+            nameCategory: txtTheLoai,
+            categoryID: id_category,
+            titleUnsigned: showUnsignedString(txtTitle),
+            status: txtStatus
+        }
+    })
+}
+
+exports.update_0_1 = async(req, id) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtOldPrice = parseInt(req.txtOldPrice);
+    const txtSalePrice = parseInt(req.txtSalePrice);
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const txtImagePath = req.txtImagePath;
+
+
+    const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoryCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+    await booksCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            title: txtTitle,
+            cover: txtImagePath,
+            decription: txtDescription,
+            detail: txtDetail,
+            oldPrice: txtOldPrice,
+            salePrice: txtSalePrice,
+            nameCategory: txtTheLoai,
+            categoryID: id_category,
+            titleUnsigned: showUnsignedString(txtTitle),
+            status: txtStatus
+        }
+    })
+}
+exports.update_0_0 = async(req, id) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtOldPrice = parseInt(req.txtOldPrice);
+    const txtSalePrice = parseInt(req.txtSalePrice);
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
 

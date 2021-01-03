@@ -83,7 +83,7 @@ exports.renderAddbook = async(req, res, next) => {
     const category = await bookModel.listCategory();
     res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
 };
-exports.add = (req, res, next) => {
+exports.add = async(req, res, next) => {
     const form = formidable({ multiples: true });
     form.parse(req, (err, fields, files) => {
         if (err) {
@@ -91,20 +91,51 @@ exports.add = (req, res, next) => {
             return;
         }
         const coverImage = files.txtImagePath;
-        if (coverImage && coverImage.size > 0) {
-            cloudinary.uploader.upload(coverImage.path, function(err, result) {
-                fields.txtImagePath = result.url;
-
-                bookModel.post(fields).then(() => {
-                    const category = bookModel.listCategory();
-                    // Pass data to view to display list of books
-                    res.render('./products/addbook', { category, title: 'Thêm sản phẩm' });
+        const listImage = files.txtImagePath_more;
+        const arr = [];
+        if (listImage && listImage.length > 0) {
+            for (var i in listImage) {
+                cloudinary.uploader.upload(listImage[i].path, function(err, result) {
+                    arr.push(result.url);
+                }).then(() => {
+                    if (arr.length === listImage.length) {
+                        cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                            fields.txtImagePath = result.url;
+                            fields.txtImagePath_more = arr;
+                            bookModel.post(fields).then(() => {
+                                const category = bookModel.listCategory();
+                                // Pass data to view to display list of books
+                                res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
+                            });
+                        });
+                    }
                 });
-            });
+            }
         } else {
-            const category = bookModel.listCategory();
-            // Pass data to view to display list of books
-            res.render('./products/addbook', { category, title: 'Thêm sản phẩm' });
+            if (listImage && listImage.size > 0) {
+                cloudinary.uploader.upload(listImage.path, function(err, result) {
+                    fields.txtImagePath_more = result.url;
+                }).then(() => {
+                    cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                        fields.txtImagePath = result.url;
+
+                        bookModel.post(fields).then(() => {
+                            const category = bookModel.listCategory();
+                            // Pass data to view to display list of books
+                            res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
+                        });
+                    });
+                });
+            } else {
+                cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                    fields.txtImagePath = result.url;
+                    bookModel.post(fields).then(() => {
+                        const category = bookModel.listCategory();
+                        // Pass data to view to display list of books
+                        res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
+                    });
+                });
+            }
         }
     });
 };
@@ -117,23 +148,66 @@ exports.update = (req, res, next) => {
             return;
         }
         const coverImage = files.txtImagePath;
-        if (coverImage && coverImage.size > 0) {
-            cloudinary.uploader.upload(coverImage.path, function(err, result) {
-                fields.txtImagePath = result.url;
-                bookModel.update(fields, req.params.id).then(() => {
-                    // Pass data to view to display list of books
-                    res.redirect('../../products');
+        const listImage = files.txtImagePath_more;
+        const arr = [];
+        if (listImage && listImage.length > 0) {
+            for (var i in listImage) {
+                cloudinary.uploader.upload(listImage[i].path, function(err, result) {
+                    arr.push(result.url);
+                }).then(() => {
+                    if (arr.length === listImage.length) {
+                        fields.txtImagePath_more = arr;
+                        if (coverImage && coverImage.size > 0) {
+                            cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                                fields.txtImagePath = result.url;
+                                bookModel.update_1_1(fields, req.params.id).then(() => {
+                                    return res.redirect('../../products');
+                                });
+                            });
+                        } else {
+                            bookModel.update_1_0(fields, req.params.id).then(() => {
+                                return res.redirect('../../products');
+                            });
+                        }
+                    }
                 });
-            });
+            }
         } else {
-            bookModel.update_no_image(fields, req.params.id).then(() => {
-                // Pass data to view to display list of books
-                res.redirect('../../products');
-            });
+            if (listImage && listImage.size > 0) {
+                cloudinary.uploader.upload(listImage.path, function(err, result) {
+                    fields.txtImagePath_more = result.url;
+                }).then(() => {
+                    if (coverImage && coverImage.size > 0) {
+                        cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                            fields.txtImagePath = result.url;
+                            bookModel.update_1_1(fields, req.params.id).then(() => {
+                                return res.redirect('../../products');
+                            });
+                        });
+                    } else {
+                        bookModel.update_1_0(fields, req.params.id).then(() => {
+                            return res.redirect('../../products');
+                        });
+                    }
+
+                });
+
+            } else {
+                if (coverImage && coverImage.size > 0) {
+                    cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                        fields.txtImagePath = result.url;
+                        bookModel.update_0_1(fields, req.params.id).then(() => {
+                            return res.redirect('../../products');
+                        });
+                    });
+                } else {
+                    bookModel.update_0_0(fields, req.params.id).then(() => {
+                        return res.redirect('../../products');
+                    });
+                }
+            }
         }
         // Get books from model
-
-
     });
 };
 

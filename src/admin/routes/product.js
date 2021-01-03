@@ -25,6 +25,7 @@ router.get('/delete/:id', isLogged, productsController.delete);
 router.get('/comments/:id', isLogged, commentsController.renderComment);
 router.post('/comments/:id', isLogged, commentsController.add_comment);
 
+router.get('/comments/:id/delete/:index', isLogged, commentsController.delete);
 
 
 module.exports = router;

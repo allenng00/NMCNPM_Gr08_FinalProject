@@ -6,8 +6,8 @@ const { ObjectId } = require('mongodb');
 const book = new Schema({
     title: String,
     cover: String,
-    oldPrice: String,
-    salePrice: String,
+    oldPrice: Number,
+    salePrice: Number,
     detail: String,
     decription: String,
     isDeleted: Boolean,
@@ -15,7 +15,8 @@ const book = new Schema({
     categoryID: ObjectId,
     titleUnsigned: String,
     status: String,
-    comments: Array
+    comments: Array,
+    listImages: Array
 }, { collection: 'books' });
 
 book.plugin(mongoosePaginate);

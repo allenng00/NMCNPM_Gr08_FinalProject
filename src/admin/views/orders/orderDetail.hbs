@@ -38,7 +38,7 @@
 									</div>
 								</div>
         					</div>
-                            <div class="mt-2 text-left"><a class="btn btn-primary profile-button" href="/home/orders" ><< Quay lại</a></div>
+                            <div class="mt-2 text-left"><a class="btn btn-primary profile-button" href="/home/orders" ><i class="fas fa-long-arrow-alt-left"></i> Quay lại</a></div>
                            
 
         				</div>
@@ -69,9 +69,13 @@
         					</ul>
                              
         				</div>
-                        <div class="mt-2 text-right"><a class="btn btn-info profile-button" href="/home/orders/detail/{{order._id}}/checked" >&nbsp;&nbsp;Duyệt&nbsp;&nbsp;</a></div>
-                        <div class="mt-2 text-right"><a class="btn btn-danger profile-button" href="/home/orders/detail/{{order._id}}/cancel" >&nbsp;&nbsp;&nbsp;&nbsp;Huỷ&nbsp;&nbsp;&nbsp;</a></div>
-                        <div class="mt-2 text-right"><a class="btn btn-success profile-button" href="/home/orders/detail/{{order._id}}/delivered" >&nbsp;Đã giao</a></div>
+						{{#if checking}}
+                        	<div class="mt-2 text-right"><a class="btn btn-info profile-button" href="/home/orders/detail/{{order._id}}/checked" >&nbsp;<i class="far fa-calendar-check"></i>&nbsp;Duyệt&nbsp;</a></div>
+                        	<div class="mt-2 text-right"><a class="btn btn-danger profile-button" href="/home/orders/detail/{{order._id}}/cancel" >&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i>&nbsp;Huỷ&nbsp;&nbsp;&nbsp;</a></div>
+						{{/if}}
+						{{#if delivering}}
+                        	<div class="mt-2 text-right"><a class="btn btn-success profile-button" href="/home/orders/detail/{{order._id}}/delivered" ><i class="far fa-check-circle"></i>&nbsp;Đã giao</a></div>
+						{{/if}}
         			</div>
                 </div>
             </div>

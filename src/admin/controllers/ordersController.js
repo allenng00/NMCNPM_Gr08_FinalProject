@@ -49,7 +49,11 @@ exports.renderOrders = async(req, res, next) => {
 
 exports.renderDetail = async(req, res, next) => {
     const order = await orderModel.get(req.params.id);
-    res.render('./orders/orderDetail', { title: 'Chi tiết giao hàng', order: order });
+    const delivering = order.status === "Đã duyệt";
+    const checking = order.status === "Đợi duyệt";
+
+
+    res.render('./orders/orderDetail', { title: 'Chi tiết giao hàng', order: order, delivering, checking });
 };
 
 

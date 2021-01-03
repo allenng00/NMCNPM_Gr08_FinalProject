@@ -15,7 +15,9 @@ exports.renderComment = async(req, res, next) => {
         if (admin)
             comments[i].imagePath = admin.imageProfile;
     }
-    res.render('./products/comments', { title: 'Danh sách bình luận', comments });
+    for (var i in comments)
+        comments[i].bookID = book._id;
+    res.render('./products/comments', { title: 'Danh sách bình luận', comments: comments });
 };
 
 exports.add_comment = async(req, res, next) => {
@@ -26,5 +28,14 @@ exports.add_comment = async(req, res, next) => {
 
     await commentModel.add_comment(bookID, nickname, comment);
 
-    res.redirect('../comments' + bookID);
+    res.redirect('../comments/' + bookID);
+};
+
+exports.delete = async(req, res, next) => {
+    const bookID = req.params.id;
+    const index = req.params.index;
+
+    await commentModel.delete(bookID, index);
+
+    res.redirect('../../' + bookID);
 };
