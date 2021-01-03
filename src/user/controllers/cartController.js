@@ -5,11 +5,6 @@ const bookModel = require('../models/bookModel');
 const cartModel = require('../models/cartModel');
 const userModel = require('../models/userModel');
 
-// hiển thị danh sách đơn hàng của người dùng
-exports.index =  (req, res, next) =>{
-    res.render('order',{title: 'Đơn hàng'});
-};
-
 exports.add_to_cart = async (req, res, next) => {
     const bookID = req.params.id;
     const qty = parseInt(req.body.qty);

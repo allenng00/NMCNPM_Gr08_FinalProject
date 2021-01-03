@@ -88,9 +88,7 @@ exports.addUser = async (req, res) => {
 };
 
 
-exports.listOrder =  (req, res, next) =>{
-    res.render('order',{title: 'Đơn hàng'});
-};
+
 // exports.logout = async (req, res, next) => {
 //     // Get books from model
 //     //const books = bookModel.list();
