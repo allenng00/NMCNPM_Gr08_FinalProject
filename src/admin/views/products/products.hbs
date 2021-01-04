@@ -7,7 +7,7 @@
       <div class="container-fluid">
         <div  class="row mb-2">
             <div class="col-sm-9">
-              <h1>Thông tin sách</h1>
+              <h1 style="font-size: 30px;">Thông tin sách</h1>
             </div>
             <div class="col-sm-3">
                 <!-- Navbar Search -->
@@ -59,6 +59,8 @@
                       <th>Thể loại</th>
                       <th>Giá sale</th>
                       <th>Giá cũ</th>
+                      <th>Số lượng trong kho</th>
+                      <th>Só lượng đã bán</th>
                       <th>Bình luận</th>
                       <th>Sửa</th>
                   </thead>
@@ -70,6 +72,8 @@
                       <td>{{nameCategory}}</td>
                       <td>{{salePrice}}</td>
                       <td>{{oldPrice}}</td>
+                      <td>{{qty}}</td>
+                      <td>{{qtySelled}}</td>
                       <td><a class="drop with--one--item btn-add " href="/home/products/comments/{{_id}}">Xem</a></td>              
 
                       <td><a class="drop with--one--item btn-add " href="/home/products/update/{{_id}}">Edit</a></td>              

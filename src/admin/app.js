@@ -7,6 +7,8 @@ var logger = require('morgan');
 const Handlebars = require('handlebars');
 const hbs = require('express-handlebars');
 const helpers = require('handlebars-helpers')();
+const validator = require('express-validator');
+
 require('dotenv').config();
 const passport = require('./passport');
 const session = require("express-session");
@@ -70,6 +72,7 @@ app.use(passport.session({
     secret: process.env.SESSION_SECRET
 }));
 app.use(flash());
+app.use(validator());
 app.use(function(req, res, next) {
     res.locals.user = req.user;
     next()
@@ -80,8 +83,11 @@ app.use('/home', indexRouter);
 app.use('/home/products', productRouter);
 app.use('/home/users', userRouter);
 app.use('/home/orders', orderRouter);
+app.use('/home/products/top10', productRouter);
+
 app.use('/logout', adminRouter);
 app.use('/profile', adminRouter);
+app.use('/changePassword', adminRouter);
 
 
 

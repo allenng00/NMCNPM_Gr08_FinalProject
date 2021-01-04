@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 
+
 const adminCollection = require('./MongooseModel/adminMongooseModel');
 
 /**
@@ -40,4 +41,22 @@ exports.saveProfile = async(req, id) => {
             imageProfile: txtImage
         }
     });
+}
+
+exports.changeAdmin = async(password, id) => {
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hash) {
+            let user = adminCollection.updateOne({ _id: ObjectId(id) }, {
+                password: hash
+            });
+            user
+                .update()
+                .then((doc) => {})
+                .then((err) => {
+                    console.log(err);
+                });
+        });
+    });
+    return;
 }

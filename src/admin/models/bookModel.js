@@ -1,3 +1,4 @@
+const { formatters } = require('debug');
 const formidable = require('formidable');
 const { ObjectId } = require('mongodb');
 
@@ -30,10 +31,41 @@ exports.listBook = async(filter, pageNumber, itemPerPage) => {
     return books;
 }
 
+exports.listBookTop10 = async(filter) => {
+    let books = await booksCollection.paginate(filter, {
+        page: 1,
+        limit: 10,
+        sort: { qtySelled: -1 },
+    });
+    return books;
+}
+
 exports.get = async(id) => {
     const book = await booksCollection.findOne({ _id: ObjectId(id) })
     return book;
 }
+
+exports.checkTitle = async(title) => {
+    const books = await booksCollection.find({});
+    for (var i in books) {
+        const titleUnsigned = books[i].titleUnsigned.toLowerCase();
+        books[i].titleUnsigned = titleUnsigned;
+        if (books[i].titleUnsigned === title)
+            return null;
+    }
+    return 1;
+};
+
+exports.checkTitle_2 = async(title, id) => {
+    const books = await booksCollection.find({ _id: { $ne: ObjectId(id) } });
+    for (var i in books) {
+        const titleUnsigned = books[i].titleUnsigned.toLowerCase();
+        books[i].titleUnsigned = titleUnsigned;
+        if (books[i].titleUnsigned === title)
+            return null;
+    }
+    return 1;
+};
 
 exports.listCategory = async() => {
     const category = await categoryCollection.find({});
@@ -50,7 +82,7 @@ exports.post = async(req) => {
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
     const listImages = req.txtImagePath_more;
-
+    const txtQty = req.txtQty;
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 
@@ -75,7 +107,9 @@ exports.post = async(req) => {
         nameCategory: txtTheLoai,
         categoryID: id_category,
         titleUnsigned: showUnsignedString(txtTitle),
-        status: txtStatus
+        status: txtStatus,
+        qty: txtQty,
+        qtySelled: 0
     });
 }
 
@@ -87,6 +121,7 @@ exports.update_1_1 = async(req, id, arr) => {
     const txtSalePrice = parseInt(req.txtSalePrice);
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
+    const txtQty = req.txtQty;
 
     const txtImagePath = req.txtImagePath;
     const listImages = req.txtImagePath_more;
@@ -112,7 +147,8 @@ exports.update_1_1 = async(req, id, arr) => {
             nameCategory: txtTheLoai,
             categoryID: id_category,
             titleUnsigned: showUnsignedString(txtTitle),
-            status: txtStatus
+            status: txtStatus,
+            qty: txtQty
         }
     })
 }
@@ -126,6 +162,7 @@ exports.update_1_0 = async(req, id, arr) => {
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
     const listImages = req.txtImagePath_more;
+    const txtQty = req.txtQty;
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     if (!category1) {
@@ -147,7 +184,8 @@ exports.update_1_0 = async(req, id, arr) => {
             nameCategory: txtTheLoai,
             categoryID: id_category,
             titleUnsigned: showUnsignedString(txtTitle),
-            status: txtStatus
+            status: txtStatus,
+            qty: txtQty
         }
     })
 }
@@ -161,7 +199,7 @@ exports.update_0_1 = async(req, id) => {
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
     const txtImagePath = req.txtImagePath;
-
+    const txtQty = req.txtQty;
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     if (!category1) {
@@ -182,7 +220,8 @@ exports.update_0_1 = async(req, id) => {
             nameCategory: txtTheLoai,
             categoryID: id_category,
             titleUnsigned: showUnsignedString(txtTitle),
-            status: txtStatus
+            status: txtStatus,
+            qty: txtQty
         }
     })
 }
@@ -194,6 +233,7 @@ exports.update_0_0 = async(req, id) => {
     const txtSalePrice = parseInt(req.txtSalePrice);
     const txtTheLoai = req.txtCategory;
     const txtStatus = req.txtStatus;
+    const txtQty = req.txtQty;
 
     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
     if (!category1) {
@@ -213,7 +253,8 @@ exports.update_0_0 = async(req, id) => {
             nameCategory: txtTheLoai,
             categoryID: id_category,
             titleUnsigned: showUnsignedString(txtTitle),
-            status: txtStatus
+            status: txtStatus,
+            qty: txtQty
         }
     })
 }

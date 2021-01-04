@@ -30,9 +30,11 @@ router.get('/logout', isLogged, function(req, res, next) {
     res.redirect('/');
 });
 
-router.get('/profile/:id', adminController.renderProfile);
-router.post('/profile/:id', adminController.saveProfile);
+router.get('/profile/:id', isLogged, adminController.renderProfile);
+router.post('/profile/:id', isLogged, adminController.saveProfile);
 
+router.get('/changePassword/:id', isLogged, adminController.renderChangePassword);
+router.post('/changePassword/:id', isLogged, adminController.changePassword);
 
 
 module.exports = router;

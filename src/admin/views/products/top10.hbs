@@ -1,0 +1,66 @@
+
+<div class="content-wrapper">
+    
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div  class="row mb-2">
+            <div class="col-sm-9">
+              <h1 style="font-size: 40px;">Top 10</h1>
+            </div>
+        </div>
+      </div><!-- /.container-fluid -->
+      
+    </section>
+
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                  <thead>
+                      <th>STT</th>
+                      <th>Tên sách</th>
+                      <th>Tác giả</th>
+                      <th>Thể loại</th>
+                      <th>Giá sale</th>
+                      <th>Giá cũ</th>
+                      <th>Số lượng trong kho</th>
+                      <th>Số lượng đã bán</th>
+                  </thead>
+                  <tbody>
+                    {{#each books}}
+                      <tr>
+                      <td>{{@key}}</td>
+                      <td>{{title}}</td>
+                      <td>{{decription}}</td>
+                      <td>{{nameCategory}}</td>
+                      <td>{{salePrice}}</td>
+                      <td>{{oldPrice}}</td>
+                      <td>{{qty}}</td>
+                      <td>{{qtySelled}}</td>             
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>    
+
+                <div class="clearfix"></div>
+               
+              </div>
+            </div>
+	        </div>
+        </div>
+
+        
+      </div>
+       
+    </section>
+    <!-- /.content -->
+   
+  </div>

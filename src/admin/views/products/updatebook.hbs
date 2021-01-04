@@ -15,16 +15,25 @@
             
             <label><b>Tên sách (*)</b></label>
             <input type="text" name="txtTitle" placeholder="Nhập tên sách" value="{{book.title}}" required>
-
+            {{#if messageTitle}}
+                                        <div class="alert alert-danger">
+                                            {{messageTitle}}
+                                        </div>
+                                    {{/if}}
             <label><b>Link ảnh (*)</b></label>
             <input type="text" name="txtImagePath" placeholder="Nhập link ảnh hoặc upload" value="{{book.cover}}">
-            <input name="txtImagePath" type="file" value="{{book.cover}}">
+            <input class="form-control-file" name="txtImagePath" type="file" accept="image/*" value="{{book.cover}}">
             <br>
 
             <label><b>Link ảnh thêm </b></label>
             <input type="text" name="txtImagePath_more" placeholder="Upload" value="{{book.listImages}}">
-            <input name="txtImagePath_more" type="file" value={{book.listImages}} multiple>
+            <input class="form-control-file" name="txtImagePath_more" type="file" value={{book.listImages}} accept="image/*" multiple>
             <br>
+            {{#if messageImage}}
+                                        <div class="alert alert-danger">
+                                            {{messageImage}}
+                                        </div>
+                                    {{/if}}
 
             <label><b>Tác giả (*)</b></label>
             <input type="text" name="txtDescription" placeholder="Nhập tác giả" value="{{book.decription}}" required>
@@ -33,16 +42,22 @@
             <input type="text" name="txtDetail" placeholder="Nhập chi tiết" value="{{book.detail}}"required>
 
             <label><b>Giá cũ (*)</b></label>
-            <input type="text" name="txtOldPrice" placeholder="Nhập giá cũ" value="{{book.oldPrice}}" required>
+            <input class="form-control" type="number" name="txtOldPrice" placeholder="Nhập giá cũ" value="{{book.oldPrice}}" required>
+            <br>
 
             <label><b>Giá hiện tại (*)</b></label>
-            <input type="text" name="txtSalePrice" placeholder="Nhập giá hiện tại" value="{{book.salePrice}}"required>
+            <input class="form-control" type="number" name="txtSalePrice" placeholder="Nhập giá hiện tại" value="{{book.salePrice}}"required>
+            <br>
 
             <label><b>Thể loại (*)</b></label>
             <input type="text" name="txtCategory" placeholder="Nhập Thể loại" value="{{book.nameCategory}}" required>
 
             <label><b>Trạng thái </b></label>
             <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{book.status}}" >
+
+            <label><b>Số lượng trong kho(*) </b></label>
+                <input  class="form-control" type="number" name="txtQty" placeholder="Nhập số lượng trong kho"  value="{{book.qty}}" required>
+              <br>  
             
             <div class="row">
                  <div class="col-lg-2">

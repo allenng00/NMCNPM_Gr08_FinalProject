@@ -14,6 +14,9 @@ function isLogged(req, res, next) {
 
 router.get('/', isLogged, productsController.renderProducts);
 
+router.get('/top10', isLogged, productsController.renderTop10);
+
+
 router.get('/addbook', isLogged, productsController.renderAddbook);
 router.post('/addbook', productsController.add);
 

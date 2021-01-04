@@ -7,6 +7,11 @@
                     <div >
                         <input type="file" name="imagePath" accept="image/*" onchange="readURL(this);">
                         <label class=" " >Thay đổi ảnh</label>
+                        {{#if messageImage}}
+                                        <div class="alert alert-danger">
+                                            {{messageImage}}
+                                        </div>
+                                    {{/if}}
                     </div>
                 </div>
             </div>
@@ -21,7 +26,7 @@
                     </div>
 
                     
-                    <div class="mt-2 text-right"><button class="btn btn-warning profile-button" type="button">&nbsp;Đổi mật khẩu&nbsp;</button></div>
+                    <div class="mt-2 text-right"><a class="btn btn-warning profile-button" href="/changePassword/{{user._id}}">&nbsp;Đổi mật khẩu&nbsp;</a></div>
                     
                     <div class="mt-2 text-right"><button class="btn btn-success profile-button" type="submit"> Lưu chỉnh sửa </button></div>
                 </div>
