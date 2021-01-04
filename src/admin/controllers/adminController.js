@@ -77,7 +77,7 @@ exports.changePassword = async(req, res, next) => {
     try {
         let checkPassword = await bcrypt.compare(passwordOld, req.user.password);
         if (checkPassword) {
-            req.checkBody('password', 'check').isLength({ min: 3 });
+            req.checkBody('password', 'check').isLength({ min: 8 });
             const err = req.validationErrors();
             if (err) {
                 throw ('Mật khẩu phải có ít nhất 8 ký tự!');
