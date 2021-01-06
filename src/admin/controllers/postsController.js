@@ -27,16 +27,16 @@ function showUnsignedString(search) {
 exports.renderPostsAdmin = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const catid = req.query.catID;
-    //const search = req.query.txtSearch;
+    const search = req.query.txtSearch;
     var filter = {};
-    // if (search) {
-    //     filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
-    // }
-    // if (catid) {
-    //     if (catid != ObjectId(AllID)) {
-    //         filter.categoryID = ObjectId(catid);
-    //     }
-    // }
+    if (search) {
+        filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
+    }
+    if (catid) {
+        if (catid != ObjectId(AllID)) {
+            filter.categoryID = ObjectId(catid);
+        }
+    }
     filter.isDeleted = false;
 
     const paginate = await postModel.listBook(filter, page, ITEM_PER_PAGE);
@@ -46,20 +46,19 @@ exports.renderPostsAdmin = async(req, res, next) => {
     var nameCategory = "";
     var id_category = "";
     if (catid) {
-        const categoryTemp = await categoriessCollection.findOne({ _id: ObjectId(catid) });
+        const categoryTemp = await categoriesCollection.findOne({ _id: ObjectId(catid) });
         nameCategory = categoryTemp.nameCategory;
         id_category = ObjectId(catid);
     } else {
         nameCategory = "Thể loại";
         id_category = "";
     }
-    res.render('./products/products', {
+    res.render('./posts/postsAdmin', {
         title: 'Bài viết admin',
         posts: paginate.docs,
         category: category,
         id_category: id_category,
         nameCategory: nameCategory,
-        Search: search,
         totalDocs: paginate.totalDocs,
         //Phân trang
         hasNextPage: paginate.hasNextPage,
