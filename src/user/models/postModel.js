@@ -1,8 +1,6 @@
-const { ObjectId} = require('mongodb');
+const { ObjectId } = require('mongodb');
 const postsCollection = require('./MongooseModel/postMongooseModel');
-const categoryCollection = require ('./MongooseModel/categoryMongooseModel');
-const postMongooseModel = require('./MongooseModel/postMongooseModel');
-
+const categoryCollection = require('./MongooseModel/categoryMongooseModel');
 
 function showUnsignedString(search) {
     var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
@@ -15,13 +13,13 @@ function showUnsignedString(search) {
     return output;
 }
 // lấy ra danh sách thể loại bài viết
-exports.listcategory = async () => {
+exports.listcategory = async() => {
     const cat = await categoryCollection.find({});
     return cat;
 }
 
 //
-exports.getlistcatID = async (listcategory) =>{
+exports.getlistcatID = async(listcategory) => {
     var res = [];
     await listcategory.forEach(element => {
         res.push(element._id);
@@ -31,38 +29,44 @@ exports.getlistcatID = async (listcategory) =>{
     return res;
 }
 
+exports.listComment = async(id, page, perPage) => {
+    const arr_comment = await postsCollection.findOne({ _id: ObjectId(id) }).select("comments");
+    const comments = arr_comment.comments.slice(perPage * (page - 1), perPage * page);
+    return comments;
+}
+
 // lấy tên của 1 thể loại thông qua id
-exports.get_name_cat = async (id) => {
-    const nameCat = await categoryCollection.findOne({_id: ObjectId(id)});
+exports.get_name_cat = async(id) => {
+    const nameCat = await categoryCollection.findOne({ _id: ObjectId(id) });
     return nameCat.nameCategory;
 }
 
 // lấy tên của 1 thể loại thông qua name
-exports.get_name_category = async (category) => {
-    const nameCat = await categoryCollection.findOne({nameCategory: category});
+exports.get_name_category = async(category) => {
+    const nameCat = await categoryCollection.findOne({ nameCategory: category });
     return nameCat;
 }
 
 // lấy danh sách các bài viết
-exports.list = async () => {
+exports.list = async() => {
     console.log('model db');
-    const posts = await postsCollection.find({isDeleted: false});
+    const posts = await postsCollection.find({ isDeleted: false });
     return posts;
 }
 
 // lấy danh sách các bài viết
-exports.listWithStatus = async (status) => {
-    const posts = await postsCollection.find({isDeleted: false, status: status});
+exports.listWithStatus = async(status) => {
+    const posts = await postsCollection.find({ isDeleted: false, status: status });
     return posts;
 }
 
 // danh sách các bài viết sau khi filter, paging
-exports.listpost = async (filter, pageNumber, itemPerPage, sort) => {
-    const sortOrderArr = [1,-1];
+exports.listpost = async(filter, pageNumber, itemPerPage, sort) => {
+    const sortOrderArr = [1, -1];
     let posts = await postsCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
-        sort: {unsigned_title: sortOrderArr[sort]}
+        sort: { unsigned_title: sortOrderArr[sort] }
     });
     return posts;
 }
@@ -75,41 +79,35 @@ exports.listpost = async (filter, pageNumber, itemPerPage, sort) => {
 
 
 // lấy 1 bài viết qua id
-exports.get = async (id) => {
+exports.get = async(id) => {
     //const postsCollection = db().collection('posts');
-    const post = await postsCollection.findOne({_id: ObjectId(id)})
+    const post = await postsCollection.findOne({ _id: ObjectId(id) })
     return post;
 }
 
 
 // 
-exports.getRelatedPosts = async (catID, postID) => {
+exports.getRelatedPosts = async(catID, postID) => {
     //const postsCollection = db().collection('posts');
-    const listRelatedPosts = await postsCollection.find({catID: ObjectId(catID), _id: {$ne:  ObjectId(postID)}});
-    if (listRelatedPosts.length>=1)
-    {
+    const listRelatedPosts = await postsCollection.find({ catID: ObjectId(catID), _id: { $ne: ObjectId(postID) } });
+    if (listRelatedPosts.length >= 1) {
         return listRelatedPosts;
-    }
-        
-    else    
+    } else
         return false;
 }
 
 
 // thêm 1 comment vào bài viết id 
-exports.add_comment = async (id, cmt) => {
+exports.add_comment = async(id, cmt) => {
 
-    await postsCollection.updateOne(   
-        {_id: ObjectId(id)},
-        {comment: cmt}
-    )
+    await postsCollection.updateOne({ _id: ObjectId(id) }, { comment: cmt })
 }
 
 // đóng góp bài viết
-exports.add_post = async (req, username) => {
+exports.add_post = async(req, username) => {
 
-    const {txtTitle, nameCategory, description, detail, cover, listImages } = req;
-    const cat = await categoryCollection.findOne({nameCategory: nameCategory});
+    const { txtTitle, nameCategory, description, detail, cover, listImages } = req;
+    const cat = await categoryCollection.findOne({ nameCategory: nameCategory });
     const catID = cat._id;
     await postsCollection.create({
         cover: cover,

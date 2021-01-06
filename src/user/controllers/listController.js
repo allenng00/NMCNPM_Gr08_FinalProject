@@ -19,82 +19,84 @@ function showUnsignedString(search) {
     });
     return output;
 }
-exports.index = async (req, res, next) => {
+exports.index = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const search = req.query.search;
-    const sort= parseInt(req.query.sort) || 0;
+    const sort = parseInt(req.query.sort) || 0;
     const nameSortArr = ["Từ A->Z", "Từ Z->A"];
 
     var nameCat;
     var catid = req.query.catid;
 
 
-    if (catid)
-    {
-        var catID =  ObjectId(catid);
+    if (catid) {
+        var catID = ObjectId(catid);
         var tmp_nameCat = await postModel.get_name_cat(catid);
     }
     if (tmp_nameCat)
-       nameCat = tmp_nameCat;
+        nameCat = tmp_nameCat;
 
-    var filter = {isDeleted: false, status2: "Đã duyệt" };
+    var filter = { isDeleted: false, status2: "Đã duyệt" };
 
     console.log(nameCat);
 
-    if (catid)
-    {
-        if (nameCat != "Tất cả")
-        {
-            if (search)
-            {
+    if (catid) {
+        if (nameCat != "Tất cả") {
+            if (search) {
                 const searchval = new RegExp(search, 'i');
                 const searchval1 = new RegExp(showUnsignedString(search), 'i');
-                filter = {$or: [
-                                {title: searchval }, 
-                                {detail: searchval}, 
-                                {description: searchval},
-                                {titleUnsigned: searchval1 }],
-                                categoryID: ObjectId(catid), isDeleted: false, status2: "Đã duyệt"};
-            }
-            else
-                filter = {categoryID: ObjectId(catid), isDeleted: false, status2: "Đã duyệt"};
-        }  
-        else
-        {
-            if (search)
-            {
+                filter = {
+                    $or: [
+                        { title: searchval },
+                        { detail: searchval },
+                        { description: searchval },
+                        { titleUnsigned: searchval1 }
+                    ],
+                    categoryID: ObjectId(catid),
+                    isDeleted: false,
+                    status2: "Đã duyệt"
+                };
+            } else
+                filter = { categoryID: ObjectId(catid), isDeleted: false, status2: "Đã duyệt" };
+        } else {
+            if (search) {
                 const searchval = new RegExp(search, 'i');
                 const searchval1 = new RegExp(showUnsignedString(search), 'i');
-                filter = {$or: [
-                                {title: searchval }, 
-                                {detail: searchval}, 
-                                {description: searchval},
-                                {titleUnsigned: searchval1 }],
-                                isDeleted: false, status2: "Đã duyệt"};
+                filter = {
+                    $or: [
+                        { title: searchval },
+                        { detail: searchval },
+                        { description: searchval },
+                        { titleUnsigned: searchval1 }
+                    ],
+                    isDeleted: false,
+                    status2: "Đã duyệt"
+                };
             }
-            
-        }        
-    }
-    else
-    {
-        if (search)
-        {
+
+        }
+    } else {
+        if (search) {
             const searchval = new RegExp(search, 'i');
             const searchval1 = new RegExp(showUnsignedString(search), 'i');
-            filter = {$or: [
-                            {title: searchval }, 
-                            { detail: searchval}, 
-                            {description: searchval},
-                            {titleUnsigned: searchval1 }],
-                            isDeleted: false, status2: "Đã duyệt"};
+            filter = {
+                $or: [
+                    { title: searchval },
+                    { detail: searchval },
+                    { description: searchval },
+                    { titleUnsigned: searchval1 }
+                ],
+                isDeleted: false,
+                status2: "Đã duyệt"
+            };
         }
     }
-    
-    const paginate = await postModel.listpost(filter,page,item_per_page, sort);
-    const category =  await postModel.listcategory();
-    const prevPageQueryString = {...req.query, page:paginate.prevPage};
-    const nextPageQueryString = {...req.query, page:paginate.nextPage};
-    
+
+    const paginate = await postModel.listpost(filter, page, item_per_page, sort);
+    const category = await postModel.listcategory();
+    const prevPageQueryString = {...req.query, page: paginate.prevPage };
+    const nextPageQueryString = {...req.query, page: paginate.nextPage };
+
     res.render('./posts/listpost', {
         title: "Sách",
         posts: paginate.docs,
@@ -117,52 +119,62 @@ exports.index = async (req, res, next) => {
 };
 
 
-exports.detail = async (req, res, next) => {
-    const category =  await postModel.listcategory();
+exports.detail = async(req, res, next) => {
+    const category = await postModel.listcategory();
     const postID = req.params.id;
     const post = await postModel.get(postID);
-    const postCat = await postModel.get_name_cat(post.catID);
-    const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
-    const comment = post.comment ? post.comment:[];
-    var avatar;
-    for (id in comment)
-    {
-        avatar = await userModel.getProfilePicUser(comment[id].nickname);
-        if (avatar)
-            comment[id].avatar = avatar;
+    const postCat = await postModel.get_name_cat(post.categoryID);
+    // const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
+    const perPage = 5;
+    const page = parseInt(req.query.page) || 1;
+
+    const comments = await postModel.listComment(req.params.id, page, perPage);
+    const count_comment = post.comments.length || 0;
+    const pages = Math.ceil(count_comment / perPage);
+    const nextPage = page < pages ? (page + 1) : page;
+    const prevPage = page > 1 ? (page - 1) : 1;
+    const hasNextPage = page < pages;
+    const hasPreviousPage = page > 1;
+
+    for (var i in comments) {
+        const user = await userModel.getUsername(comments[i].nickname);
+        if (user)
+            comments[i].imagePath = user.imageProfile;
     }
-    
-    res.render('./posts/detail', 
-    {   
+
+    res.render('./posts/detail', {
         title: "Chi tiết",
         category,
         post,
         postCat,
-        relatedPost,
-        countRelatedPosts: relatedPost.length,
-        comment,
-        show_active_1: "show active"
+        comment: comments,
+        postID: postID,
+        hasNextPage,
+        nextPage,
+        totalComments: count_comment,
+        hasPreviousPage,
+        prevPage,
+        lastPage: pages,
+        currentPage: page
     });
-  
+
 };
 
-exports.detail_mypost = async (req, res, next) => {
-    const category =  await postModel.listcategory();
+exports.detail_mypost = async(req, res, next) => {
+    const category = await postModel.listcategory();
     const postID = req.params.id;
     const post = await postModel.get(postID);
     const postCat = await postModel.get_name_cat(post.catID);
     const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
-    const comment = post.comment ? post.comment:[];
+    const comment = post.comment ? post.comment : [];
     var avatar;
-    for (id in comment)
-    {
+    for (id in comment) {
         avatar = await userModel.getProfilePicUser(comment[id].nickname);
         if (avatar)
             comment[id].avatar = avatar;
     }
-    
-    res.render('./posts/detail', 
-    {   
+
+    res.render('./posts/detail', {
         title: "Chi tiết",
         category,
         post,
@@ -172,26 +184,25 @@ exports.detail_mypost = async (req, res, next) => {
         comment,
         show_active_1: "show active"
     });
-  
+
 };
 
 exports.mypost = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const status = parseInt(req.query.status) || 0 ;
-    const nameStatus = ["Tất cả","Đợi duyệt", "Đã duyệt"];
+    const status = parseInt(req.query.status) || 0;
+    const nameStatus = ["Tất cả", "Đợi duyệt", "Đã duyệt"];
     const filter = {};
-    filter.isDeleted =  false;    
+    filter.isDeleted = false;
     filter.author = req.user.username;
-    if (status)
-    {
+    if (status) {
         filter.status2 = nameStatus[status];
     }
 
-    const paginate = await postModel.listpost(filter,page,item_per_page,0);  
-    const prevPageQueryString = {...req.query, page:paginate.prevPage};
-    const nextPageQueryString = {...req.query, page:paginate.nextPage};
-    
-    res.render('posts/mypost',{
+    const paginate = await postModel.listpost(filter, page, item_per_page, 0);
+    const prevPageQueryString = {...req.query, page: paginate.prevPage };
+    const nextPageQueryString = {...req.query, page: paginate.nextPage };
+
+    res.render('posts/mypost', {
         title: 'Bài viết của tôi',
         nameStatus: nameStatus[status],
         posts: paginate.docs,
@@ -205,12 +216,12 @@ exports.mypost = async(req, res, next) => {
         lastPage: paginate.totalPages,
         ITEM_PER_PAGE: item_per_page,
         currentPage: paginate.page,
-    }); 
+    });
 };
 
 exports.addpost_page = async(req, res, next) => {
- 
-    res.render('posts/addpost',{title: 'Đóng góp bài viết'}); 
+
+    res.render('posts/addpost', { title: 'Đóng góp bài viết' });
 };
 
 exports.addpost = async(req, res, next) => {
@@ -218,30 +229,26 @@ exports.addpost = async(req, res, next) => {
 
     const form = formidable({ multiples: true });
     var arr = [];
-    form.parse(req, async (err, fields, files) => 
-    {
+    form.parse(req, async(err, fields, files) => {
         if (err) {
-          next(err);
-          return;
+            next(err);
+            return;
         }
 
-        const {txtTitle , nameCategory, description, detail} = fields;
+        const { txtTitle, nameCategory, description, detail } = fields;
         const category = await postModel.get_name_category(nameCategory);
 
-        if (category)
-        {
+        if (category) {
             // do nothing
-        }
-        else
-        {           
-            return res.render('posts/addpost',{
-                title: 'Đóng góp bài viết', 
+        } else {
+            return res.render('posts/addpost', {
+                title: 'Đóng góp bài viết',
                 messageError: "Thể loại không tồn tại",
                 txtTitle,
                 nameCategory,
                 description,
                 detail
-            }); 
+            });
         }
 
         // kiểm tra ảnh
@@ -249,92 +256,87 @@ exports.addpost = async(req, res, next) => {
         const listImages = files.listImages;
         const imageType = ["image/png", "image/jpeg"];
 
-        if (imageType.indexOf(coverImage.type) >=0 )  // cover là 1 ảnh
+        if (imageType.indexOf(coverImage.type) >= 0) // cover là 1 ảnh
         {
             console.log("hello1");
-           
-            if (listImages.size > 0 && imageType.indexOf(listImages.type)>=0 ) // chỉ thêm 1 ảnh
+
+            if (listImages.size > 0 && imageType.indexOf(listImages.type) >= 0) // chỉ thêm 1 ảnh
             {
                 console.log("hello2");
-                cloudinary.uploader.upload(coverImage.path,function(err, result)
-                {
+                cloudinary.uploader.upload(coverImage.path, function(err, result) {
                     fields.cover = result.url;
-                    cloudinary.uploader.upload(listImages.path, function(err, result)
-                    {
+                    cloudinary.uploader.upload(listImages.path, function(err, result) {
                         fields.listImages = result.url;
-                        postModel.add_post(fields,req.user.username).then(()=> {
-                            return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
+                        postModel.add_post(fields, req.user.username).then(() => {
+                            return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
                         });
-                        
+
                     });
                 });
-            }
-            else if (listImages.length > 0) //thêm 1 mảng
+            } else if (listImages.length > 0) //thêm 1 mảng
             {
                 console.log("hello3");
                 // phát hiện 1 file không phải ảnh
                 for (var index in listImages)
-                if (imageType.indexOf(listImages[index].type) === -1 )
-                    return res.render('posts/addpost',{
-                        title: "Đóng góp bài viết", 
-                        messageError: "Chỉ được chọn ảnh",
-                        txtTitle, description, 
-                        detail, nameCategory
-                    });
+                    if (imageType.indexOf(listImages[index].type) === -1)
+                        return res.render('posts/addpost', {
+                            title: "Đóng góp bài viết",
+                            messageError: "Chỉ được chọn ảnh",
+                            txtTitle,
+                            description,
+                            detail,
+                            nameCategory
+                        });
 
-                // mảng toàn file ảnh
-                for (var index in listImages)
-                {
-                    cloudinary.uploader.upload(listImages[index].path,function(err,result){                   
+                    // mảng toàn file ảnh
+                for (var index in listImages) {
+                    cloudinary.uploader.upload(listImages[index].path, function(err, result) {
                         arr.push(result.url);
-                    }).then(() => 
-                    { 
-                        if (arr.length === listImages.length)
-                        {                                   
-                            cloudinary.uploader.upload(coverImage.path,function(err, result)
-                            {
+                    }).then(() => {
+                        if (arr.length === listImages.length) {
+                            cloudinary.uploader.upload(coverImage.path, function(err, result) {
                                 fields.cover = result.url;
                                 fields.listImages = arr;
-                                postModel.add_post(fields,req.user.username).then(()=>{
-                                    return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin"});
+                                postModel.add_post(fields, req.user.username).then(() => {
+                                    return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
                                 });
                             });
-                        } 
+                        }
                     });
-                }                                                    
-            }                  
-            else if (listImages.size > 0 && imageType.indexOf(listImages.type)===-1) // chỉ 1 file nhưng ko phải file ảnh
+                }
+            } else if (listImages.size > 0 && imageType.indexOf(listImages.type) === -1) // chỉ 1 file nhưng ko phải file ảnh
             {
                 console.log("hello4");
-                return res.render('posts/addpost',{
-                    title: "Đóng góp bài viết", 
+                return res.render('posts/addpost', {
+                    title: "Đóng góp bài viết",
                     messageError: "Chỉ được chọn ảnh",
-                    txtTitle, description, 
-                    detail, nameCategory
+                    txtTitle,
+                    description,
+                    detail,
+                    nameCategory
                 });
-            }          
-            else // ko có ảnh thêm
+            } else // ko có ảnh thêm
             {
                 console.log("hello");
-                cloudinary.uploader.upload(coverImage.path,function(err, result)
-                {
+                cloudinary.uploader.upload(coverImage.path, function(err, result) {
                     fields.cover = result.url;
-                    postModel.add_post(fields,req.user.username).then(()=> {
-                    return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin"});
+                    postModel.add_post(fields, req.user.username).then(() => {
+                        return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
+                    });
                 });
-            });
-            }               
-        }
-        else // ko phải ảnh
+            }
+        } else // ko phải ảnh
         {
-            return res.render('posts/addpost',{
-                title: "Đóng góp bài viết", 
+            return res.render('posts/addpost', {
+                title: "Đóng góp bài viết",
                 messageError: "Chỉ được chọn ảnh",
-                txtTitle, description, 
-                detail, nameCategory
+                txtTitle,
+                description,
+                detail,
+                nameCategory
             });
         }
-      
+
     });
-    
+
 };

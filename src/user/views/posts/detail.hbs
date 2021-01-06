@@ -1,159 +1,150 @@
- <!-- Start main Content -->
-        <div class="maincontent bg--white pt--80 pb--55">
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-lg-9 col-12">
-        				<div class="wn__single__product">
-        					<div class="row">
-        						<div class="col-lg-6 col-12">
-        							<div class="wn__fotorama__wrapper">
-	        							<div class="fotorama wn__fotorama__action" data-nav="thumbs">
-		        							 <img src="{{book.cover}}" alt="" width="450px" height="565px"></a>
-	        							</div>
-        							</div>
-        						</div>
-                               
-        						<div class="col-lg-6 col-12">
-        							<div class="product__info__main">
-        								<h1>{{book.title}}</h1>
-                                       
-        								<div class="price-box">
-        									<span>{{book.basePrice}} vnđ</span>
-        								</div>
-											
-										<div class="product__overview">
-											<span>Thể loại: {{bookCat}}</span>
-											<br>
-        									<p>{{book.descript}}</p>
-        									
-        								</div>
-										<form method="post">
-        								<div class="box-tocart d-flex">
-        									<span>Số lượng: </span>
-        									<input id="qty" class="input-text qty" name="qty" min="1" value="1"  title="Qty" type="number">
-										</div>
-										<div class="box-tocart d-flex">
-											<div class="addtocart__actions">
-        										<button class="tocart" type="submit" title="Add to Cart" >Thêm vào giỏ hàng </button>
-        									</div>
-										</div>
-										</form>
-        							</div>
-        						</div>
-        					</div>
-        				</div>
-        				<div class="product__info__detailed">
-							<div class="pro_details_nav nav justify-content-start" role="tablist">
-	                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Nội dung</a>
-	                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-review" role="tab">Bình luận</a>
-	                        </div>
-	                        <div class="tab__container">
-	                        	<!-- Start Single Tab Content -->
-	                        	<div class="pro__tab_label tab-pane fade {{show_active_1}}" id="nav-details" role="tabpanel">
-									<div class="description__attribute">
-										{{book.detail}}
+
+        <!-- End Bradcaump area -->
+		<div class="page-blog-details section-padding--lg bg--white">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 col-12">
+						<div class="blog-details content">
+							<article class="blog-post-details">
+								<div class="post-thumbnail">
+									<img src="{{post.cover}}" alt="blog images">
+								</div>
+								<div class="post_wrapper">
+									<div class="post_header">
+										<h2>{{post.title}}</h2>
 									</div>
-	                        	</div>
-	                        	<!-- End Single Tab Content -->
-	                        	<!-- Start Single Tab Content -->
-								
-	                        	<div class="pro__tab_label tab-pane fade {{show_active_2}}" id="nav-review" role="tabpanel">
-									<form action="/listbook/submit_comment/{{book._id}}" method="POST">
-									<div class="review__attribute">
-										{{#if comment}}										
-												<div class="col-md-7">											
-													
-													{{#each comment}}
-													<div class="mt-3">
-														{{#if avatar}} 
-															<div class="d-flex flex-row p-3"> <img src="{{avatar}}" width="40" height="40" class="rounded-circle mr-2">
-														{{else}}
-															<div class="d-flex flex-row p-3"> <img src="/images/users/user.png" width="40" height="40" class="rounded-circle mr-2">
-														{{/if}}
-															<div class="w-100">
-																<div class="d-flex justify-content-between align-items-center">
-																	<div class="d-flex flex-row align-items-center"> <span class="mr-2"><strong>{{nickname}}</strong></span> <small class="c-badge"></small> </div> <small></small>
-																</div>
-																<p class="text-justify comment-text mb-0">{{content}}</p>
-															</div>
-														</div>																								
-													</div>	
-													{{/each}}										
-												</div>												
-										{{else}}
-											<p>Không có bình luận nào.</p>
-										{{/if}}																			
-									</div>								
-									<div class="review-fieldset">
-										<h3>Để lại bình luận của bạn</h3>
-										<br>
-										<div class="review_form_field">
-											<div class="input__box">
-												{{#if user}}
-													{{!-- <label>Tên của bạn</label>
-													<div><label><b>{{user.username}}</b></label> </div> --}}
-													{{!-- <span>Tên của bạn</span><input id="nickname_field" type="text" name="nickname"> --}}
-												{{else}}
-													<span>Tên của bạn</span><input id="nickname_field" type="text" name="nickname">
-													{{#if err}}
-													<br>
-														<div class="alert alert-danger">
-															{{err}}
+									<div class="post_content">
+										<blockquote>{{post.descriptions}}</blockquote>
+										<p>{{post.detail}}</p>
+									</div>
+									<ul class="blog_meta">
+										<div class="pro__tab_label tab-pane fade {{tab2}}" id="nav-review" role="tabpanel">
+											<div class="row d-flex justify-content-center mt-100 mb-100">
+												{{#if post.comments}}
+													<div class="col-lg">
+														<div class="card">
+															<div class="comment-widgets">									
+																<!-- Comment Row -->
+																{{#each post.comments}}
+																<div class="d-flex flex-row comment-row m-t-0">
+																	{{#if imagePath}}
+																	<div class="p-2"><img src="{{imagePath}}" alt="user" width="30" height="30" class="rounded-circle"></div>
+																	{{else}}
+																	<div class="p-2"><img src="/images/user.png" alt="user" width="30" height="30" class="rounded-circle"></div>
+																	{{/if}}
+																	<div class="comment-text w-100">
+																		<h6 class="font-medium">{{nickname}}</h6> <span class="m-b-15 d-block">{{comment}} </span>
+																		{{!-- <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div> --}}
+																	</div>
+																</div> <!-- Comment Row -->
+																<br>
+																{{/each}}
+																
+															</div> <!-- Card -->
 														</div>
-													{{/if}}
+													</div>
+												{{else}}
+												<p>Không có bình luận nào!</p>
 												{{/if}}
 											</div>
+											<nav aria-label="Page navigation example" style="..."> 
+												<p>{{totalComments}} Bình luận</p>
+												<ul class="pagination justify-content-center pull-right wn__pagination">
+												{{#isnt currentPage 1}}
+													<li >
+														<a href="/listpost/{{postID}}?page={{prevPage}}" aria-label="Previous">
+														<span aria-hidden="true" class="zmdi zmdi-chevron-left"></span>
+														</a>
+													</li>
+													{{/isnt}}
+													{{#if hasPreviousPage}}
+													<li >
+														<a href="/listpost/{{postID}}?page={{prevPage}}">{{prevPage}}
+														</a>
+													</li>
+													{{/if}}
+													<li class="active">
+														<a href="javascript:void(0)" tabindex="-1">{{currentPage}}
+														</a>
+													</li>
+													{{#if hasNextPage}}
+													<li >
+														<a href="/listpost/{{postID}}?page={{nextPage}}">{{nextPage}}
+														</a>
+													</li>
+													{{/if}}
+													{{#gt lastPage currentPage}}
+													<li >
+														<a href="/listpost/{{postID}}?page={{nextPage}}" aria-label="Next">
+														<span aria-hidden="true" class="zmdi zmdi-chevron-right"></span>
+														</a>
+													</li>
+													{{/gt}}
+												</ul>
+											</nav>											
+										</div>
+									</ul>
+								</div>
+							</article>
+								<div class="review-fieldset">
+									<h3>Nhập bình luận của bạn</h3>
+									<div class="review-field-ratings">
+									</div>
+									<form action="/products/comment/{{_id}}" method="POST">
+									<div class="review_form_field">
+										{{#if user}}
 											<div class="input__box">
-												<span>Bình luận</span>
-												<textarea name="content" value="{{content}}"></textarea>
+
+												<span>Tên của bạn:&nbsp;</span>
+												{{#if user.imageProfile}}
+													<Strong><label id="nickname_field" ><img class="rounded-circle" src="{{user.imageProfile}}" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+												{{else}}
+													<Strong><label id="nickname_field" ><img class="rounded-circle" src="/images/user.png" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+												{{/if}}
 											</div>
-											<div class="review-form-actions">
-												<button class="btn border button" type="submit" >Gửi bình luận</button>
+										{{else}}
+											<div class="input__box">
+												<span>Tên của bạn: </span>
+												<input id="nickname_field" type="text" name="nickname" required>
 											</div>
+											{{#if err}}
+											<div><label class="alert alert-danger">{{err}}</label></div>
+											{{/if}}
+										{{/if}}
+										<div class="input__box">
+											<span>Bình luận</span>
+											<textarea name="comment" required></textarea>
+										</div>
+										<div class="review-form-actions">
+											<button class="btn btn-success"  type="submit">Gửi</button>
 										</div>
 									</div>
 									</form>
-	                        	</div>								
-	                        	<!-- End Single Tab Content -->
-	                        </div>
-        				</div>
-
-					{{#isnt relatedBook false}}
-					<div class="wn__related__product pt--80 pb--50">
-						<div class="section__title text-center">
-							<h2 class="title__be--2">Sản phẩm liên quan</h2>
-						</div>
-						<div class="row mt--60">
-						{{#gt countRelatedBooks 2}}
-						<div class="productcategory__slide--2 arrows_style owl-carousel owl-theme">
-							{{#each relatedBook}}
-								{{>related this}}
-							{{/each}}
-						</div>
-						{{/gt}}
-						{{#lte countRelatedBooks 2}}
-							{{#each relatedBook}}
-								{{>related this}}
-							{{/each}}
-						{{/lte}}
+								</div>
 						</div>
 					</div>
-					{{/isnt}}
-        			</div>
-        			<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
-        				<div class="shop__sidebar">
-        					<aside class="wedget__categories poroduct--cat">
-        						 <h3 class="wedget__title">Danh mục sản phẩm</h3>
-								<ul>
-									{{#each category}}
-										<li><a href="?catid={{_id}}">{{catogory}}</a></li>
-									{{/each}}
-								</ul>
-        					</aside>
-
-        				</div>
-        			</div>
-        		</div>
-        	</div>
-        </div>
-        <!-- End main Content -->
+					<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
+						<div class="wn__sidebar">
+							<!-- Start Single Widget -->
+							<aside class="widget recent_widget">
+								<h3 class="widget-title">Recent</h3>
+								<div class="recent-posts">
+									<ul>
+										{{#each post.listImages}}
+										<li>
+											<div class="post-wrapper d-flex">
+												<div class="thumb">
+													<img src="{{this}}" alt="blog images">
+												</div>
+											</div>
+										</li>
+										{{/each}}
+									</ul>
+								</div>
+							</aside>
+							<!-- End Single Widget -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
