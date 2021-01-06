@@ -1,33 +1,43 @@
-// const { formatters } = require('debug');
-// const formidable = require('formidable');
-// const { ObjectId } = require('mongodb');
+const formidable = require('formidable');
+const { ObjectId } = require('mongodb');
 
-// const booksCollection = require('./MongooseModel/bookMongooseModel');
-// const categoryCollection = require('./MongooseModel/categoryMongooseModel');
+const postsCollection = require('./MongooseModel/postsMongooseModel');
+const categoriesCollection = require('./MongooseModel/categoriesMongooseModel');
 
-// const AllID = "5fceeb7ed1d96a1a74e255fe";
+const AllID = "5ff4814feb4a4a05dc5f4961";
 
-// function showUnsignedString(search) {
-//     var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
-//     var unsignedChars = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAADEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYY";
-//     var input = search;
-//     var pattern = new RegExp("[" + signedChars + "]", "g");
-//     var output = input.replace(pattern, function(m, key, value) {
-//         return unsignedChars.charAt(signedChars.indexOf(m));
-//     });
-//     return output;
-// }
+function showUnsignedString(search) {
+    var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
+    var unsignedChars = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAADEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYY";
+    var input = search;
+    var pattern = new RegExp("[" + signedChars + "]", "g");
+    var output = input.replace(pattern, function(m, key, value) {
+        return unsignedChars.charAt(signedChars.indexOf(m));
+    });
+    return output;
+}
+
+exports.get = async(id) => {
+    const post = await postsCollection.findOne({ _id: ObjectId(id) })
+    return post;
+}
+
+exports.listBook = async(filter, pageNumber, itemPerPage) => {
+    let posts = await postsCollection.paginate(filter, {
+        page: pageNumber,
+        limit: itemPerPage,
+    });
+    return posts;
+}
+
+exports.listCategory = async() => {
+    const categories = await categoriesCollection.find({});
+    return categories;
+}
+
 
 // exports.list = async() => {
 //     const books = await booksCollection.find({}).toArray();
-//     return books;
-// }
-
-// exports.listBook = async(filter, pageNumber, itemPerPage) => {
-//     let books = await booksCollection.paginate(filter, {
-//         page: pageNumber,
-//         limit: itemPerPage,
-//     });
 //     return books;
 // }
 
@@ -38,11 +48,6 @@
 //         sort: { qtySelled: -1 },
 //     });
 //     return books;
-// }
-
-// exports.get = async(id) => {
-//     const book = await booksCollection.findOne({ _id: ObjectId(id) })
-//     return book;
 // }
 
 // exports.checkTitle = async(title) => {
@@ -66,11 +71,6 @@
 //     }
 //     return 1;
 // };
-
-// exports.listCategory = async() => {
-//     const category = await categoryCollection.find({});
-//     return category;
-// }
 
 // exports.post = async(req) => {
 //     const txtTitle = req.txtTitle;

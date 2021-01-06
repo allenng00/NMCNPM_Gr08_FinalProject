@@ -1,26 +1,24 @@
-// const mongoose = require('mongoose');
-// const mongoosePaginate = require('mongoose-paginate-v2');
-// const { Schema } = mongoose;
-// const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+const { Schema } = mongoose;
+const { ObjectId } = require('mongodb');
 
-// const book = new Schema({
-//     title: String,
-//     cover: String,
-//     oldPrice: Number,
-//     salePrice: Number,
-//     detail: String,
-//     decription: String,
-//     isDeleted: Boolean,
-//     nameCategory: String,
-//     categoryID: ObjectId,
-//     titleUnsigned: String,
-//     status: String,
-//     comments: Array,
-//     listImages: Array,
-//     qty: Number,
-//     qtySelled: Number
-// }, { collection: 'books' });
+const post = new Schema({
+    title: String, // tên
+    author: String, // Người đăng
+    description: String, // mô tả ngắn
+    detail: String, //Chi tiết
+    cover: String, // ảnh chính
+    listImages: Array, //list ảnh phụ
+    isDeleted: Boolean, // xoá thì false, chưa xoá thì true
+    nameCategory: String, // tên phân loại
+    categoryID: ObjectId, // ID phân loại
+    titleUnsigned: String, // tên không dấu
+    status: String, // Trang thái để hiện ra home page của user (hot, nhiêu tương tác)
+    comments: Array, // Danh sách cmt
+    ownBy: String // sở hữu bởi admin or user
+}, { collection: 'Posts' });
 
-// book.plugin(mongoosePaginate);
+post.plugin(mongoosePaginate);
 
-// module.exports = mongoose.model('books', book);
+module.exports = mongoose.model('Posts', post);
