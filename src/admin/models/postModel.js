@@ -35,14 +35,36 @@ exports.listCategory = async() => {
     return categories;
 }
 
+exports.checkTitle = async(title) => {
+    const books = await postsCollection.find({});
+    for (var i in books) {
+        const titleUnsigned = books[i].titleUnsigned.toLowerCase();
+        books[i].titleUnsigned = titleUnsigned;
+        if (books[i].titleUnsigned === title)
+            return null;
+    }
+    return 1;
+};
+
+exports.checkTitle_2 = async(title, id) => {
+    const books = await postsCollection.find({ _id: { $ne: ObjectId(id) } });
+    for (var i in books) {
+        const titleUnsigned = books[i].titleUnsigned.toLowerCase();
+        books[i].titleUnsigned = titleUnsigned;
+        if (books[i].titleUnsigned === title)
+            return null;
+    }
+    return 1;
+};
+
 
 // exports.list = async() => {
-//     const books = await booksCollection.find({}).toArray();
+//     const books = await postsCollection.find({}).toArray();
 //     return books;
 // }
 
 // exports.listBookTop10 = async(filter) => {
-//     let books = await booksCollection.paginate(filter, {
+//     let books = await postsCollection.paginate(filter, {
 //         page: 1,
 //         limit: 10,
 //         sort: { qtySelled: -1 },
@@ -50,68 +72,45 @@ exports.listCategory = async() => {
 //     return books;
 // }
 
-// exports.checkTitle = async(title) => {
-//     const books = await booksCollection.find({});
-//     for (var i in books) {
-//         const titleUnsigned = books[i].titleUnsigned.toLowerCase();
-//         books[i].titleUnsigned = titleUnsigned;
-//         if (books[i].titleUnsigned === title)
-//             return null;
-//     }
-//     return 1;
-// };
 
-// exports.checkTitle_2 = async(title, id) => {
-//     const books = await booksCollection.find({ _id: { $ne: ObjectId(id) } });
-//     for (var i in books) {
-//         const titleUnsigned = books[i].titleUnsigned.toLowerCase();
-//         books[i].titleUnsigned = titleUnsigned;
-//         if (books[i].titleUnsigned === title)
-//             return null;
-//     }
-//     return 1;
-// };
 
-// exports.post = async(req) => {
-//     const txtTitle = req.txtTitle;
-//     const txtImagePath = req.txtImagePath;
-//     const txtDescription = req.txtDescription;
-//     const txtDetail = req.txtDetail;
-//     const txtOldPrice = parseInt(req.txtOldPrice);
-//     const txtSalePrice = parseInt(req.txtSalePrice);
-//     const txtTheLoai = req.txtCategory;
-//     const txtStatus = req.txtStatus;
-//     const listImages = req.txtImagePath_more;
-//     const txtQty = req.txtQty;
+exports.post = async(req) => {
+    const txtTitle = req.txtTitle;
+    const txtImagePath = req.txtImagePath;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const listImages = req.txtImagePath_more;
+    const txtAuthor = req.txtAuthor;
 
-//     const category1 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
+    const category1 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
 
-//     if (!category1) {
-//         await categoryCollection.create({
-//             nameCategory: txtTheLoai
-//         });
-//     }
+    if (!category1) {
+        await categoriesCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
 
-//     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
-//     const id_category = ObjectId(category2._id);
+    const category2 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
 
-//     await booksCollection.create({
-//         cover: txtImagePath,
-//         title: txtTitle,
-//         listImages: listImages,
-//         decription: txtDescription,
-//         detail: txtDetail,
-//         oldPrice: txtOldPrice,
-//         salePrice: txtSalePrice,
-//         isDeleted: false,
-//         nameCategory: txtTheLoai,
-//         categoryID: id_category,
-//         titleUnsigned: showUnsignedString(txtTitle),
-//         status: txtStatus,
-//         qty: txtQty,
-//         qtySelled: 0
-//     });
-// }
+    await postsCollection.create({
+        cover: txtImagePath,
+        title: txtTitle,
+        listImages: listImages,
+        descriptions: txtDescription,
+        detail: txtDetail,
+        isDeleted: false,
+        nameCategory: txtTheLoai,
+        categoryID: id_category,
+        titleUnsigned: showUnsignedString(txtTitle),
+        status: txtStatus,
+        author: txtAuthor,
+        ownBy: "admin",
+
+    });
+}
 
 // exports.update_1_1 = async(req, id, arr) => {
 //     const txtTitle = req.txtTitle;
@@ -135,7 +134,7 @@ exports.listCategory = async() => {
 //     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 //     const id_category = ObjectId(category2._id);
 
-//     await booksCollection.updateOne({ _id: ObjectId(id) }, {
+//     await postsCollection.updateOne({ _id: ObjectId(id) }, {
 //         $set: {
 //             listImages: listImages,
 //             cover: txtImagePath,
@@ -173,7 +172,7 @@ exports.listCategory = async() => {
 //     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 //     const id_category = ObjectId(category2._id);
 
-//     await booksCollection.updateOne({ _id: ObjectId(id) }, {
+//     await postsCollection.updateOne({ _id: ObjectId(id) }, {
 //         $set: {
 //             listImages: listImages,
 //             title: txtTitle,
@@ -209,7 +208,7 @@ exports.listCategory = async() => {
 //     }
 //     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 //     const id_category = ObjectId(category2._id);
-//     await booksCollection.updateOne({ _id: ObjectId(id) }, {
+//     await postsCollection.updateOne({ _id: ObjectId(id) }, {
 //         $set: {
 //             title: txtTitle,
 //             cover: txtImagePath,
@@ -243,7 +242,7 @@ exports.listCategory = async() => {
 //     }
 //     const category2 = await categoryCollection.findOne({ nameCategory: txtTheLoai });
 //     const id_category = ObjectId(category2._id);
-//     await booksCollection.updateOne({ _id: ObjectId(id) }, {
+//     await postsCollection.updateOne({ _id: ObjectId(id) }, {
 //         $set: {
 //             title: txtTitle,
 //             decription: txtDescription,
@@ -260,7 +259,7 @@ exports.listCategory = async() => {
 // }
 
 // exports.delete = async(id) => {
-//     const book = await booksCollection.findOne({ _id: ObjectId(id) });
+//     const book = await postsCollection.findOne({ _id: ObjectId(id) });
 //     await book.updateOne({
 //         isDeleted: true
 //     });
