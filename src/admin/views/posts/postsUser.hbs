@@ -28,8 +28,20 @@
         </div>
       </div><!-- /.container-fluid -->
       <div class="row container-fluid">
-          <div class="col-10">
+          <div class="col-8">
           </div>
+          <div class="dropdown show combobox_catalog ">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{nameSort}}
+                </a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="/home/posts/user/?stt=1">Tất cả</a>
+                  <a class="dropdown-item" href="/home/posts/user/?stt=2">Đợi duyệt</a>
+                  <a class="dropdown-item" href="/home/posts/user/?stt=3">Đã duyệt</a>
+                </div>
+                
+          </div>
+          
           <div class="dropdown show combobox_catalog col">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{nameCategory}}

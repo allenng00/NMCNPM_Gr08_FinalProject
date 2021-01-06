@@ -78,6 +78,8 @@ exports.renderPostsUser = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const catid = req.query.catID;
     const search = req.query.txtSearch;
+    const stt = req.query.stt;
+    var nameSort = "Tất cả";
     var filter = {};
     if (search) {
         filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
@@ -85,6 +87,16 @@ exports.renderPostsUser = async(req, res, next) => {
     if (catid) {
         if (catid != ObjectId(AllID)) {
             filter.categoryID = ObjectId(catid);
+        }
+    }
+    if (stt) {
+        if (stt === "2") {
+            filter.status2 = "Đợi duyệt";
+            nameSort = "Đợi duyệt";
+        }
+        if (stt === "3") {
+            filter.status2 = "Đã duyệt";
+            nameSort = "Đã duyệt";
         }
     }
     filter.isDeleted = false;
@@ -120,7 +132,8 @@ exports.renderPostsUser = async(req, res, next) => {
         prevPageQueryString: queryString.stringify(preQuery),
         lastPage: paginate.totalPages,
         ITEM_PER_PAGE: ITEM_PER_PAGE,
-        currentPage: paginate.page
+        currentPage: paginate.page,
+        nameSort
     });
 };
 
