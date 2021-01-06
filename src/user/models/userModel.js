@@ -24,7 +24,7 @@ exports.update_profile = async (req,id) => {
             firstName: txtFirstName,
             lastName : txtLastName,
             email : txtEmail,
-            profilePic : txtProfilePic,
+            imageProfile : txtProfilePic,
             address : txtAddress,
             phone : txtPhone,
         }
@@ -88,7 +88,7 @@ exports.getNameUser = (username)=>{
 exports.getProfilePicUser = async(username)=>{
     const user = await userCollection.findOne({username: username});
     if (user)
-        return user.profilePic;
+        return user.imageProfile;
     else 
         return null;
 }

@@ -99,9 +99,9 @@
 							</a>
 							</li>
 							{{#if user}}
-							<li class="setting__bar__icon"><a class="setting__active" title="Tài khoản của tôi">
-								{{#if user.profilePic }}
-									<img src="{{user.profilePic}}" width="30" height="30">
+							<li class="setting__bar__icon rounded-circle"><a class="setting__active" title="Tài khoản của tôi">
+								{{#if user.imageProfile }}
+									<img src="{{user.imageProfile}}" width="30" height="30" >
 								{{/if}}
 							</a>
 								<div class="searchbar__content setting__block">
@@ -109,7 +109,7 @@
 										<div class="switcher-currency">
 											
 											<strong class="label switcher-label">
-												<span>{{user.username}}</span>
+												<span><img src="{{user.imageProfile}}" width="30" height="30" > {{user.username}}</span>
 											</strong>
 											<div class="switcher-options">
 												<div class="switcher-currency-trigger">

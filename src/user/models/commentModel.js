@@ -21,7 +21,7 @@ module.exports = function Comment(oldComment){
             item = this.items[id];
             // user = await userModel.getNameUser(item.nickname);
             // if (user)
-            //     item.avatar = user.profilePic;
+            //     item.avatar = user.imageProfile;
 
            
             arr.push(item);
