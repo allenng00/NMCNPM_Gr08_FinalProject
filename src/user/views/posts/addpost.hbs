@@ -1,0 +1,104 @@
+{{!-- <form enctype="multipart/form-data" method="post">
+<div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+<div class="container pt--40 pb--55">
+    <h3 class="wedget__title">Đóng góp bài viết</h3>
+    <div class="d-flex  py-4 ">
+        <img src={{user.imageProfile}} class="img align-items-start" id="image" width="150" height="150" name="txtProfilePic">
+        <div class="pl-sm-4 pl-2" id="img-section"> 
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="firstname">Họ</label> <input type="text" name="txtFirstName" class="bg-light form-control" value="{{user.firstName}}"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="lastname">Tên</label> <input type="text" name="txtLastName" class="bg-light form-control" value="{{user.lastName}}" > </div>
+            </div>
+            <label><b>Link ảnh: </b></label>
+            <input class="form-control" name="txtProfilePic" value="{{user.imageProfile}}"></input> 
+        </div>
+    </div>
+    <div class="py-2">
+        <input class="btn button " type="file" name="txtProfilePic" onchange="readURL(this);" ></input>
+    </div>
+    <div class="py-2">
+       
+        <div class="row py-2">
+            <div class="col-md-6"> <label for="email">Email</label> <input type="text" name="txtEmail" class="bg-light form-control" value="{{user.email}}"> </div>
+            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Số điện thoại</label> <input name="txtPhone" class="bg-light form-control" value="{{user.phone}}"> </div>
+        </div>
+      
+        <div class="py-3 pb-4 border-bottom"> <a class="btn border button"  href="/" >Đổi mật khẩu</a> 
+    </div>
+        <div class="py-3 pb-4 border-bottom"> 
+            <button class="btn btn-primary mr-3" type="submit">Lưu chỉnh sửa</button> 
+            <a class="btn border button" href="/">Trở lại trang chủ</a> </div>
+    </div>
+
+</div>
+</div>
+</form> --}}
+
+<!-- Main wrapper -->
+
+<div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+    <div class="container pt--40 pb--40">
+        <h3 class="wedget__title">Đóng góp bài viết</h3>       
+        <!-- Start Contact Area -->
+        <section class="wn_contact_area bg--white pt--40 pb--40">
+            <div class="container">
+                <form id="contact-form" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-8 col-12">
+                            <div class="contact-form-wrap">
+                                <h2 class="contact__title">Nội dung bài viết</h2>
+                                <p>Điền đầy đủ thông tin cho bài viết để có một bài đóng góp thật xuất sắc nào!</p>
+                            
+                                    <div class="single-contact-form space-between">
+                                        <input type="text" name="title" placeholder="Tiêu đề bài viết*" value="{{title}}" required>
+                                        <input type="text" name="nameCategory" placeholder="Thể loại*" value="{{nameCategory}}" required>
+                                    </div>
+                                    {{!-- <div class="single-contact-form">
+                                        <input type="text" name="description" placeholder="Thêm mô tả nội dung ngắn gọn cho tiêu đề*" required>
+                                    </div> --}}
+                                    <div class="single-contact-form message">
+                                        <textarea name="description" placeholder="Thêm mô tả nội dung ngắn gọn cho tiêu đề*" required>{{description}}</textarea>
+                                    </div>
+                                    <div class="single-contact-form message">
+                                        <textarea name="detail" placeholder="Thêm nội dung chi tiết bài viết*" required>{{detail}}</textarea>
+                                    </div>
+                                    <div >
+                                        <button type="submit" class="btn btn-success" >Đóng góp bài viết</button>
+                                    </div>
+                            </div> 
+                            <div class="form-output">
+                                <p class="form-messege">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12 md-mt-40 sm-mt-40">
+                            <div class="wn__address">
+                                <h2 class="contact__title">Thêm ảnh cho bài viết</h2>
+                                <p>Một bài viết hay sẽ không thể nào thiếu được hình ảnh, hãy thêm ảnh cho bài viết nhé!</p>
+                                <div class="wn__addres__wreapper">
+                                    <div class="single__address">
+                                        <i class="far fa-image"></i>
+                                        <div class="content">
+                                            <span>Thêm ảnh bìa chính cho bài viết<span>*</span></span>
+                                            <img src={{cover}} class="img align-items-start" id="image" width="250" height="250" name="cover">
+                                            <input class="btn  button " type="file" name="cover" onchange="readURL(this);" required></input>
+                                        </div>
+                                    </div>
+
+                                    <div class="single__address pt--60">
+                                    <i class="far fa-images"></i>
+                                        <div class="content">
+                                            <span>Thêm những hình ảnh khác cho bài viết</span>
+                                            <input class="btn button " type="file" name="listImages"  multiple></input>
+                                        </div>
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- End Contact Area -->
+        <!-- //Main wrapper -->
+    </div>
+</div>

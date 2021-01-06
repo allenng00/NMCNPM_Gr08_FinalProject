@@ -14,22 +14,6 @@ exports.profile = async(req, res, next) => {
      res.render('users/profile',{title: 'Trang cá nhân'}); 
 };
 
-exports.mypost = async(req, res, next) => {
- 
-    const mypost = await postModel.list_mypost(req.user.username);
-    res.render('users/mypost',{title: 'Bài viết của tôi', mypost}); 
-};
-
-exports.addpost_page = async(req, res, next) => {
- 
-    res.render('users/addpost',{title: 'Đóng góp bài viết'}); 
-};
-
-exports.addpost = async(req, res, next) => {
- 
-    res.render('users/profile',{title: 'Profile'}); 
-};
-
 exports.update_profile = async(req, res, next) => {
     
     const form = formidable({ multiples: true });
