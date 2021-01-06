@@ -35,10 +35,6 @@ router.post('/user/comments/:id', isLogged, commentsController.add_comment);
 router.get('/admin/comments/:id/delete/:index', isLogged, commentsController.delete);
 router.get('/user/comments/:id/delete/:index', isLogged, commentsController.delete);
 
-
 //router.get('/top10', isLogged, productsController.renderTop10);
-// router.get('/delete/:id', isLogged, productsController.delete);
-
-
 
 module.exports = router;

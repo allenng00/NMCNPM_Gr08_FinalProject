@@ -2,8 +2,6 @@ const { ObjectId } = require('mongodb');
 
 const postsCollection = require('./MongooseModel/postsMongooseModel');
 
-
-
 exports.add_comment = async(id, nickname, comment) => {
     const post = await postsCollection.findOne({ _id: ObjectId(id) });
     const comments = post.comments ? post.comments : [];

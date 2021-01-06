@@ -91,7 +91,7 @@ exports.post = async(req) => {
         status: txtStatus,
         author: txtAuthor,
         ownBy: "admin",
-
+        status2: "Đã duyệt"
     });
 }
 
@@ -257,7 +257,7 @@ exports.update_1_1_2 = async(req, id, arr) => {
         titleUnsigned: showUnsignedString(txtTitle),
         status: txtStatus,
         author: txtAuthor,
-        ownBy: "admin"
+        status2: "Đã duyệt"
     })
 }
 
@@ -290,7 +290,7 @@ exports.update_1_0_2 = async(req, id, arr) => {
             titleUnsigned: showUnsignedString(txtTitle),
             status: txtStatus,
             author: txtAuthor,
-            ownBy: "admin"
+            status2: "Đã duyệt"
         }
     })
 }
@@ -324,7 +324,7 @@ exports.update_0_1_2 = async(req, id) => {
             titleUnsigned: showUnsignedString(txtTitle),
             status: txtStatus,
             author: txtAuthor,
-            ownBy: "admin"
+            status2: "Đã duyệt"
         }
     })
 }
@@ -356,7 +356,7 @@ exports.update_0_0_2 = async(req, id) => {
             titleUnsigned: showUnsignedString(txtTitle),
             status: txtStatus,
             author: txtAuthor,
-            ownBy: "admin"
+            status2: "Đã duyệt"
         }
     })
 }

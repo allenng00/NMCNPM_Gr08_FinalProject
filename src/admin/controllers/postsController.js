@@ -435,7 +435,7 @@ exports.update2 = async(req, res, next) => {
         const title = await postModel.checkTitle_2(showUnsignedString(fields.txtTitle).toLowerCase(), req.params.id);
         //const title = 1;
         if (!title) {
-            return res.render('posts/updatepostAdmin', {
+            return res.render('posts/updatepostUser', {
                 title: "Cập nhật bài viết",
                 messageTitle: "Tên sách đã tồn tại, vui lòng vào update!",
                 fade: "fade",
@@ -449,7 +449,7 @@ exports.update2 = async(req, res, next) => {
         if (listImage && listImage.length > 0) {
             for (var i in listImage) {
                 if (imageType.indexOf(listImage[i].type) === -1)
-                    return res.render('posts/updatepostAdmin', {
+                    return res.render('posts/updatepostUser', {
                         title: "Cập nhật bài viết",
                         messageImage: "Phải là file ảnh!",
                         fade: "fade",
@@ -467,11 +467,11 @@ exports.update2 = async(req, res, next) => {
                                 cloudinary.uploader.upload(coverImage.path, function(err, result) {
                                     fields.txtImagePath = result.url;
                                     postModel.update_1_1_2(fields, req.params.id).then(() => {
-                                        return res.redirect('../../admin');
+                                        return res.redirect('../../user');
                                     });
                                 });
                             } else {
-                                return res.render('posts/updatepostAdmin', {
+                                return res.render('posts/updatepostUser', {
                                     title: "Cập nhật bài viết",
                                     messageImage: "Phải là file ảnh!",
                                     fade: "fade",
@@ -480,7 +480,7 @@ exports.update2 = async(req, res, next) => {
                             }
                         } else {
                             postModel.update_1_0_2(fields, req.params.id).then(() => {
-                                return res.redirect('../../admin');
+                                return res.redirect('../../User');
                             });
                         }
                     }
@@ -497,11 +497,11 @@ exports.update2 = async(req, res, next) => {
                                 cloudinary.uploader.upload(coverImage.path, function(err, result) {
                                     fields.txtImagePath = result.url;
                                     postModel.update_1_1_2(fields, req.params.id).then(() => {
-                                        return res.redirect('../../admin');
+                                        return res.redirect('../../user');
                                     });
                                 });
                             } else {
-                                return res.render('posts/updatepostAdmin', {
+                                return res.render('posts/updatepostUser', {
                                     title: "Cập nhật bài viết",
                                     messageImage: "Phải là file ảnh!",
                                     fade: "fade",
@@ -510,13 +510,13 @@ exports.update2 = async(req, res, next) => {
                             }
                         } else {
                             postModel.update_1_0_2(fields, req.params.id).then(() => {
-                                return res.redirect('../../admin');
+                                return res.redirect('../../user');
                             });
                         }
 
                     });
                 } else {
-                    return res.render('posts/updatepostAdmin', {
+                    return res.render('posts/updatepostUser', {
                         title: "Cập nhật bài viết",
                         messageImage: "Phải là file ảnh!",
                         fade: "fade",
@@ -531,11 +531,11 @@ exports.update2 = async(req, res, next) => {
                         cloudinary.uploader.upload(coverImage.path, function(err, result) {
                             fields.txtImagePath = result.url;
                             postModel.update_0_1_2(fields, req.params.id).then(() => {
-                                return res.redirect('../../admin');
+                                return res.redirect('../../user');
                             });
                         });
                     } else {
-                        return res.render('posts/updatepostAdmin', {
+                        return res.render('posts/updatepostUser', {
                             title: "Cập nhật bài viết",
                             messageImage: "Phải là file ảnh!",
                             fade: "fade",
@@ -544,7 +544,7 @@ exports.update2 = async(req, res, next) => {
                     }
                 } else {
                     postModel.update_0_0_2(fields, req.params.id).then(() => {
-                        return res.redirect('../../admin');
+                        return res.redirect('../../user');
                     });
                 }
             }

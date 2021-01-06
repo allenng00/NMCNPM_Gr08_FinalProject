@@ -16,7 +16,8 @@ const post = new Schema({
     titleUnsigned: String, // tên không dấu
     status: String, // Trang thái để hiện ra home page của user (hot, nhiêu tương tác)
     comments: Array, // Danh sách cmt
-    ownBy: String // sở hữu bởi admin or user
+    ownBy: String, // sở hữu bởi admin or user
+    status2: String
 }, { collection: 'Posts' });
 
 post.plugin(mongoosePaginate);
