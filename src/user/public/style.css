@@ -629,17 +629,17 @@ a {
 
 /* Background Image */
 .bg-image--1 {
-  background-image: url(https://300b5338.vws.vegacdn.vn/image/img.news/0/0/0/5561.jpg?v=1&w=628&h=365&nocache=1);
+  background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/29.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center; }
 .bg-image--2 {
-  background-image: url(https://wiibook.net/wp-content/uploads/2020/03/sach-hay-ve-chien-tranh-the-gioi-thu-2-cover-780x470.png);
+  background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/8-1.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center; }
 .bg-image--3 {
-  background-image: url(https://i.pinimg.com/564x/08/6f/e2/086fe26ac5ffd26991eb28726919a10d.jpg);
+  background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/nha-dam-2-1.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center; }
@@ -1004,7 +1004,7 @@ Elements Styles
   .section__title.title--white h2.title__be--2::after {
     content: url("images/icons/icon_title3.png"); }
 .section__title h2 {
-  color: #333;
+  color: #34ad4e;
   display: block;
   font-size: 30px;
   font-weight: 700;
@@ -2917,7 +2917,7 @@ h3.widget-title-modal {
   margin-top: 20px;
 }
 .newsletter__block p {
-  color: #333;
+  color: #fcda42;
   font-size: 14px;
   line-height: 25px;
   padding: 0 60px 60px;
@@ -2940,7 +2940,7 @@ h3.widget-title-modal {
   border-radius: 0;
   border-style: none none solid;
   border-width: 0 0 1px;
-  color: #333;
+  color:  #fcda42;
   display: inline-block;
   font-size: 12px;
   height: 50px;
@@ -2952,7 +2952,7 @@ h3.widget-title-modal {
    .newsletter__block .newsletter__box button {
   background: transparent none repeat scroll 0 0;
   border: medium none;
-  color: #333;
+  color: #fcda42;
   display: inline-block;
   font-size: 14px;
   font-weight: 700;
@@ -3024,7 +3024,7 @@ h3.widget-title-modal {
   font-size: 60px;
 }
 .slide .slider__content h2 {
-  color: #3c3c3c;
+  color:  #fcda42;
   font-size: 68px;
   font-family: poppins;
   font-weight: 700;
@@ -3065,7 +3065,7 @@ h3.widget-title-modal {
   .slide .slider__content a.shopbtn:hover {
     color: #e59285; }
     .slider--15 .slide .slider__content h2 span {
-      color: #ce7852; }
+      color: #068158 ; }
   .slider--15 .slide .slider__content h1 {
     color: #3c3c3c;
     font-family: "tex_gyre_adventorbold";

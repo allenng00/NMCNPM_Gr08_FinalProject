@@ -23,27 +23,22 @@ const MongoStore = require('connect-mongo')(session);
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 
 cloudinary.config({
-  cloud_name: 'yenngan',
-  api_key: '884464388927933',
-  api_secret: 'HBBYilY1aiSYle19tC6dFJH57qI'
-})
+  cloud_name: 'dpzszugjp',
+  api_key: '163377278981499',
+  api_secret: 'mQ8tpbcRdL84rx8Azz_VtCAJRZ0'
+});
 
 
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const booksRouter = require('./routes/home');
-const listbookRouter = require('./routes/listbook');
+
+const listpostRouter = require('./routes/listpost');
 const cartRouter = require('./routes/cart');
 
 const app = express();
 app.use(bodyParser.urlencoded({'extended':false}));
 app.use(validator());
-// hbs.registerPartials(__dirname + '/views/partials');
-// hbs.registerPartial('bestseller', fs.readFileSync(__dirname + '/views/partials/bestseller.hbs', 'utf8'));
-// hbs.registerPartial('related', fs.readFileSync(__dirname + '/views/partials/related.hbs', 'utf8'));
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -99,10 +94,9 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRouter);
-//app.use('/account', indexRouter);
 app.use('/users', usersRouter);
 app.use('/home', indexRouter);
-app.use('/listbook',listbookRouter);
+app.use('/listpost',listpostRouter);
 app.use('/carts', cartRouter);
 
 // catch 404 and forward to error handler

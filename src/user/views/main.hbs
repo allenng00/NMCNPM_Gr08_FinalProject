@@ -41,7 +41,7 @@
 					<div class="col-md-6 col-sm-6 col-6 col-lg-1">
 						<div class="logo">
 							<a href="/">
-								<img src="/images/logo/logo.png" alt="logo images">
+								<img src="/images/logo/Hoc Lam Vuon.png" alt="logo images">
 							</a>
 						</div>
 					</div>
@@ -63,7 +63,24 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-6 col-lg-4">
 						<ul class="header__sidebar__right d-flex justify-content-end align-items-center">
-							<li class="shop_search"><a class="search__active" ></a></li>
+							{{!-- <li class="shop_search"><a class="search__active" ></a></li> --}}
+							<li class="nav-item ">
+								<div class="navbar-search-block">
+								<form >
+									<div class="row">
+										<div class="col-lg-1.5">
+											<button class="btn btn-navbar" type="submit" height="40" width="40">
+												<i class="fas fa-search " width="40"></i>
+											</button>
+										</div>
+										<div class="col-lg-10">
+											<input class="form-control form-control-navbar" href="/listpost/?" type="search" placeholder="Tìm kiếm bài viết" aria-label="Search" name="search" >
+										</div>
+									</div>
+								</form>
+								</div>
+               				 </li>
+							<li 
 							<li>&nbsp; &nbsp;&nbsp;&nbsp;</li>
 							<li class="shopcart"><a  href="/carts/listcart">
 							{{#if user}}
@@ -96,7 +113,7 @@
 											</strong>
 											<div class="switcher-options">
 												<div class="switcher-currency-trigger">
-													<div class="setting__menu">
+													<div class="setting__menu ">
 													
 														<span><a href="/users/profile/{{user._id}}">Tài khoản của tôi</a></span>
 														<span><a href="/users/order">Đơn hàng của tôi</a></span>
@@ -113,11 +130,11 @@
 							{{/if}}
 							{{#not user }}
 								<li>
-									<a href="/users/login"><span class="color--theme">Đăng nhập</span></a>
+									<a href="/users/login" class="btn border button btn-light"><span class="color--theme meninmenu">Đăng nhập</span></a>
 								</li>
 								&nbsp; &nbsp; &nbsp;
 								<li>
-									<a href="/users/register"><span class="color--theme">Đăng ký</span></a>
+									<a href="/users/register" class="btn border button btn-light"><span class="color--theme">Đăng ký</span></a>
 								</li>
 							{{/not}}
 						</ul>
@@ -153,22 +170,6 @@
 	            <!-- Mobile Menu -->	
 			</div>		
 		</header>
-		<!-- //Header -->
-		<!-- Start Search Popup -->
-		<div class="brown--color box-search-content search_active block-bg close__top">
-			<form id="search_mini_form" class="minisearch" action="/listbook?search={{nameSearch}}">
-				<div class="field__search">
-					<input type="text" name="search"  placeholder="Tìm sản phẩm">
-					<div class="action">
-						<a href="/listbook?search={{nameSearch}}"><i class="zmdi zmdi-search"></i></a>
-					</div>
-				</div>
-			</form>
-			<div class="close__wrap">
-				<span>close</span>
-			</div>
-		</div>
-		<!-- End Search Popup -->
        
 		<!-- Start BEst Seller Area -->
 		{{{body}}}
