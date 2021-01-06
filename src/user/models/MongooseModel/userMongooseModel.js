@@ -1,21 +1,19 @@
 const mongoose = require('mongoose');
-const { stringify } = require('query-string');
-const {Schema} = mongoose;
+const { Schema } = mongoose;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
-const user = new Schema(
-{
-    firstName: String,
-    lastName: String,
+
+const user = new Schema({
+    name: String,
     username: String,
-    email: String,
     password: String,
-    phone: String,
     address: String,
-    profilePic: String,
-    cart: Object, 
+    email: String,
+    phone: String,
+    imageProfile: String,
     status: String
-},
-  {collection: 'Users'}
-  );
+}, { collection: 'Users' });
 
-  module.exports = mongoose.model('Users', user);
+user.plugin(mongoosePaginate);
+
+module.exports = mongoose.model('Users', user);
