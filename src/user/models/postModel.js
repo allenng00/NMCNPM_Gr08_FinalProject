@@ -16,8 +16,6 @@ function showUnsignedString(search) {
 }
 // lấy ra danh sách thể loại bài viết
 exports.listcategory = async () => {
-    //console.log('model db');
-    //const postsCollection = db().collection('Posts');
     const cat = await categoryCollection.find({});
     return cat;
 }
@@ -36,7 +34,7 @@ exports.getlistcatID = async (listcategory) =>{
 // lấy tên của 1 thể loại thông qua id
 exports.get_name_cat = async (id) => {
     const nameCat = await categoryCollection.findOne({_id: ObjectId(id)});
-    return nameCat.catogory;
+    return nameCat.nameCategory;
 }
 
 // lấy tên của 1 thể loại thông qua name
@@ -53,11 +51,12 @@ exports.list = async () => {
 }
 
 // danh sách các bài viết sau khi filter, paging
-exports.listpost = async (filter, pageNumber, itemPerPage) => {
-    //const postsCollection = db().collection('posts');
+exports.listpost = async (filter, pageNumber, itemPerPage, sort) => {
+    const sortOrderArr = [1,-1];
     let posts = await postsCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
+        sort: {unsigned_title: sortOrderArr[sort]}
     });
     return posts;
 }

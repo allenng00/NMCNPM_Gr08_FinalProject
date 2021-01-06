@@ -22,7 +22,10 @@ function showUnsignedString(search) {
 exports.index = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const search = req.query.search;
-    var nameCat =  "Thể loại";
+    const sort= parseInt(req.query.sort) || 0;
+    const nameSortArr = ["Từ A->Z", "Từ Z->A"];
+
+    var nameCat;
     var catid = req.query.catid;
 
 
@@ -34,34 +37,63 @@ exports.index = async (req, res, next) => {
     if (tmp_nameCat)
        nameCat = tmp_nameCat;
 
-    const filter = {};
+    var filter = {isDeleted: false, status2: "Đã duyệt" };
+
+    console.log(nameCat);
 
     if (catid)
     {
         if (nameCat != "Tất cả")
-            filter.catID = ObjectId(catid);
+        {
+            if (search)
+            {
+                const searchval = new RegExp(search, 'i');
+                const searchval1 = new RegExp(showUnsignedString(search), 'i');
+                filter = {$or: [
+                                {title: searchval }, 
+                                {detail: searchval}, 
+                                {description: searchval},
+                                {titleUnsigned: searchval1 }],
+                                categoryID: ObjectId(catid), isDeleted: false, status2: "Đã duyệt"};
+            }
+            else
+                filter = {categoryID: ObjectId(catid), isDeleted: false, status2: "Đã duyệt"};
+        }  
+        else
+        {
+            if (search)
+            {
+                const searchval = new RegExp(search, 'i');
+                const searchval1 = new RegExp(showUnsignedString(search), 'i');
+                filter = {$or: [
+                                {title: searchval }, 
+                                {detail: searchval}, 
+                                {description: searchval},
+                                {titleUnsigned: searchval1 }],
+                                isDeleted: false, status2: "Đã duyệt"};
+            }
+            
+        }        
     }
-    if (search)
+    else
     {
-        filter.unsigned_title= new RegExp(showUnsignedString(search), 'i');
+        if (search)
+        {
+            const searchval = new RegExp(search, 'i');
+            const searchval1 = new RegExp(showUnsignedString(search), 'i');
+            filter = {$or: [
+                            {title: searchval }, 
+                            { detail: searchval}, 
+                            {description: searchval},
+                            {titleUnsigned: searchval1 }],
+                            isDeleted: false, status2: "Đã duyệt"};
+        }
     }
-
-    filter.isDeleted =  false;
     
-    const paginate = await postModel.listpost(filter,page,item_per_page);
+    const paginate = await postModel.listpost(filter,page,item_per_page, sort);
     const category =  await postModel.listcategory();
-    //const listcatID = await postModel.getlistcatID(category);
-
-    // const querystring = buildUrl('', {
-    //     path: 'listpost',
-    //     queryParams: {
-    //       catID: 'id',
-    //       id: listcatID
-    //     }
-    //   });
     const prevPageQueryString = {...req.query, page:paginate.prevPage};
     const nextPageQueryString = {...req.query, page:paginate.nextPage};
-    // const catQueryString = { }
     
     res.render('./posts/listpost', {
         title: "Sách",
@@ -69,6 +101,7 @@ exports.index = async (req, res, next) => {
         totalPosts: paginate.totalDocs,
         category,
         nameCat,
+        nameSort: nameSortArr[sort],
         catID,
         nameSearch: search,
         hasNextPage: paginate.hasNextPage,
@@ -80,8 +113,8 @@ exports.index = async (req, res, next) => {
         lastPage: paginate.totalPages,
         ITEM_PER_PAGE: item_per_page,
         currentPage: paginate.page,
-        //querystring: querystring
-    })};
+    });
+};
 
 
 exports.detail = async (req, res, next) => {
@@ -113,6 +146,34 @@ exports.detail = async (req, res, next) => {
   
 };
 
+exports.detail_mypost = async (req, res, next) => {
+    const category =  await postModel.listcategory();
+    const postID = req.params.id;
+    const post = await postModel.get(postID);
+    const postCat = await postModel.get_name_cat(post.catID);
+    const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
+    const comment = post.comment ? post.comment:[];
+    var avatar;
+    for (id in comment)
+    {
+        avatar = await userModel.getProfilePicUser(comment[id].nickname);
+        if (avatar)
+            comment[id].avatar = avatar;
+    }
+    
+    res.render('./posts/detail', 
+    {   
+        title: "Chi tiết",
+        category,
+        post,
+        postCat,
+        relatedPost,
+        countRelatedPosts: relatedPost.length,
+        comment,
+        show_active_1: "show active"
+    });
+  
+};
 
 exports.mypost = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
@@ -126,7 +187,7 @@ exports.mypost = async(req, res, next) => {
         filter.status2 = nameStatus[status];
     }
 
-    const paginate = await postModel.listpost(filter,page,item_per_page);  
+    const paginate = await postModel.listpost(filter,page,item_per_page,0);  
     const prevPageQueryString = {...req.query, page:paginate.prevPage};
     const nextPageQueryString = {...req.query, page:paginate.nextPage};
     
