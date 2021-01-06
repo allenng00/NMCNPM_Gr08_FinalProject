@@ -15,6 +15,7 @@ const post = new Schema({
     categoryID: ObjectId, // ID phân loại
     titleUnsigned: String, // tên không dấu
     status: String, // Trang thái để hiện ra home page của user (hot, nhiêu tương tác)
+    status2: String, // trang thái duyệt, chưa duyệt
     comments: Array, // Danh sách cmt
     ownBy: String // sở hữu bởi admin or user
 }, { collection: 'Posts' });

@@ -127,26 +127,117 @@ exports.addpost_page = async(req, res, next) => {
 
 exports.addpost = async(req, res, next) => {
  
-    const {title, nameCategory, description, detail, cover } = req.body;
+    const {txtTitle , nameCategory, description, detail} = req.body;
     const category = await postModel.get_name_category(nameCategory);
-    if (category)
-    {
-        
-        await postModel.add_post(req, catID);
-        res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công"}); 
-    }
-    else
-    {
-        
-        res.render('posts/addpost',{
-            title: 'Đóng góp bài viết', 
-            messageError: "Thể loại không tồn tại",
-            title,
-            nameCategory,
-            description,
-            detail,
-            cover
-        }); 
-    }
+
+    const form = formidable({ multiples: true });
+    var arr = [];
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        if (category)
+        {
+            // do nothing
+        }
+        else
+        {           
+            return res.render('posts/addpost',{
+                title: 'Đóng góp bài viết', 
+                messageError: "Thể loại không tồn tại",
+                txtTitle,
+                nameCategory,
+                description,
+                detail,
+                cover
+            }); 
+        }
+
+        // kiểm tra ảnh
+        const coverImage = files.cover;
+        const listImages = files.listImages;
+        const imageType = ["image/png", "image/jpeg"];
+
+        if (imageType.indexOf(coverImage.type) >=0 )  // cover là 1 ảnh
+        {
+            cloudinary.uploader.upload(coverImage.path,function(err, result)
+            {
+                fields.cover = result.url;
+                if (listImages) // có ảnh thêm
+                {
+                    if (listImages.size > 0 && imageType.indexOf(listImages.type)>=0 ) // chỉ thêm 1 ảnh
+                    {
+                        cloudinary.uploader.upload(listImages.path, function(err, result)
+                        {
+                            fields.listImages = result.url;
+                            postModel.add_post(fields).then(()=> {
+                                return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công"});
+                            });
+                            
+                        });
+                    }
+                    else if (listImages.length > 0) //thêm 1 mảng
+                    {
+                         // phát hiện 1 file không phải ảnh
+                        for (var index in listImages)
+                        if (imageType.indexOf(listImages[index].type) === -1 )
+                            return res.render('posts/addpost',{
+                                title: "Đóng góp bài viết", 
+                                messageError: "Chỉ được chọn ảnh",
+                                txtTitle, description, 
+                                detail, nameCategory
+                            });
+
+                        // mảng toàn file ảnh
+                        for (var index in listImages)
+                        {
+                            cloudinary.uploader.upload(listImages[index].path,function(err,result){                   
+                                arr.push(result.url);
+                            }).then(() => { 
+                                if (arr.length === listImages.length)
+                                {                                   
+                                    fields.listImages = arr;
+                                    postModel.add_post(fields).then(()=>{
+                                        return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công"});
+                                    })
+                                }
+                            
+                            });
+                                            
+                        }
+                    
+                    }                  
+                    else // chỉ 1 file nhưng ko phải file ảnh
+                    {
+                        return res.render('posts/addpost',{
+                            title: "Đóng góp bài viết", 
+                            messageError: "Chỉ được chọn ảnh",
+                            txtTitle, description, 
+                            detail, nameCategory
+                        });
+                    }
+                }
+                else // ko có ảnh thêm
+                {
+                    postModel.add_post(fields).then(()=> {
+                        return res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công"});
+                });
+                }
+            });
+                
+        }
+        else // ko phải ảnh
+        {
+            return res.render('posts/addpost',{
+                title: "Đóng góp bài viết", 
+                messageError: "Chỉ được chọn ảnh",
+                txtTitle, description, 
+                detail, nameCategory
+            });
+        }
+      
+    });
     
 };

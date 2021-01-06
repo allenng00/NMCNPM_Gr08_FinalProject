@@ -42,6 +42,20 @@
         <!-- Start Contact Area -->
         <section class="wn_contact_area bg--white pt--40 pb--40">
             <div class="container">
+                 <div class="row">
+                     <div class="col">
+                         {{#if messageSuccess}}
+                            <div class="alert alert-success">
+                                {{messageSuccess}}
+                            </div>
+                         {{/if}}
+                         {{#if messageError}}
+                            <div class="alert alert-danger">
+                                {{messageError}}
+                            </div>
+                         {{/if}}
+                     </div>
+                 </div>
                 <form id="contact-form" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-8 col-12">
@@ -50,7 +64,7 @@
                                 <p>Điền đầy đủ thông tin cho bài viết để có một bài đóng góp thật xuất sắc nào!</p>
                             
                                     <div class="single-contact-form space-between">
-                                        <input type="text" name="title" placeholder="Tiêu đề bài viết*" value="{{title}}" required>
+                                        <input type="text" name="txtTitle" placeholder="Tiêu đề bài viết*" value="{{txtTitle}}" required>
                                         <input type="text" name="nameCategory" placeholder="Thể loại*" value="{{nameCategory}}" required>
                                     </div>
                                     {{!-- <div class="single-contact-form">

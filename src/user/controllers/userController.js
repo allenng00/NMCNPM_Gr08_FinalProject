@@ -23,6 +23,8 @@ exports.update_profile = async(req, res, next) => {
           return;
         }
         const coverImage = files.txtProfilePic;
+        const imageType = ["image/png", "image/jpeg"];
+        
         if (coverImage && coverImage.size > 0) 
         {
             if (imageType.indexOf(coverImage.type) >=0 )  

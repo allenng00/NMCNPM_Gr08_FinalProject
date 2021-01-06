@@ -92,7 +92,9 @@ exports.add_comment = async (id, cmt) => {
 // đóng góp bài viết
 exports.add_post = async (req) => {
 
-    const {title, nameCategory, description, detail, cover, listImages } = req.body;
+    const {title, nameCategory, description, detail, cover, listImages } = req;
+    const catID = await categoryCollection.findOne({nameCategory: nameCategory})._id;
+
     await postsCollection.create({
         cover: cover,
         title: title,
@@ -101,7 +103,7 @@ exports.add_post = async (req) => {
         detail: detail,
         isDeleted: false,
         nameCategory: nameCategory,
-        categoryID: id_category,
+        categoryID: catID,
         titleUnsigned: showUnsignedString(title),
         author: req.user.username,
     });
