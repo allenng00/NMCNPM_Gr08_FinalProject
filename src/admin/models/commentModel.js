@@ -22,3 +22,9 @@ exports.delete = async(id, index) => {
         comments: comments
     })
 }
+
+exports.listComment = async(id, page, perPage) => {
+    const arr_comment = await postsCollection.findOne({ _id: ObjectId(id) }).select("comments");
+    const comments = arr_comment.comments.slice(perPage * (page - 1), perPage * page);
+    return comments;
+}
