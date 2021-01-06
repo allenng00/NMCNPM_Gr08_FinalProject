@@ -3,6 +3,7 @@ const fs = require('fs');
 const formidable = require('formidable');
 const cloudinary = require('cloudinary').v2;
 const fileupload = require('express-fileupload');
+const postMongooseModel = require('../models/MongooseModel/postMongooseModel');
 
 exports.index = (req, res, next) => {
     res.render('users/login',{title: 'Đăng Nhập'});
@@ -10,7 +11,23 @@ exports.index = (req, res, next) => {
 
 exports.profile = async(req, res, next) => {
  
-     res.render('users/profile',{title: 'Profile'}); 
+     res.render('users/profile',{title: 'Trang cá nhân'}); 
+};
+
+exports.mypost = async(req, res, next) => {
+ 
+    const mypost = await postModel.list_mypost(req.user.username);
+    res.render('users/mypost',{title: 'Bài viết của tôi', mypost}); 
+};
+
+exports.addpost_page = async(req, res, next) => {
+ 
+    res.render('users/addpost',{title: 'Đóng góp bài viết'}); 
+};
+
+exports.addpost = async(req, res, next) => {
+ 
+    res.render('users/profile',{title: 'Profile'}); 
 };
 
 exports.update_profile = async(req, res, next) => {
@@ -22,23 +39,30 @@ exports.update_profile = async(req, res, next) => {
           return;
         }
         const coverImage = files.txtProfilePic;
-        if (coverImage && coverImage.size > 0) {
-            // const filename = coverImage.path.split('\\').pop() + '.' + coverImage.name.split('.').pop();
-            // fs.renameSync(coverImage.path, process.env.USER_IMAGE_FOLDER + '\\' + filename);
-            // fields.txtProfilePic =  '\\images\\users\\' + filename;
+        if (coverImage && coverImage.size > 0) 
+        {
+            if (imageType.indexOf(coverImage.type) >=0 )  
+            {
+
             cloudinary.uploader.upload(coverImage.path,function(err, result){
                 fields.txtProfilePic = result.url;
                 userModel.update_profile(fields,req.params.id).then(()=>{
                     res.redirect('../../');
                     });
             });
+            }
+            else
+                userModel.update_profile(fields,req.params.id).then(()=>{
+                res.redirect('../../');
+                });
+
         }
-        //  // Update books from model
-        // console.log(tmp);
-        // userModel.update_profile(fields,ID).then(()=>{
-        // res.redirect('../../');
-        // });
-        
+        else
+        {
+            userModel.update_profile(fields,req.params.id).then(()=>{
+                res.redirect('../../');
+                });
+        }
       });
 };
 

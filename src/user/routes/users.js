@@ -39,6 +39,11 @@ router.post('/register', userController.addUser);
 router.get('/profile/:id', checkAuthentication, userController.profile);
 router.post('/profile/:id', userController.update_profile);
 
+router.get('/mypost', checkAuthentication, userController.mypost);
+
+router.get('/addpost', checkAuthentication, userController.addpost_page);
+router.post('/addpost', userController.addpost);
+
 router.get('/logout', checkAuthentication, function(req,res,next){
   req.logout();
   res.redirect('/');
