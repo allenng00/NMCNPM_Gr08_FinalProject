@@ -117,7 +117,7 @@ exports.renderPostsUser = async(req, res, next) => {
         id_category = "";
     }
     res.render('./posts/postsUser', {
-        title: 'Bài viết admin',
+        title: 'Bài viết user',
         posts: paginate.docs,
         category: category,
         id_category: id_category,
