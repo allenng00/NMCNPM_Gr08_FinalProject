@@ -1,0 +1,72 @@
+<head>
+
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+            <link rel='stylesheet' href='/style.css'/>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data">
+       <h1 id="title">Cập nhật bài viết</h1>
+
+        <div class="container">
+            
+            <label><b >Tên bài viết (*)</b></label>
+                <input  type="text" name="txtTitle" placeholder="Nhập tên bài viết" value="{{post.title}}" required>
+                {{#if messageTitle}}
+                                        <div class="alert alert-danger">
+                                            {{messageTitle}}
+                                        </div>
+                                    {{/if}}
+
+                <label><b>Link ảnh (*)</b></label>
+                <input type="text" name="txtImagePath" placeholder="Nhập link ảnh hoặc upload" value="{{post.cover}}">
+                <input class="form-control-file" name="txtImagePath" type="file" accept="image/*" value="{{post.cover}}">
+                <br>
+
+                <label><b>Link ảnh thêm </b></label>
+                <input type="text" name="txtImagePath_more" placeholder="Upload" value="{{post.listImages}}">
+                <input class="form-control-file" name="txtImagePath_more" type="file" value={{post.listImages}} accept="image/*" multiple>
+                <br>
+
+               {{#if messageImage}}
+                                        <div class="alert alert-danger">
+                                            {{messageImage}}
+                                        </div>
+                                    {{/if}}
+                <label><b>Người đăng (*)</b></label>
+                <input type="text" name="txtAuthor" placeholder="Nhập người đăng" value="{{post.author}}" required>
+
+                <label><b>Mô tả ngắn (*)</b></label>
+                <input type="text" name="txtDescription" placeholder="Nhập mô tả ngắn" value="{{post.descriptions}}" required>
+
+                <label><b>Chi tiết (*)</b></label>
+                <textarea class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea>
+                <br>
+
+                <label><b>Thể loại (*)</b></label>
+                <input type="text" name="txtCategory" placeholder="Nhập phân loại" value="{{post.nameCategory}}" required>
+
+                <label><b>Trạng thái </b></label>
+                <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{post.status}}"> 
+            
+            <div class="row">
+                 <div class="col-lg-2">
+                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/posts/admin"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</a>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="drop with--one--item btn-add btn btn-info btn-lg">Duyệt</button>
+
+                </div>
+                <div class="col-2">
+                    <a class="drop with--one--item btn-delete btn btn-secondary btn-lg" href="/home/posts/admin/delete/{{post._id}}">Delete</a>
+                </div>
+
+            </div>
+        </div>
+        
+
+    </form>
+</body>

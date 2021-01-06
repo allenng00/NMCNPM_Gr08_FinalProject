@@ -19,6 +19,22 @@ exports.renderComment = async(req, res, next) => {
     res.render('./posts/comments', { title: 'Danh sách bình luận', comments: comments });
 };
 
+exports.renderComment2 = async(req, res, next) => {
+    const post = await postModel.get(req.params.id);
+    const comments = post.comments ? post.comments : [];
+    for (var i in comments) {
+        const admin = await adminModel.getUsername(comments[i].nickname);
+        const user = await userModel.getUsername(comments[i].nickname);
+        if (user)
+            comments[i].imagePath = user.imageProfile;
+        if (admin)
+            comments[i].imagePath = admin.imageProfile;
+    }
+    for (var i in comments)
+        comments[i].postID = post._id;
+    res.render('./posts/comments2', { title: 'Danh sách bình luận', comments: comments });
+};
+
 exports.add_comment = async(req, res, next) => {
 
     const nickname = req.user.username;

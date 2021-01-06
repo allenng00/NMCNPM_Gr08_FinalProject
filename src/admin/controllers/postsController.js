@@ -290,6 +290,11 @@ exports.renderUpdatePost = async(req, res, next) => {
     res.render('./posts/updatepostAdmin', { post, title: 'Cập nhật sản phẩm', fade: "fade" });
 };
 
+exports.renderUpdatePost2 = async(req, res, next) => {
+    const post = await postModel.get(req.params.id);
+    res.render('./posts/updatepostUser', { post, title: 'Cập nhật sản phẩm', fade: "fade" });
+};
+
 exports.update = async(req, res, next) => {
     const form = formidable({ multiples: true });
     const post = await postModel.get(req.params.id);
@@ -419,12 +424,139 @@ exports.update = async(req, res, next) => {
     });
 };
 
-// exports.delete = async(req, res, next) => {
-//     // Get books from model
-//     await postModel.delete(req.params.id);
-//     // Pass data to view to display list of books
-//     res.redirect('../../products');
-// };
+exports.update2 = async(req, res, next) => {
+    const form = formidable({ multiples: true });
+    const post = await postModel.get(req.params.id);
+    form.parse(req, async(err, fields, files) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        const title = await postModel.checkTitle_2(showUnsignedString(fields.txtTitle).toLowerCase(), req.params.id);
+        //const title = 1;
+        if (!title) {
+            return res.render('posts/updatepostAdmin', {
+                title: "Cập nhật bài viết",
+                messageTitle: "Tên sách đã tồn tại, vui lòng vào update!",
+                fade: "fade",
+                post,
+            });
+        }
+        const imageType = ["image/png", "image/jpeg"];
+        const coverImage = files.txtImagePath;
+        const listImage = files.txtImagePath_more;
+        const arr = [];
+        if (listImage && listImage.length > 0) {
+            for (var i in listImage) {
+                if (imageType.indexOf(listImage[i].type) === -1)
+                    return res.render('posts/updatepostAdmin', {
+                        title: "Cập nhật bài viết",
+                        messageImage: "Phải là file ảnh!",
+                        fade: "fade",
+                        post,
+                    });
+            }
+            for (var i in listImage) {
+                cloudinary.uploader.upload(listImage[i].path, function(err, result) {
+                    arr.push(result.url);
+                }).then(() => {
+                    if (arr.length === listImage.length) {
+                        fields.txtImagePath_more = arr;
+                        if (coverImage && coverImage.size > 0) {
+                            if (imageType.indexOf(coverImage.type) >= 0) {
+                                cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                                    fields.txtImagePath = result.url;
+                                    postModel.update_1_1_2(fields, req.params.id).then(() => {
+                                        return res.redirect('../../admin');
+                                    });
+                                });
+                            } else {
+                                return res.render('posts/updatepostAdmin', {
+                                    title: "Cập nhật bài viết",
+                                    messageImage: "Phải là file ảnh!",
+                                    fade: "fade",
+                                    post,
+                                });
+                            }
+                        } else {
+                            postModel.update_1_0_2(fields, req.params.id).then(() => {
+                                return res.redirect('../../admin');
+                            });
+                        }
+                    }
+                });
+            }
+        } else {
+            if (listImage && listImage.size > 0) {
+                if (imageType.indexOf(listImage.type) >= 0) {
+                    cloudinary.uploader.upload(listImage.path, function(err, result) {
+                        fields.txtImagePath_more = result.url;
+                    }).then(() => {
+                        if (coverImage && coverImage.size > 0) {
+                            if (imageType.indexOf(coverImage.type) >= 0) {
+                                cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                                    fields.txtImagePath = result.url;
+                                    postModel.update_1_1_2(fields, req.params.id).then(() => {
+                                        return res.redirect('../../admin');
+                                    });
+                                });
+                            } else {
+                                return res.render('posts/updatepostAdmin', {
+                                    title: "Cập nhật bài viết",
+                                    messageImage: "Phải là file ảnh!",
+                                    fade: "fade",
+                                    post,
+                                });
+                            }
+                        } else {
+                            postModel.update_1_0_2(fields, req.params.id).then(() => {
+                                return res.redirect('../../admin');
+                            });
+                        }
+
+                    });
+                } else {
+                    return res.render('posts/updatepostAdmin', {
+                        title: "Cập nhật bài viết",
+                        messageImage: "Phải là file ảnh!",
+                        fade: "fade",
+                        post,
+                    });
+                }
+
+
+            } else {
+                if (coverImage && coverImage.size > 0) {
+                    if (imageType.indexOf(coverImage.type) >= 0) {
+                        cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                            fields.txtImagePath = result.url;
+                            postModel.update_0_1_2(fields, req.params.id).then(() => {
+                                return res.redirect('../../admin');
+                            });
+                        });
+                    } else {
+                        return res.render('posts/updatepostAdmin', {
+                            title: "Cập nhật bài viết",
+                            messageImage: "Phải là file ảnh!",
+                            fade: "fade",
+                            post,
+                        });
+                    }
+                } else {
+                    postModel.update_0_0_2(fields, req.params.id).then(() => {
+                        return res.redirect('../../admin');
+                    });
+                }
+            }
+        }
+        // Get books from model
+    });
+};
+
+exports.delete = async(req, res, next) => { //     // Get books from model
+    await postModel.delete(req.params.id); //     // Pass data to view to display list of books
+    res.redirect('../../products');
+};
 
 // exports.renderTop10 = async(req, res, next) => {
 //     const filter = {};

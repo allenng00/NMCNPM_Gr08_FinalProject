@@ -194,6 +194,7 @@ exports.update_0_1 = async(req, id) => {
         }
     })
 }
+
 exports.update_0_0 = async(req, id) => {
     const txtTitle = req.txtTitle;
     const txtDescription = req.txtDescription;
@@ -221,6 +222,141 @@ exports.update_0_0 = async(req, id) => {
             titleUnsigned: showUnsignedString(txtTitle),
             status: txtStatus,
             author: txtAuthor,
+        }
+    })
+}
+
+exports.update_1_1_2 = async(req, id, arr) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const txtAuthor = req.txtAuthor;
+
+    const txtImagePath = req.txtImagePath;
+    const listImages = req.txtImagePath_more;
+
+    const category1 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoriesCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+
+    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+        cover: txtImagePath,
+        title: txtTitle,
+        listImages: listImages,
+        descriptions: txtDescription,
+        detail: txtDetail,
+        nameCategory: txtTheLoai,
+        categoryID: id_category,
+        titleUnsigned: showUnsignedString(txtTitle),
+        status: txtStatus,
+        author: txtAuthor,
+        ownBy: "admin"
+    })
+}
+
+exports.update_1_0_2 = async(req, id, arr) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const txtAuthor = req.txtAuthor;
+    const listImages = req.txtImagePath_more;
+
+    const category1 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoriesCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+
+    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            title: txtTitle,
+            listImages: listImages,
+            descriptions: txtDescription,
+            detail: txtDetail,
+            nameCategory: txtTheLoai,
+            categoryID: id_category,
+            titleUnsigned: showUnsignedString(txtTitle),
+            status: txtStatus,
+            author: txtAuthor,
+            ownBy: "admin"
+        }
+    })
+}
+
+exports.update_0_1_2 = async(req, id) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const txtAuthor = req.txtAuthor;
+    const txtImagePath = req.txtImagePath;
+
+    const category1 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoriesCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+
+    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            title: txtTitle,
+            cover: txtImagePath,
+            descriptions: txtDescription,
+            detail: txtDetail,
+            nameCategory: txtTheLoai,
+            categoryID: id_category,
+            titleUnsigned: showUnsignedString(txtTitle),
+            status: txtStatus,
+            author: txtAuthor,
+            ownBy: "admin"
+        }
+    })
+}
+
+exports.update_0_0_2 = async(req, id) => {
+    const txtTitle = req.txtTitle;
+    const txtDescription = req.txtDescription;
+    const txtDetail = req.txtDetail;
+    const txtTheLoai = req.txtCategory;
+    const txtStatus = req.txtStatus;
+    const txtAuthor = req.txtAuthor;
+
+    const category1 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    if (!category1) {
+        await categoriesCollection.create({
+            nameCategory: txtTheLoai
+        });
+    }
+    const category2 = await categoriesCollection.findOne({ nameCategory: txtTheLoai });
+    const id_category = ObjectId(category2._id);
+
+    await postsCollection.updateOne({ _id: ObjectId(id) }, {
+        $set: {
+            title: txtTitle,
+            descriptions: txtDescription,
+            detail: txtDetail,
+            nameCategory: txtTheLoai,
+            categoryID: id_category,
+            titleUnsigned: showUnsignedString(txtTitle),
+            status: txtStatus,
+            author: txtAuthor,
+            ownBy: "admin"
         }
     })
 }

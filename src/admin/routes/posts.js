@@ -23,16 +23,22 @@ router.post('/admin/addpost', postsController.add);
 router.get('/admin/update/:id', isLogged, postsController.renderUpdatePost);
 router.post('/admin/update/:id', postsController.update);
 
+router.get('/user/update/:id', isLogged, postsController.renderUpdatePost2);
+router.post('/user/update/:id', postsController.update2);
+
 router.get('/admin/comments/:id', isLogged, commentsController.renderComment);
 router.post('/admin/comments/:id', isLogged, commentsController.add_comment);
 
-router.get('/user/comments/:id', isLogged, commentsController.renderComment);
+router.get('/user/comments/:id', isLogged, commentsController.renderComment2);
+router.post('/user/comments/:id', isLogged, commentsController.add_comment);
+
+router.get('/admin/comments/:id/delete/:index', isLogged, commentsController.delete);
+router.get('/user/comments/:id/delete/:index', isLogged, commentsController.delete);
 
 
 //router.get('/top10', isLogged, productsController.renderTop10);
 // router.get('/delete/:id', isLogged, productsController.delete);
 
-// router.get('/comments/:id/delete/:index', isLogged, commentsController.delete);
 
 
 module.exports = router;
