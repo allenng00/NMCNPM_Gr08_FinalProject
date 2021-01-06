@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 const post = new Schema({
     title: String, // tên
     author: String, // Người đăng
-    description: String, // mô tả ngắn
+    descriptions: String, // mô tả ngắn
     detail: String, //Chi tiết
     cover: String, // ảnh chính
     listImages: Array, //list ảnh phụ

@@ -3,6 +3,17 @@ const postsCollection = require('./MongooseModel/postMongooseModel');
 const categoryCollection = require ('./MongooseModel/categoryMongooseModel');
 const postMongooseModel = require('./MongooseModel/postMongooseModel');
 
+
+function showUnsignedString(search) {
+    var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
+    var unsignedChars = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAADEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYY";
+    var input = search;
+    var pattern = new RegExp("[" + signedChars + "]", "g");
+    var output = input.replace(pattern, function(m, key, value) {
+        return unsignedChars.charAt(signedChars.indexOf(m));
+    });
+    return output;
+}
 // lấy ra danh sách thể loại bài viết
 exports.listcategory = async () => {
     //console.log('model db');
@@ -31,7 +42,7 @@ exports.get_name_cat = async (id) => {
 // lấy tên của 1 thể loại thông qua name
 exports.get_name_category = async (category) => {
     const nameCat = await categoryCollection.findOne({nameCategory: category});
-    return nameCat._id;
+    return nameCat;
 }
 
 // lấy danh sách các bài viết
@@ -90,21 +101,23 @@ exports.add_comment = async (id, cmt) => {
 }
 
 // đóng góp bài viết
-exports.add_post = async (req) => {
+exports.add_post = async (req, username) => {
 
-    const {title, nameCategory, description, detail, cover, listImages } = req;
-    const catID = await categoryCollection.findOne({nameCategory: nameCategory})._id;
-
+    const {txtTitle, nameCategory, description, detail, cover, listImages } = req;
+    const cat = await categoryCollection.findOne({nameCategory: nameCategory});
+    const catID = cat._id;
     await postsCollection.create({
         cover: cover,
-        title: title,
+        title: txtTitle,
         listImages: listImages,
         descriptions: description,
         detail: detail,
         isDeleted: false,
         nameCategory: nameCategory,
-        categoryID: catID,
-        titleUnsigned: showUnsignedString(title),
-        author: req.user.username,
+        categoryID: ObjectId(catID),
+        titleUnsigned: showUnsignedString(txtTitle),
+        author: username,
+        status2: "Đợi duyệt",
+        ownBy: "user"
     });
 }
