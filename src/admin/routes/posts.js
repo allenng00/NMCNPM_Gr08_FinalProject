@@ -18,8 +18,8 @@ router.get('/admin/addpost', isLogged, postsController.renderAddPost);
 router.post('/admin/addpost', postsController.add);
 
 
-//router.get('/admin/update/:id', isLogged, postsController.renderUpdatePost);
-//router.post('/admin/update/:id', postsController.update);
+router.get('/admin/update/:id', isLogged, postsController.renderUpdatePost);
+router.post('/admin/update/:id', postsController.update);
 
 //router.get('/top10', isLogged, productsController.renderTop10);
 // router.get('/delete/:id', isLogged, productsController.delete);
