@@ -28,6 +28,12 @@ exports.get_name_cat = async (id) => {
     return nameCat.catogory;
 }
 
+// lấy tên của 1 thể loại thông qua name
+exports.get_name_category = async (category) => {
+    const nameCat = await categoryCollection.findOne({nameCategory: category});
+    return nameCat._id;
+}
+
 // lấy danh sách các bài viết
 exports.list = async () => {
     console.log('model db');
@@ -81,4 +87,22 @@ exports.add_comment = async (id, cmt) => {
         {_id: ObjectId(id)},
         {comment: cmt}
     )
+}
+
+// đóng góp bài viết
+exports.add_post = async (req) => {
+
+    const {title, nameCategory, description, detail, cover, listImages } = req.body;
+    await postsCollection.create({
+        cover: cover,
+        title: title,
+        listImages: listImages,
+        descriptions: description,
+        detail: detail,
+        isDeleted: false,
+        nameCategory: nameCategory,
+        categoryID: id_category,
+        titleUnsigned: showUnsignedString(title),
+        author: req.user.username,
+    });
 }

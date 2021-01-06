@@ -113,14 +113,40 @@ exports.detail = async (req, res, next) => {
   
 };
 
-// exports.index = (req, res, next) => {
-//     // Get posts from model
-//     const posts =  postModel.list();
-//     // Pass data to view to display list of posts
-//     res.render('list', {posts});
-// };
 
-// exports.detail = (req,res, next) => {
+exports.mypost = async(req, res, next) => {
+ 
+    const mypost = await postModel.list_mypost(req.user.username);
+    res.render('users/mypost',{title: 'Bài viết của tôi', mypost}); 
+};
+
+exports.addpost_page = async(req, res, next) => {
+ 
+    res.render('posts/addpost',{title: 'Đóng góp bài viết'}); 
+};
+
+exports.addpost = async(req, res, next) => {
+ 
+    const {title, nameCategory, description, detail, cover } = req.body;
+    const category = await postModel.get_name_category(nameCategory);
+    if (category)
+    {
+        
+        await postModel.add_post(req, catID);
+        res.render('posts/addpost',{title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công"}); 
+    }
+    else
+    {
+        
+        res.render('posts/addpost',{
+            title: 'Đóng góp bài viết', 
+            messageError: "Thể loại không tồn tại",
+            title,
+            nameCategory,
+            description,
+            detail,
+            cover
+        }); 
+    }
     
-//     res.render('detail', postModel.get(parseInt(req.params.id))) ;
-//};
+};

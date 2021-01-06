@@ -3,7 +3,7 @@ const router = express.Router();
 
 const passport = require('../passport');
 const userController = require('../controllers/userController');
-const cartController = require('../controllers/cartController');
+const listController = require('../controllers/listController');
 const orderRouter = require('../routes/order');
 /* GET users listing. */
 // router.get('/', function(req, res, next){
@@ -39,10 +39,10 @@ router.post('/register', userController.addUser);
 router.get('/profile/:id', checkAuthentication, userController.profile);
 router.post('/profile/:id', userController.update_profile);
 
-router.get('/mypost', checkAuthentication, userController.mypost);
+router.get('/mypost', checkAuthentication, listController.mypost);
 
-router.get('/addpost', checkAuthentication, userController.addpost_page);
-router.post('/addpost', userController.addpost);
+router.get('/addpost', checkAuthentication, listController.addpost_page);
+router.post('/addpost', listController.addpost);
 
 router.get('/logout', checkAuthentication, function(req,res,next){
   req.logout();
