@@ -9,15 +9,20 @@ exports.renderUsers = async(req, res, next) => {
     const search = req.query.txtSearch;
     const stt = req.query.stt;
     var filter = {};
+    var nameSort = "Mặc định";
 
     if (search) {
         filter.username = new RegExp(search, 'i');
     }
     if (stt) {
-        if (stt === "Mo")
+        if (stt === "Mo") {
             filter.status = "Mở";
-        else
+            nameSort = "Mở";
+        }
+        if (stt === "Khoa") {
             filter.status = "Khoá";
+            nameSort = "Khoá";
+        }
     }
     //filter.status = "Mở";
 
@@ -39,6 +44,7 @@ exports.renderUsers = async(req, res, next) => {
         currentPage: paginate.page,
         Search: search,
         totalDocs: paginate.totalDocs,
+        nameSort,
     });
 };
 

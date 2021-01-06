@@ -8,11 +8,9 @@ const Handlebars = require('handlebars');
 const hbs = require('express-handlebars');
 const helpers = require('handlebars-helpers')();
 const validator = require('express-validator');
-
 require('dotenv').config();
 const passport = require('./passport');
 const session = require("express-session");
-
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo')(session);
 const { MongoClient } = require("mongodb");
@@ -32,12 +30,10 @@ try {
     console.error(error);
 }
 var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
-var productRouter = require('./routes/product');
-var userRouter = require('./routes/users');
-var orderRouter = require('./routes/order');
-
-
+var adminsRouter = require('./routes/admins');
+var usersRouter = require('./routes/users');
+// var productRouter = require('./routes/product');
+// var orderRouter = require('./routes/order');
 
 const app = express();
 app.use(bodyParser.urlencoded({ 'extended': false }));
@@ -78,18 +74,15 @@ app.use(function(req, res, next) {
     next()
 });
 
-app.use('/', adminRouter);
+app.use('/', adminsRouter);
+app.use('/logout', adminsRouter);
+app.use('/profile', adminsRouter);
+app.use('/changePassword', adminsRouter);
 app.use('/home', indexRouter);
-app.use('/home/products', productRouter);
-app.use('/home/users', userRouter);
-app.use('/home/orders', orderRouter);
-app.use('/home/products/top10', productRouter);
-
-app.use('/logout', adminRouter);
-app.use('/profile', adminRouter);
-app.use('/changePassword', adminRouter);
-
-
+app.use('/home/users', usersRouter);
+//app.use('/home/products', productRouter);
+//app.use('/home/orders', orderRouter);
+//app.use('/home/products/top10', productRouter);
 
 
 

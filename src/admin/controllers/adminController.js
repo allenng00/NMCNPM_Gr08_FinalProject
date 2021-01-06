@@ -4,15 +4,12 @@ const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-
-
-const adminCollection = require('../models/MongooseModel/adminMongooseModel');
 const adminModel = require('../models/adminModel');
 
 cloudinary.config({
-    cloud_name: 'ptudw',
-    api_key: '565745748995287',
-    api_secret: '4uJ07atrvww7jJ0-BBVUodS1Q98'
+    cloud_name: 'dpzszugjp',
+    api_key: '163377278981499',
+    api_secret: 'mQ8tpbcRdL84rx8Azz_VtCAJRZ0'
 });
 
 function showUnsignedString(search) {
@@ -29,7 +26,7 @@ function showUnsignedString(search) {
 exports.renderLogin = (req, res, next) => {
     const message = req.flash('error');
 
-    res.render('./admin/login', {
+    res.render('./admins/login', {
         title: 'Đăng nhập',
         fade: "fade",
         message: message,
@@ -38,7 +35,7 @@ exports.renderLogin = (req, res, next) => {
 };
 
 exports.renderProfile = async(req, res, next) => {
-    res.render('./admin/profile', { title: 'Thông tin cá nhân' });
+    res.render('./admins/profile', { title: 'Thông tin cá nhân' });
 };
 
 exports.saveProfile = async(req, res, next) => {
@@ -60,7 +57,7 @@ exports.saveProfile = async(req, res, next) => {
                     });
                 });
             } else {
-                res.render('./admin/profile', { title: 'Thông tin cá nhân', messageImage: "Phải là file ảnh!" });
+                res.render('./admins/profile', { title: 'Thông tin cá nhân', messageImage: "Phải là file ảnh!" });
             }
         } else {
             res.redirect('./profile/' + req.params.id);
@@ -69,7 +66,7 @@ exports.saveProfile = async(req, res, next) => {
 }
 
 exports.renderChangePassword = async(req, res, next) => {
-    res.render('./admin/changePassword', { title: 'Đổi mật khẩu' });
+    res.render('./admins/changePassword', { title: 'Đổi mật khẩu' });
 };
 
 exports.changePassword = async(req, res, next) => {
@@ -92,16 +89,16 @@ exports.changePassword = async(req, res, next) => {
                             throw ('Mật khẩu và mật khẩu nhập lại không giống nhau!');
                         }
                     } else {
-                        throw ('Mật khẩu không được có khoảng trắng')
+                        throw ('Mật khẩu không được có khoảng trắng');
                     }
                 } else {
                     throw ('Mật khẩu không được có dấu!');
                 }
             }
         } else
-            throw ('Sai mật khẩu!')
+            throw ('Sai mật khẩu!');
     } catch (err) {
-        res.render('admin/changePassword', { title: "Đổi mật khẩu", err: err, hasError: err.length > 0 });
+        res.render('admins/changePassword', { title: "Đổi mật khẩu", err: err, hasError: err.length > 0 });
         return;
     }
 };

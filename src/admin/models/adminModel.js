@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 
-
-const adminCollection = require('./MongooseModel/adminMongooseModel');
+const adminsCollection = require('./MongooseModel/adminsMongooseModel');
 
 /**
  * Check for valid username and password, return admin info if valid
@@ -10,7 +9,7 @@ const adminCollection = require('./MongooseModel/adminMongooseModel');
  * @param {*} password 
  */
 exports.checkCredential = async(username, password) => {
-    const admin = await adminCollection.findOne({ username: username });
+    const admin = await adminsCollection.findOne({ username: username });
     if (!admin)
         return false;
     let checkPassword = await bcrypt.compare(password, admin.password);
@@ -21,22 +20,22 @@ exports.checkCredential = async(username, password) => {
 }
 
 exports.getAdmin = async(id) => {
-    const user = await adminCollection.findOne({ _id: ObjectId(id) });
+    const user = await adminsCollection.findOne({ _id: ObjectId(id) });
     return user;
 }
 
 exports.getUsername = async(username) => {
-    const user = await adminCollection.findOne({ username: username });
+    const user = await adminsCollection.findOne({ username: username });
     return user;
 }
 
 exports.saveProfile = async(req, id) => {
     const txtImage = req.imagePath;
     if (!txtImage) {
-        const user = await adminCollection.findOne({ _id: ObjectId(id) });
+        const user = await adminsCollection.findOne({ _id: ObjectId(id) });
         txtImage = user.imageProfile;
     }
-    await adminCollection.updateOne({ _id: ObjectId(id) }, {
+    await adminsCollection.updateOne({ _id: ObjectId(id) }, {
         $set: {
             imageProfile: txtImage
         }
@@ -47,11 +46,11 @@ exports.changeAdmin = async(password, id) => {
     const saltRounds = 10;
     bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
-            let user = adminCollection.updateOne({ _id: ObjectId(id) }, {
+            let user = adminsCollection.updateOne({ _id: ObjectId(id) }, {
                 password: hash
             });
             user
-                .update()
+                .updateOne()
                 .then((doc) => {})
                 .then((err) => {
                     console.log(err);

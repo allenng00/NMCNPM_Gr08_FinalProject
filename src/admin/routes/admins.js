@@ -1,11 +1,8 @@
-const app = require('../app');
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const passport = require('../passport');
 
 const adminController = require('../controllers/adminController');
-
-/* GET users listing. */
 
 function isLogged(req, res, next) {
     if (req.isAuthenticated()) {
@@ -16,7 +13,6 @@ function isLogged(req, res, next) {
 }
 
 router.get('/', adminController.renderLogin);
-
 router.post('/',
     passport.authenticate('local', {
         successRedirect: '/home',
@@ -35,6 +31,5 @@ router.post('/profile/:id', isLogged, adminController.saveProfile);
 
 router.get('/changePassword/:id', isLogged, adminController.renderChangePassword);
 router.post('/changePassword/:id', isLogged, adminController.changePassword);
-
 
 module.exports = router;

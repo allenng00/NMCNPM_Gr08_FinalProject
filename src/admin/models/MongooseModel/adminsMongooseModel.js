@@ -5,7 +5,7 @@ const admin = new Schema({
     username: String,
     password: String,
     imageProfile: String
-}, { collection: 'Admin' });
+}, { collection: 'Admins' });
 
 
-module.exports = mongoose.model('Admin', admin);
+module.exports = mongoose.model('Admins', admin);
