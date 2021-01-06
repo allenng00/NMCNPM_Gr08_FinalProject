@@ -50,6 +50,12 @@ exports.list = async () => {
     return posts;
 }
 
+// lấy danh sách các bài viết
+exports.listWithStatus = async (status) => {
+    const posts = await postsCollection.find({isDeleted: false, status: status});
+    return posts;
+}
+
 // danh sách các bài viết sau khi filter, paging
 exports.listpost = async (filter, pageNumber, itemPerPage, sort) => {
     const sortOrderArr = [1,-1];
