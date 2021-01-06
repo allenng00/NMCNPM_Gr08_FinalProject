@@ -38,8 +38,9 @@ exports.renderPostsAdmin = async(req, res, next) => {
         }
     }
     filter.isDeleted = false;
+    filter.ownBy = "admin";
 
-    const paginate = await postModel.listBook(filter, page, ITEM_PER_PAGE);
+    const paginate = await postModel.listPost(filter, page, ITEM_PER_PAGE);
     const nextQuery = {...req.query, page: paginate.nextPage };
     const preQuery = {...req.query, page: paginate.prevPage };
     const category = await postModel.listCategory();
@@ -73,6 +74,61 @@ exports.renderPostsAdmin = async(req, res, next) => {
     });
 };
 
+exports.renderPostsUser = async(req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const catid = req.query.catID;
+    const search = req.query.txtSearch;
+    var filter = {};
+    if (search) {
+        filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
+    }
+    if (catid) {
+        if (catid != ObjectId(AllID)) {
+            filter.categoryID = ObjectId(catid);
+        }
+    }
+    filter.isDeleted = false;
+    filter.ownBy = "user";
+
+    const paginate = await postModel.listPost(filter, page, ITEM_PER_PAGE);
+    const nextQuery = {...req.query, page: paginate.nextPage };
+    const preQuery = {...req.query, page: paginate.prevPage };
+    const category = await postModel.listCategory();
+    var nameCategory = "";
+    var id_category = "";
+    if (catid) {
+        const categoryTemp = await categoriesCollection.findOne({ _id: ObjectId(catid) });
+        nameCategory = categoryTemp.nameCategory;
+        id_category = ObjectId(catid);
+    } else {
+        nameCategory = "Thể loại";
+        id_category = "";
+    }
+    res.render('./posts/postsUser', {
+        title: 'Bài viết admin',
+        posts: paginate.docs,
+        category: category,
+        id_category: id_category,
+        nameCategory: nameCategory,
+        totalDocs: paginate.totalDocs,
+        //Phân trang
+        hasNextPage: paginate.hasNextPage,
+        nextPage: paginate.nextPage,
+        nextPageQueryString: queryString.stringify(nextQuery),
+        hasPreviousPage: paginate.hasPrevPage,
+        prevPage: paginate.prevPage,
+        prevPageQueryString: queryString.stringify(preQuery),
+        lastPage: paginate.totalPages,
+        ITEM_PER_PAGE: ITEM_PER_PAGE,
+        currentPage: paginate.page
+    });
+};
+
+exports.renderAddPost = async(req, res, next) => {
+    const category = await postModel.listCategory();
+    res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade" });
+};
+
 // exports.renderTop10 = async(req, res, next) => {
 //     const filter = {};
 //     filter.isDeleted = false;
@@ -89,10 +145,7 @@ exports.renderPostsAdmin = async(req, res, next) => {
 //     res.render('./products/updatebook', { book, title: 'Cập nhật sản phẩm', fade: "fade" });
 // };
 
-// exports.renderAddbook = async(req, res, next) => {
-//     const category = await bookModel.listCategory();
-//     res.render('./products/addbook', { category, title: 'Thêm sản phẩm', fade: "fade" });
-// };
+
 // exports.add = async(req, res, next) => {
 //     const form = formidable({ multiples: true });
 

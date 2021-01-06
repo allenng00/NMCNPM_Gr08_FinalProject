@@ -12,9 +12,9 @@ function isLogged(req, res, next) {
 }
 
 router.get('/admin', isLogged, postsController.renderPostsAdmin);
-//router.get('/user', isLogged, postsController.renderPostsUser);
+router.get('/user', isLogged, postsController.renderPostsUser);
 
-
+router.get('/admin/addpost', isLogged, postsController.renderAddPost);
 
 
 //router.get('/top10', isLogged, productsController.renderTop10);

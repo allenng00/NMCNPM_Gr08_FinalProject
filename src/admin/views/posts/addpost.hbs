@@ -9,8 +9,8 @@
     <form action="" method="post" enctype="multipart/form-data">            
             <h1  id="title">Thêm bài viết</h1>
             <div class="container ">
-                <label><b >Tên sách (*)</b></label>
-                <input  type="text" name="txtTitle" placeholder="Nhập tên sách" value="{{txtTitle}}" required>
+                <label><b >Tên bài viết (*)</b></label>
+                <input  type="text" name="txtTitle" placeholder="Nhập tên bài viết" value="{{txtTitle}}" required>
                 {{#if messageTitle}}
                                         <div class="alert alert-danger">
                                             {{messageTitle}}
@@ -32,34 +32,24 @@
                                             {{messageImage}}
                                         </div>
                                     {{/if}}
+                <label><b>Người đăng (*)</b></label>
+                <input type="text" name="txtAuthor" placeholder="Nhập tác giả" value="{{txtAuthor}}" required>
 
-                <label><b>Tác giả (*)</b></label>
-                <input type="text" name="txtDescription" placeholder="Nhập tác giả" value="{{txtDescription}}" required>
+                <label><b>Mô tả ngắn (*)</b></label>
+                <input type="text" name="txtDescription" placeholder="Nhập mô tả ngắn" value="{{txtDescription}}" required>
 
                 <label><b>Chi tiết (*)</b></label>
                 <input type="text" name="txtDetail" placeholder="Nhập chi tiết"  value="{{txtDetail}}" required>
 
-                <label><b>Giá cũ (*)</b></label>
-                <input class="form-control" type="number" name="txtOldPrice" placeholder="Nhập giá cũ" value="{{txtOldPrice}}" required>
-                <br>
-
-                <label><b>Giá hiện tại (*)</b></label>
-                <input class="form-control" type="number" name="txtSalePrice" placeholder="Nhập giá hiện tại" value="{{txtSalePrice}}" required>
-                <br>
-
                 <label><b>Thể loại (*)</b></label>
-                <input type="text" name="txtCategory" placeholder="Nhập Thể loại" value="{{txtCategory}}" required>
+                <input type="text" name="txtCategory" placeholder="Nhập phân loại" value="{{txtCategory}}" required>
 
                 <label><b>Trạng thái </b></label>
                 <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{txtStatus}}">
 
-                <label><b>Số lượng trong kho(*) </b></label>
-                <input  class="form-control" type="number" name="txtQty" placeholder="Nhập số lượng trong kho" value="{{txtQty}}" required>
-
-                <br>
             <div class="row">
                     <div class="col-lg-2   ">
-                        <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/products/"><i class="fas fa-long-arrow-alt-left"></i> Trở lại</a>
+                        <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/posts/admin"><i class="fas fa-long-arrow-alt-left"></i> Trở lại</a>
                     </div>
                     <div class="col-lg-4">
                         <button type="submit" class="drop with--one--item btn-add btn btn-secondary btn-lg">+ Thêm</button>

@@ -22,7 +22,7 @@ exports.get = async(id) => {
     return post;
 }
 
-exports.listBook = async(filter, pageNumber, itemPerPage) => {
+exports.listPost = async(filter, pageNumber, itemPerPage) => {
     let posts = await postsCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
