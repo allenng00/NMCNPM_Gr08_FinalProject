@@ -99,51 +99,51 @@
                             {{/each}}
                             <!-- End Single Product -->
                         </div>
-                {{#gt totalBooks 0}}
-                <nav aria-label="Page navigation example" style="..."> 
-                  <ul class="wn__pagination">
-                    {{#isnt currentPage 1}}
-                    <li>
-                        <a href="/listbook?page={{prevPage}}&catid={{catID}}&search={{nameSearch}}">
-                          <span aria-hidden="true" class="zmdi zmdi-chevron-left"></span>
-                        </a>
-                    </li>
-                    {{/isnt}}
+                        {{#gt totalBooks 0}}
+                        <nav aria-label="Page navigation example" style="..."> 
+                        <ul class="wn__pagination">
+                            {{#isnt currentPage 1}}
+                            <li>
+                                <a href="/listbook?page={{prevPage}}&catid={{catID}}&search={{nameSearch}}">
+                                <span aria-hidden="true" class="zmdi zmdi-chevron-left"></span>
+                                </a>
+                            </li>
+                            {{/isnt}}
 
-                    {{#if hasPreviousPage}}
-                    <li>
-                        <a href="/listbook?{{prePageQueryString}}">
-                          {{prevPage}}
-                        </a>
-                    </li>
-                    {{/if}}
+                            {{#if hasPreviousPage}}
+                            <li>
+                                <a href="/listbook?{{prePageQueryString}}">
+                                {{prevPage}}
+                                </a>
+                            </li>
+                            {{/if}}
 
-                    
-                  
-                    <li class="active">
-                        <a href="javascript:void(0)" tabindex="-1">
-                          {{currentPage}}
-                        </a>
-                    </li>
+                            
+                        
+                            <li class="active">
+                                <a href="javascript:void(0)" tabindex="-1">
+                                {{currentPage}}
+                                </a>
+                            </li>
 
-                    {{#if hasNextPage}}
-                    <li>
-                        <a  href="/listbook?{{nextPageQueryString}}">
-                          {{nextPage}}
-                        </a>
-                    </li>
-                    {{/if}}
+                            {{#if hasNextPage}}
+                            <li>
+                                <a  href="/listbook?{{nextPageQueryString}}">
+                                {{nextPage}}
+                                </a>
+                            </li>
+                            {{/if}}
 
-                    {{#gt lastPage currentPage}}
-                    <li>
-                        <a href="/listbook?page={{nextPage}}&catid={{catID}}&search={{nameSearch}}" >
-                          <span aria-hidden="true" class="zmdi zmdi-chevron-right"></span>
-                        </a>
-                    </li>
-                    {{/gt}}
-                  </ul>
-                  </nav>
-                {{/gt}}       
+                            {{#gt lastPage currentPage}}
+                            <li>
+                                <a href="/listbook?page={{nextPage}}&catid={{catID}}&search={{nameSearch}}" >
+                                <span aria-hidden="true" class="zmdi zmdi-chevron-right"></span>
+                                </a>
+                            </li>
+                            {{/gt}}
+                        </ul>
+                        </nav>
+                        {{/gt}}       
                     </div>
                     <div class="shop-grid tab-pane fade" id="nav-list" role="tabpanel">
                         <div class="list__view__wrapper">

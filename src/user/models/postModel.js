@@ -63,10 +63,10 @@ exports.listpost = async (filter, pageNumber, itemPerPage) => {
 }
 
 // danh sách bài viết của 1 tài khoản
-exports.list_mypost = async (username) => {
-    const mypost = await postsCollection.find({ author: username});
-    return mypost;
-}
+// exports.list_mypost = async (filter, pageNumber, itemPerPage, username) => {
+//     const mypost = await postsCollection.find({author: username});
+//     return mypost;
+// }
 
 
 // lấy 1 bài viết qua id

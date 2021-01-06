@@ -7,7 +7,7 @@ const cloudinary = require('cloudinary').v2;
 const postModel = require('../models/postModel');
 const commentModel = require('../models/commentModel');
 const userModel = require('../models/userModel');
-const item_per_page = 2;
+const item_per_page = 5;
 
 function showUnsignedString(search) {
     var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
@@ -115,9 +115,36 @@ exports.detail = async (req, res, next) => {
 
 
 exports.mypost = async(req, res, next) => {
- 
-    const mypost = await postModel.list_mypost(req.user.username);
-    res.render('users/mypost',{title: 'Bài viết của tôi', mypost}); 
+    const page = parseInt(req.query.page) || 1;
+    const status = parseInt(req.query.status) || 0 ;
+    const nameStatus = ["Tất cả","Đợi duyệt", "Đã duyệt"];
+    const filter = {};
+    filter.isDeleted =  false;    
+    filter.author = req.user.username;
+    if (status)
+    {
+        filter.status2 = nameStatus[status];
+    }
+
+    const paginate = await postModel.listpost(filter,page,item_per_page);  
+    const prevPageQueryString = {...req.query, page:paginate.prevPage};
+    const nextPageQueryString = {...req.query, page:paginate.nextPage};
+    
+    res.render('posts/mypost',{
+        title: 'Bài viết của tôi',
+        nameStatus: nameStatus[status],
+        posts: paginate.docs,
+        totalPosts: paginate.totalDocs,
+        hasNextPage: paginate.hasNextPage,
+        nextPage: paginate.nextPage,
+        nextPageQueryString: queryString.stringify(nextPageQueryString),
+        hasPreviousPage: paginate.hasPrevPage,
+        prevPage: paginate.prevPage,
+        prevPageQueryString: queryString.stringify(prevPageQueryString),
+        lastPage: paginate.totalPages,
+        ITEM_PER_PAGE: item_per_page,
+        currentPage: paginate.page,
+    }); 
 };
 
 exports.addpost_page = async(req, res, next) => {
