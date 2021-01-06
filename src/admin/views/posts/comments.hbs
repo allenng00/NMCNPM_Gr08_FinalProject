@@ -41,6 +41,41 @@
 									<p>Không có bình luận nào!</p>
 									{{/if}}
 </div>
+<nav aria-label="Page navigation example" style="..."> 
+									<p>{{totalComments}} Bình luận</p>
+							<ul class="pagination justify-content-center pull-right wn__pagination">
+								{{#isnt currentPage 1}}
+								<li >
+									<a href="/home/posts/admin/comments/{{postID}}?page={{prevPage}}" aria-label="Previous">
+									<span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+									</a>
+								</li>
+								{{/isnt}}
+								{{#if hasPreviousPage}}
+								<li >
+								<a href="/home/posts/admin/comments/{{postID}}?page={{prevPage}}">{{prevPage}}
+								</a>
+								</li>
+								{{/if}}
+								<li class="active">
+									<a href="javascript:void(0)" tabindex="-1">{{currentPage}}
+									</a>
+								</li>
+								{{#if hasNextPage}}
+								<li >
+								<a href="/home/posts/admin/comments/{{postID}}?page={{nextPage}}">{{nextPage}}
+								</a>
+								</li>
+								{{/if}}
+								{{#gt lastPage currentPage}}
+								<li >
+									<a href="/home/posts/admin/comments/{{postID}}?page={{nextPage}}" aria-label="Next">
+									<span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+									</a>
+								</li>
+								{{/gt}}
+							</ul>
+						</nav>
 <div class="review-fieldset">
     <h3>Nhập bình luận của bạn</h3>
     <div class="review-field-ratings">

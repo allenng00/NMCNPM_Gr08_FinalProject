@@ -200,7 +200,7 @@ exports.add = async(req, res, next) => {
                                 postModel.post(fields).then(() => {
                                     const category = postModel.listCategory();
                                     // Pass data to view to display list of books
-                                    res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade" });
+                                    res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade", err: "Thêm thành công!" });
                                 });
                             });
                         } else {
@@ -234,7 +234,7 @@ exports.add = async(req, res, next) => {
                                 postModel.post(fields).then(() => {
                                     const category = postModel.listCategory();
                                     // Pass data to view to display list of books
-                                    res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade" });
+                                    res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade", err: "Thêm thành công!" });
                                 });
                             });
                         } else {
@@ -275,7 +275,7 @@ exports.add = async(req, res, next) => {
                         postModel.post(fields).then(() => {
                             const category = postModel.listCategory();
                             // Pass data to view to display list of books
-                            res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade" });
+                            res.render('./posts/addpost', { category, title: 'Thêm bài viết', fade: "fade", err: "Thêm thành công!" });
                         });
                     });
                 } else {

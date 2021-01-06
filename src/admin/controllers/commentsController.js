@@ -5,7 +5,16 @@ const userModel = require('../models/userModel');
 
 exports.renderComment = async(req, res, next) => {
     const post = await postModel.get(req.params.id);
-    const comments = post.comments ? post.comments : [];
+    const perPage = 5;
+    const page = parseInt(req.query.page) || 1;
+
+    const comments = await commentModel.listComment(req.params.id, page, perPage);
+    const count_comment = post.comments.length || 0;
+    const pages = Math.ceil(count_comment / perPage);
+    const nextPage = page < pages ? (page + 1) : page;
+    const prevPage = page > 1 ? (page - 1) : 1;
+    const hasNextPage = page < pages;
+    const hasPreviousPage = page > 1;
     for (var i in comments) {
         const admin = await adminModel.getUsername(comments[i].nickname);
         const user = await userModel.getUsername(comments[i].nickname);
@@ -16,12 +25,32 @@ exports.renderComment = async(req, res, next) => {
     }
     for (var i in comments)
         comments[i].postID = post._id;
-    res.render('./posts/comments', { title: 'Danh sách bình luận', comments: comments });
+    res.render('./posts/comments', {
+        title: 'Danh sách bình luận',
+        comments: comments,
+        postID: post._id,
+        hasNextPage,
+        nextPage,
+        totalComments: count_comment,
+        hasPreviousPage,
+        prevPage,
+        lastPage: pages,
+        currentPage: page
+    });
 };
 
 exports.renderComment2 = async(req, res, next) => {
     const post = await postModel.get(req.params.id);
-    const comments = post.comments ? post.comments : [];
+    const perPage = 5;
+    const page = parseInt(req.query.page) || 1;
+
+    const comments = await commentModel.listComment(req.params.id, page, perPage);
+    const count_comment = post.comments.length || 0;
+    const pages = Math.ceil(count_comment / perPage);
+    const nextPage = page < pages ? (page + 1) : page;
+    const prevPage = page > 1 ? (page - 1) : 1;
+    const hasNextPage = page < pages;
+    const hasPreviousPage = page > 1;
     for (var i in comments) {
         const admin = await adminModel.getUsername(comments[i].nickname);
         const user = await userModel.getUsername(comments[i].nickname);
@@ -32,7 +61,18 @@ exports.renderComment2 = async(req, res, next) => {
     }
     for (var i in comments)
         comments[i].postID = post._id;
-    res.render('./posts/comments2', { title: 'Danh sách bình luận', comments: comments });
+    res.render('./posts/comments2', {
+        title: 'Danh sách bình luận',
+        comments: comments,
+        postID: post._id,
+        hasNextPage,
+        nextPage,
+        totalComments: count_comment,
+        hasPreviousPage,
+        prevPage,
+        lastPage: pages,
+        currentPage: page
+    });
 };
 
 exports.add_comment = async(req, res, next) => {
