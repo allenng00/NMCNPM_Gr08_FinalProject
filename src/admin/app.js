@@ -29,10 +29,10 @@ try {
 } catch (error) {
     console.error(error);
 }
-var indexRouter = require('./routes/index');
-var adminsRouter = require('./routes/admins');
-var usersRouter = require('./routes/users');
-// var productRouter = require('./routes/product');
+const indexRouter = require('./routes/index');
+const adminsRouter = require('./routes/admins');
+const usersRouter = require('./routes/users');
+const postRouter = require('./routes/posts');
 // var orderRouter = require('./routes/order');
 
 const app = express();
@@ -80,7 +80,7 @@ app.use('/profile', adminsRouter);
 app.use('/changePassword', adminsRouter);
 app.use('/home', indexRouter);
 app.use('/home/users', usersRouter);
-//app.use('/home/products', productRouter);
+app.use('/home/posts', postRouter);
 //app.use('/home/orders', orderRouter);
 //app.use('/home/products/top10', productRouter);
 

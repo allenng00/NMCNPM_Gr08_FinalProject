@@ -1,78 +1,78 @@
-// const formidable = require('formidable');
-// const fs = require('fs');
-// const queryString = require('query-string');
-// const bookModel = require('../models/bookModel');
-// const { ObjectId } = require('mongodb');
-// const cloudinary = require('cloudinary').v2;
+const formidable = require('formidable');
+const queryString = require('query-string');
+const postModel = require('../models/postModel');
+const { ObjectId } = require('mongodb');
+const cloudinary = require('cloudinary').v2;
 
-// cloudinary.config({
-//     cloud_name: 'ptudw',
-//     api_key: '565745748995287',
-//     api_secret: '4uJ07atrvww7jJ0-BBVUodS1Q98'
-// });
-// const ITEM_PER_PAGE = 5;
-// const categoryCollection = require('../models/MongooseModel/categoryMongooseModel');
-// const AllID = "5fceeb7ed1d96a1a74e255fe";
+cloudinary.config({
+    cloud_name: 'dpzszugjp',
+    api_key: '163377278981499',
+    api_secret: 'mQ8tpbcRdL84rx8Azz_VtCAJRZ0'
+});
 
-// function showUnsignedString(search) {
-//     var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
-//     var unsignedChars = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAADEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYY";
-//     var input = search;
-//     var pattern = new RegExp("[" + signedChars + "]", "g");
-//     var output = input.replace(pattern, function(m, key, value) {
-//         return unsignedChars.charAt(signedChars.indexOf(m));
-//     });
-//     return output;
-// }
-// exports.renderProducts = async(req, res, next) => {
-//     const page = parseInt(req.query.page) || 1;
-//     const catid = req.query.catID;
-//     const search = req.query.txtSearch;
-//     var filter = {};
+const ITEM_PER_PAGE = 5;
+const categoriesCollection = require('../models/MongooseModel/categoriesMongooseModel');
+const AllID = "5ff4814feb4a4a05dc5f4961";
 
-//     if (search) {
-//         filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
-//     }
-//     if (catid) {
-//         if (catid != ObjectId(AllID)) {
-//             filter.categoryID = ObjectId(catid);
-//         }
-//     }
-//     filter.isDeleted = false;
+function showUnsignedString(search) {
+    var signedChars = "àảãáạăằẳẵắặâầẩẫấậđèẻẽéẹêềểễếệìỉĩíịòỏõóọôồổỗốộơờởỡớợùủũúụưừửữứựỳỷỹýỵÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈẺẼÉẸÊỀỂỄẾỆÌỈĨÍỊÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢÙỦŨÚỤƯỪỬỮỨỰỲỶỸÝỴ";
+    var unsignedChars = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyAAAAAAAAAAAAAAAAADEEEEEEEEEEEIIIIIOOOOOOOOOOOOOOOOOUUUUUUUUUUUYYYYY";
+    var input = search;
+    var pattern = new RegExp("[" + signedChars + "]", "g");
+    var output = input.replace(pattern, function(m, key, value) {
+        return unsignedChars.charAt(signedChars.indexOf(m));
+    });
+    return output;
+}
+exports.renderPostsAdmin = async(req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const catid = req.query.catID;
+    //const search = req.query.txtSearch;
+    var filter = {};
+    // if (search) {
+    //     filter.titleUnsigned = new RegExp(showUnsignedString(search), 'i');
+    // }
+    // if (catid) {
+    //     if (catid != ObjectId(AllID)) {
+    //         filter.categoryID = ObjectId(catid);
+    //     }
+    // }
+    filter.isDeleted = false;
 
-//     const paginate = await bookModel.listBook(filter, page, ITEM_PER_PAGE);
-//     const nextQuery = {...req.query, page: paginate.nextPage };
-//     const preQuery = {...req.query, page: paginate.prevPage };
-//     const category = await bookModel.listCategory();
-//     var nameCategory = "";
-//     var id_category = "";
-//     if (catid) {
-//         const categoryTemp = await categoryCollection.findOne({ _id: ObjectId(catid) });
-//         nameCategory = categoryTemp.nameCategory;
-//         id_category = ObjectId(catid);
-//     } else {
-//         nameCategory = "Thể loại";
-//         id_category = "";
-//     }
-//     res.render('./products/products', {
-//         title: 'Sản phẩm',
-//         books: paginate.docs,
-//         hasNextPage: paginate.hasNextPage,
-//         nextPage: paginate.nextPage,
-//         nextPageQueryString: queryString.stringify(nextQuery),
-//         hasPreviousPage: paginate.hasPrevPage,
-//         prevPage: paginate.prevPage,
-//         prevPageQueryString: queryString.stringify(preQuery),
-//         lastPage: paginate.totalPages,
-//         ITEM_PER_PAGE: ITEM_PER_PAGE,
-//         currentPage: paginate.page,
-//         category: category,
-//         id_category: id_category,
-//         nameCategory: nameCategory,
-//         Search: search,
-//         totalDocs: paginate.totalDocs,
-//     });
-// };
+    const paginate = await postModel.listBook(filter, page, ITEM_PER_PAGE);
+    const nextQuery = {...req.query, page: paginate.nextPage };
+    const preQuery = {...req.query, page: paginate.prevPage };
+    const category = await postModel.listCategory();
+    var nameCategory = "";
+    var id_category = "";
+    if (catid) {
+        const categoryTemp = await categoriessCollection.findOne({ _id: ObjectId(catid) });
+        nameCategory = categoryTemp.nameCategory;
+        id_category = ObjectId(catid);
+    } else {
+        nameCategory = "Thể loại";
+        id_category = "";
+    }
+    res.render('./products/products', {
+        title: 'Bài viết admin',
+        posts: paginate.docs,
+        category: category,
+        id_category: id_category,
+        nameCategory: nameCategory,
+        Search: search,
+        totalDocs: paginate.totalDocs,
+        //Phân trang
+        hasNextPage: paginate.hasNextPage,
+        nextPage: paginate.nextPage,
+        nextPageQueryString: queryString.stringify(nextQuery),
+        hasPreviousPage: paginate.hasPrevPage,
+        prevPage: paginate.prevPage,
+        prevPageQueryString: queryString.stringify(preQuery),
+        lastPage: paginate.totalPages,
+        ITEM_PER_PAGE: ITEM_PER_PAGE,
+        currentPage: paginate.page
+    });
+};
 
 // exports.renderTop10 = async(req, res, next) => {
 //     const filter = {};
