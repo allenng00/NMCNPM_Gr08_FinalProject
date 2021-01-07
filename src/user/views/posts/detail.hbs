@@ -1,150 +1,85 @@
 
-        <!-- End Bradcaump area -->
-		<div class="page-blog-details section-padding--lg bg--white">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-9 col-12">
-						<div class="blog-details content">
-							<article class="blog-post-details">
-								<div class="post-thumbnail">
-									<img src="{{post.cover}}" alt="blog images">
+<div class="wrapper pt--40" id="wrapper">
+	<div class="page-blog-details section-padding--lg bg--white">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 col-12">
+					<div class="blog-details content">
+						<article class="blog-post-details">
+							<div class="post-thumbnail">
+								<img src="{{post.cover}}" alt="post images">
+							</div>
+							<div class="post_wrapper">
+								<div class="post_header">
+									<h2>{{post.title}}</h2>
+									<div class="blog-date-categori">
+										<ul>
+											<li>June 27, 2020</li>
+											<li><a href="#" title="Posts by boighor" rel="author">{{post.author}}</a></li>
+										</ul>
+									</div>
 								</div>
-								<div class="post_wrapper">
-									<div class="post_header">
-										<h2>{{post.title}}</h2>
-									</div>
-									<div class="post_content">
-										<blockquote>{{post.descriptions}}</blockquote>
-										<p>{{post.detail}}</p>
-									</div>
-									<ul class="blog_meta">
-										<div class="pro__tab_label tab-pane fade {{tab2}}" id="nav-review" role="tabpanel">
-											<div class="row d-flex justify-content-center mt-100 mb-100">
-												{{#if post.comments}}
-													<div class="col-lg">
-														<div class="card">
-															<div class="comment-widgets">									
-																<!-- Comment Row -->
-																{{#each post.comments}}
-																<div class="d-flex flex-row comment-row m-t-0">
-																	{{#if imagePath}}
-																	<div class="p-2"><img src="{{imagePath}}" alt="user" width="30" height="30" class="rounded-circle"></div>
-																	{{else}}
-																	<div class="p-2"><img src="/images/user.png" alt="user" width="30" height="30" class="rounded-circle"></div>
-																	{{/if}}
-																	<div class="comment-text w-100">
-																		<h6 class="font-medium">{{nickname}}</h6> <span class="m-b-15 d-block">{{comment}} </span>
-																		{{!-- <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div> --}}
-																	</div>
-																</div> <!-- Comment Row -->
-																<br>
-																{{/each}}
-																
-															</div> <!-- Card -->
-														</div>
-													</div>
-												{{else}}
-												<p>Không có bình luận nào!</p>
-												{{/if}}
-											</div>
-											<nav aria-label="Page navigation example" style="..."> 
-												<p>{{totalComments}} Bình luận</p>
-												<ul class="pagination justify-content-center pull-right wn__pagination">
-												{{#isnt currentPage 1}}
-													<li >
-														<a href="/listpost/{{postID}}?page={{prevPage}}" aria-label="Previous">
-														<span aria-hidden="true" class="zmdi zmdi-chevron-left"></span>
-														</a>
-													</li>
-													{{/isnt}}
-													{{#if hasPreviousPage}}
-													<li >
-														<a href="/listpost/{{postID}}?page={{prevPage}}">{{prevPage}}
-														</a>
-													</li>
-													{{/if}}
-													<li class="active">
-														<a href="javascript:void(0)" tabindex="-1">{{currentPage}}
-														</a>
-													</li>
-													{{#if hasNextPage}}
-													<li >
-														<a href="/listpost/{{postID}}?page={{nextPage}}">{{nextPage}}
-														</a>
-													</li>
-													{{/if}}
-													{{#gt lastPage currentPage}}
-													<li >
-														<a href="/listpost/{{postID}}?page={{nextPage}}" aria-label="Next">
-														<span aria-hidden="true" class="zmdi zmdi-chevron-right"></span>
-														</a>
-													</li>
-													{{/gt}}
-												</ul>
-											</nav>											
-										</div>
-									</ul>
+								<div class="post_content">
+									<blockquote>{{post.description}}</blockquote>
+									<p>{{post.detail}}</p>									
 								</div>
-							</article>
-								<div class="review-fieldset">
-									<h3>Nhập bình luận của bạn</h3>
-									<div class="review-field-ratings">
-									</div>
-									<form action="/products/comment/{{_id}}" method="POST">
-									<div class="review_form_field">
-										{{#if user}}
-											<div class="input__box">
-
-												<span>Tên của bạn:&nbsp;</span>
-												{{#if user.imageProfile}}
-													<Strong><label id="nickname_field" ><img class="rounded-circle" src="{{user.imageProfile}}" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
-												{{else}}
-													<Strong><label id="nickname_field" ><img class="rounded-circle" src="/images/user.png" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
-												{{/if}}
-											</div>
-										{{else}}
-											<div class="input__box">
-												<span>Tên của bạn: </span>
-												<input id="nickname_field" type="text" name="nickname" required>
-											</div>
-											{{#if err}}
-											<div><label class="alert alert-danger">{{err}}</label></div>
-											{{/if}}
-										{{/if}}
-										<div class="input__box">
-											<span>Bình luận</span>
-											<textarea name="comment" required></textarea>
-										</div>
-										<div class="review-form-actions">
-											<button class="btn btn-success"  type="submit">Gửi</button>
-										</div>
-									</div>
-									</form>
-								</div>
-						</div>
-					</div>
-					<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
-						<div class="wn__sidebar">
-							<!-- Start Single Widget -->
-							<aside class="widget recent_widget">
-								<h3 class="widget-title">Recent</h3>
-								<div class="recent-posts">
-									<ul>
-										{{#each post.listImages}}
-										<li>
-											<div class="post-wrapper d-flex">
-												<div class="thumb">
-													<img src="{{this}}" alt="blog images">
+								<ul class="blog_meta">
+									<li><a href="#">{{post.totalComments}} Comments</a></li>
+								</ul>
+							</div>
+						</article>
+						{{#gt totalComments 0}}
+						<div class="comments_area">
+							<h3 class="comment__title">comment</h3>
+							<ul class="comment__list">
+								<li>
+									{{#each comment}}
+									<div class="wn__comment">
+										<div class="thumb">
+											<img src="" alt="comment images">
+										</div>										
+										<div class="content">
+											<div class="comnt__author d-block d-sm-flex">
+												<span><a href="#">admin</a> Post author</span>
+												<span>October 6, 2014 at 9:26 am</span>
+												<div class="reply__btn">
+													<a href="#">Reply</a>
 												</div>
 											</div>
-										</li>
-										{{/each}}
-									</ul>
-								</div>
-							</aside>
-							<!-- End Single Widget -->
+											<p>Sed interdum at justo in efficitur. Vivamus gravida volutpat sodales. Fusce ornare sit</p>
+										</div>
+									</div>
+									{{/each}}
+								</li>
+							</ul>
 						</div>
+						{{/gt}}
 					</div>
 				</div>
+				<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
+				<div class="wn__sidebar">
+					<!-- Start Single Widget -->
+					<aside class="widget recent_widget">
+						<h3 class="widget-title">Recent</h3>
+						<div class="recent-posts">
+							<ul>
+								{{#each post.listImages}}
+								<li>
+									<div class="post-wrapper d-flex">
+										<div class="thumb">
+											<img src="{{this}}" alt="blog images">
+										</div>
+									</div>
+								</li>
+								{{/each}}
+							</ul>
+						</div>
+					</aside>
+					<!-- End Single Widget -->
+				</div>
+			</div>
 			</div>
 		</div>
+	</div>
+
+</div>

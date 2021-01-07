@@ -1,0 +1,94 @@
+
+<div class="wrapper pt--40" id="wrapper">
+	<div class="page-blog-details section-padding--lg bg--white">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9 col-12">
+					<div class="blog-details content">
+						<article class="blog-post-details">
+							<div class="post-thumbnail">
+								<img src="{{post.cover}}" alt="post images">
+							</div>
+							<div class="post_wrapper">
+								<div class="post_header">
+									<h2>{{post.title}}</h2>
+									<div class="blog-date-categori">
+										<ul>
+											<li>June 27, 2020</li>
+											<li><a href="#" title="Posts by boighor" rel="author">{{post.author}}</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="post_content">
+									<blockquote>{{post.descriptions}}</blockquote>
+									<p>{{post.detail}}</p>									
+								</div>
+							</div>
+						</article>
+					</div>
+				</div>
+				<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
+				<div class="wn__sidebar">
+					<!-- Start Single Widget -->
+					<aside class="widget recent_widget">
+						<h3 class="widget-title">Hình ảnh</h3>
+						<div class="recent-posts">
+							<ul>
+								{{#each post.listImages}}
+								<li>
+									<div class="">
+										<div class="thumb">
+											<img src="{{this}}" alt="blog images" width="300" height="250">
+										</div>
+									</div>
+								</li>
+								{{/each}}
+							</ul>
+						</div>
+					</aside>
+					<!-- End Single Widget -->
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+{{!-- <div class="review-fieldset">
+						<h3>Nhập bình luận của bạn</h3>
+						<div class="review-field-ratings">
+						</div>
+						<form action="/products/comment/{{_id}}" method="POST">
+						<div class="review_form_field">
+							{{#if user}}
+								<div class="input__box">
+
+									<span>Tên của bạn:&nbsp;</span>
+									{{#if user.imageProfile}}
+										<Strong><label id="nickname_field" ><img class="rounded-circle" src="{{user.imageProfile}}" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+									{{else}}
+										<Strong><label id="nickname_field" ><img class="rounded-circle" src="/images/user.png" width="30" height="30" name="imagePath" >&nbsp;{{user.username}}</label></Strong>
+									{{/if}}
+								</div>
+							{{else}}
+								<div class="input__box">
+									<span>Tên của bạn: </span>
+									<input id="nickname_field" type="text" name="nickname" required>
+								</div>
+								{{#if err}}
+								<div><label class="alert alert-danger">{{err}}</label></div>
+								{{/if}}
+							{{/if}}
+							<div class="input__box">
+								<span>Bình luận</span>
+								<textarea name="comment" required></textarea>
+							</div>
+							<div class="review-form-actions">
+								<button class="btn btn-success"  type="submit">Gửi</button>
+							</div>
+						</div>
+						</form>
+					</div> --}}
+					

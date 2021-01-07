@@ -124,64 +124,60 @@ exports.detail = async(req, res, next) => {
     const postID = req.params.id;
     const post = await postModel.get(postID);
     const postCat = await postModel.get_name_cat(post.categoryID);
-    // const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
-    const perPage = 5;
-    const page = parseInt(req.query.page) || 1;
-
-    const comments = await postModel.listComment(req.params.id, page, perPage);
-    const count_comment = post.comments.length || 0;
-    const pages = Math.ceil(count_comment / perPage);
-    const nextPage = page < pages ? (page + 1) : page;
-    const prevPage = page > 1 ? (page - 1) : 1;
-    const hasNextPage = page < pages;
-    const hasPreviousPage = page > 1;
-
-    for (var i in comments) {
-        const user = await userModel.getUsername(comments[i].nickname);
-        if (user)
-            comments[i].imagePath = user.imageProfile;
-    }
-
-    res.render('./posts/detail', {
-        title: "Chi tiết",
-        category,
-        post,
-        postCat,
-        comment: comments,
-        postID: postID,
-        hasNextPage,
-        nextPage,
-        totalComments: count_comment,
-        hasPreviousPage,
-        prevPage,
-        lastPage: pages,
-        currentPage: page
-    });
-
-};
-
+      // tính toán phân trang bình luận
+      const perpage = 5;
+      const current = parseInt(req.query.page) || 1;
+      const comment = await postModel.listcomment(postID, current, perpage);
+      const count_comment = post.comment.length || 0;    
+      const pages = Math.ceil(count_comment/perpage); 
+      const nextPage = current < pages ? (current+1): current;
+      const prevPage = current > 1 ? (current-1): 1;
+      const hasNextPage = current < pages;  
+      const hasPreviousPage = current > 1;
+  
+      // tìm avatar của người bình luận nếu có
+      var avatar;
+      for (id in comment)
+      {
+          avatar = await userModel.getProfilePicUser(comment[id].nickname);
+          if (avatar)
+              comment[id].avatar = avatar;
+      }
+  
+      res.render('posts/detail', 
+      {   
+          title: "Chi tiết",
+          category,
+          post,
+          postID,
+          listCover,
+          postCat,
+          comment,
+          current,
+          nextPage,
+          prevPage,
+          totalComments: count_comment,
+          pages,
+          hasNextPage,
+          hasPreviousPage,
+          lastPage: pages,
+          show_active_2: "show active"
+      });
+    
+  };
+  
 exports.detail_mypost = async(req, res, next) => {
     const category = await postModel.listcategory();
+    console.log("hello");
     const postID = req.params.id;
     const post = await postModel.get(postID);
-    const postCat = await postModel.get_name_cat(post.catID);
-    const relatedPost = await postModel.getRelatedPosts(post.catID, postID);
-    const comment = post.comment ? post.comment : [];
-    var avatar;
-    for (id in comment) {
-        avatar = await userModel.getProfilePicUser(comment[id].nickname);
-        if (avatar)
-            comment[id].avatar = avatar;
-    }
+    const postCat = await postModel.get_name_cat(post.categoryID);
 
-    res.render('./posts/detail', {
+    res.render('./posts/detailMypost', {
         title: "Chi tiết",
         category,
         post,
         postCat,
-        relatedPost,
-        countRelatedPosts: relatedPost.length,
-        comment,
         show_active_1: "show active"
     });
 

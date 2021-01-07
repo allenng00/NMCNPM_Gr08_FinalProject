@@ -10,8 +10,8 @@ exports.menu = async(id) => {
     return user;
 }
 
-exports.getUsername = (username) => {
-    return usersCollection.findOne({ username: username });
+exports.getUsername = async(username) => {
+    return await usersCollection.findOne({ username: username });
 }
 
 exports.update_profile = async(req, id) => {
@@ -86,11 +86,12 @@ exports.getNameUser = (username) => {
     return kt;
 }
 
-exports.getProfilePicUser = async(username) => {
-    const user = await userCollection.findOne({ username: username });
+
+exports.getProfilePicUser = async(username)=>{
+    const user = await userCollection.findOne({username: username});
     if (user)
-        return user.imageProfile;
-    else
+        return user.profilePic;
+    else 
         return null;
 }
 exports.createCart = async(id, cart) => {

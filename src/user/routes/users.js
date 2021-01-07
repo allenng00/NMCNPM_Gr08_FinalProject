@@ -40,7 +40,7 @@ router.get('/profile/:id', checkAuthentication, userController.profile);
 router.post('/profile/:id', userController.update_profile);
 
 router.get('/mypost', checkAuthentication, listController.mypost);
-router.get('/mypost:id', checkAuthentication, listController.detail_mypost);
+router.get('/mypost/:id', checkAuthentication, listController.detail_mypost);
 
 router.get('/addpost', checkAuthentication, listController.addpost_page);
 router.post('/addpost', listController.addpost);

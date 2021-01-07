@@ -14,7 +14,7 @@ function showUnsignedString(search) {
 }
 // lấy ra danh sách thể loại bài viết
 exports.listcategory = async() => {
-    const cat = await categoryCollection.find({});
+    const cat = await categoryCollection.find();
     return cat;
 }
 
@@ -123,4 +123,11 @@ exports.add_post = async(req, username) => {
         status2: "Đợi duyệt",
         ownBy: "user"
     });
+}
+
+exports.listcomment = async (postID, page, perPage) => {
+
+    const arr_comment = await postsCollection.findOne({ _id: ObjectId(postID) }).select("comment");
+    const comment = arr_comment.comment.slice(perPage * (page-1), perPage*page);
+    return comment;
 }
