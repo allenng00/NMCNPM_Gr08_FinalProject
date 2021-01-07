@@ -130,14 +130,14 @@
 					<!-- Start Single Widget -->
 					<aside class="widget recent_widget">
 						<h3 class="widget-title">Hình ảnh</h3>
-                        {{#if listImages}}
+                        {{#if post.listImages}}
 						<div class="recent-posts">
 							<ul>
 								{{#each post.listImages}}
 								<li>
-									<div class="post-wrapper d-flex">
+									<div class="">
 										<div class="thumb">
-											<img src="{{this}}" alt="blog images" width="300" height="300">
+											<img src="{{this}}" alt="post images" width="300" height="200">
 										</div>
 									</div>
 								</li>
