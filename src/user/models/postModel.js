@@ -100,7 +100,7 @@ exports.getRelatedPosts = async(catID, postID) => {
 // thêm 1 comment vào bài viết id 
 exports.add_comment = async(id, cmt) => {
 
-    await postsCollection.updateOne({ _id: ObjectId(id) }, { comment: cmt })
+    await postsCollection.updateOne({ _id: ObjectId(id) }, { comments: cmt })
 }
 
 // đóng góp bài viết
@@ -127,7 +127,7 @@ exports.add_post = async(req, username) => {
 
 exports.listcomment = async (postID, page, perPage) => {
 
-    const arr_comment = await postsCollection.findOne({ _id: ObjectId(postID) }).select("comment");
-    const comment = arr_comment.comment.slice(perPage * (page-1), perPage*page);
+    const arr_comment = await postsCollection.findOne({ _id: ObjectId(postID) }).select("comments");
+    const comment = arr_comment.comments.slice(perPage * (page-1), perPage*page);
     return comment;
 }

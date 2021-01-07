@@ -125,10 +125,10 @@ exports.detail = async(req, res, next) => {
     const post = await postModel.get(postID);
     const postCat = await postModel.get_name_cat(post.categoryID);
       // tính toán phân trang bình luận
-      const perpage = 5;
+      const perpage = 4;
       const current = parseInt(req.query.page) || 1;
       const comment = await postModel.listcomment(postID, current, perpage);
-      const count_comment = post.comment.length || 0;    
+      const count_comment = post.comments.length || 0;    
       const pages = Math.ceil(count_comment/perpage); 
       const nextPage = current < pages ? (current+1): current;
       const prevPage = current > 1 ? (current-1): 1;
@@ -141,7 +141,7 @@ exports.detail = async(req, res, next) => {
       {
           avatar = await userModel.getProfilePicUser(comment[id].nickname);
           if (avatar)
-              comment[id].avatar = avatar;
+              comment[id].imagePath = avatar;
       }
   
       res.render('posts/detail', 
@@ -150,7 +150,6 @@ exports.detail = async(req, res, next) => {
           category,
           post,
           postID,
-          listCover,
           postCat,
           comment,
           current,

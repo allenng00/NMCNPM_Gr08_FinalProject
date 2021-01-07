@@ -20,60 +20,133 @@
 									</div>
 								</div>
 								<div class="post_content">
-									<blockquote>{{post.description}}</blockquote>
+									<blockquote>{{post.descriptions}}</blockquote>
 									<p>{{post.detail}}</p>									
 								</div>
 								<ul class="blog_meta">
-									<li><a href="#">{{post.totalComments}} Comments</a></li>
+									<li><a href="#">{{totalComments}} Comments</a></li>
 								</ul>
 							</div>
 						</article>
-						{{#gt totalComments 0}}
+						
 						<div class="comments_area">
+                            {{#gt totalComments 0}}
 							<h3 class="comment__title">comment</h3>
 							<ul class="comment__list">
+                                {{#each comment}}
 								<li>
-									{{#each comment}}
 									<div class="wn__comment">
 										<div class="thumb">
-											<img src="" alt="comment images">
+                                            {{#if imagePath}}
+											<img src="{{imagePath}}" alt="comment images">
+                                            {{else}}
+                                            <img src="/images/users/user.png" alt="comment images">
+                                            {{/if}}
 										</div>										
 										<div class="content">
 											<div class="comnt__author d-block d-sm-flex">
-												<span><a href="#">admin</a> Post author</span>
-												<span>October 6, 2014 at 9:26 am</span>
+												<span><a href="#">{{nickname}}</a> Post author</span>
+												<span>Janury 6, 2021 at 9:26 am</span>
 												<div class="reply__btn">
-													<a href="#">Reply</a>
+													<a href="#"></a>
 												</div>
 											</div>
-											<p>Sed interdum at justo in efficitur. Vivamus gravida volutpat sodales. Fusce ornare sit</p>
+											<p>{{comment}}</p>
 										</div>
-									</div>
-									{{/each}}
+									</div>                                                              
 								</li>
+                                {{/each}}    
+                                <nav aria-label="Page navigation example" style="..."> 
+                                    <ul class="wn__pagination">
+                                        {{#isnt current 1}}
+                                        <li>
+                                            <a href="/home/listpost/{{postID}}?page={{prevPage}}">
+                                            <span aria-hidden="true" class="zmdi zmdi-chevron-left"></span>
+                                            </a>
+                                        </li>
+                                        {{/isnt}}
+
+                                        {{#if hasPreviousPage}}
+                                        <li>
+                                            <a href="/home/listpost/{{postID}}?page={{prevPage}}">
+                                            {{prevPage}}
+                                            </a>
+                                        </li>
+                                        {{/if}}
+
+                                        
+                                    
+                                        <li class="active">
+                                            <a href="javascript:void(0)" tabindex="-1">
+                                            {{current}}
+                                            </a>
+                                        </li>
+
+                                        {{#if hasNextPage}}
+                                        <li>
+                                            <a type="submit" href="/home/listpost/{{postID}}?page={{nextPage}}">
+                                            {{nextPage}}
+                                            </a>
+                                        </li>
+                                        {{/if}}
+
+                                        {{#gt lastPage current}}
+                                        <li>
+                                            <a href="/home/listpost/{{postID}}?page={{nextPage}}" >
+                                            <span aria-hidden="true" class="zmdi zmdi-chevron-right"></span>
+                                            </a>
+                                        </li>
+                                        {{/gt}}
+                                    </ul>
+                                </nav>                         
 							</ul>
+                            {{/gt}}
 						</div>
-						{{/gt}}
+                        <div class="comment_respond">
+                            <h3 class="reply_title">Nhập bình luận của bạn<small><a href="#"></a></small></h3>
+                            <form class="comment__form" action="/listpost/add_comment/{{post._id}}" method="POST">
+                                <div class="input__box">
+                                    {{#not user}}
+                                        <input class="form-control" id="nickname_field" name="nickname" value="{{nickname}}" placeholder="Nhập tên của bạn">
+                                        <br>
+                                        {{#if err}}
+                                            <div class="alert alert-danger">
+                                                {{err}}
+                                            </div>
+                                        {{/if}}
+                                    {{/not}}
+                                    <textarea name="content" placeholder="Nhập bình luận ở đây">{{content}}</textarea>
+                                </div>
+                                <div class="submite__btn">
+                                    <button type="submit" class="btn btn-success">Gửi bình luận</button>
+                                </div>
+                            </form>
+						</div>
+						
 					</div>
 				</div>
 				<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
 				<div class="wn__sidebar">
 					<!-- Start Single Widget -->
 					<aside class="widget recent_widget">
-						<h3 class="widget-title">Recent</h3>
+						<h3 class="widget-title">Hình ảnh</h3>
+                        {{#if listImages}}
 						<div class="recent-posts">
 							<ul>
 								{{#each post.listImages}}
 								<li>
 									<div class="post-wrapper d-flex">
 										<div class="thumb">
-											<img src="{{this}}" alt="blog images">
+											<img src="{{this}}" alt="blog images" width="300" height="300">
 										</div>
 									</div>
 								</li>
 								{{/each}}
 							</ul>
 						</div>
+                        {{else}}
+                            <p>Chưa có hình ảnh</p>
+                        {{/if}}
 					</aside>
 					<!-- End Single Widget -->
 				</div>
