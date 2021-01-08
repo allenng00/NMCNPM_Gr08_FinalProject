@@ -43,7 +43,10 @@
                 <input type="text" name="txtDescription" placeholder="Nhập mô tả ngắn" value="{{post.descriptions}}" required>
 
                 <label><b>Chi tiết (*)</b></label>
-                <textarea class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea>
+                {{!-- <textarea class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea> --}}            
+                <textarea id="editor" cols="30"  name="txtDetail" rows="10"></textarea>
+                <br>
+                          
                 <br>
 
                 <label><b>Thể loại (*)</b></label>
