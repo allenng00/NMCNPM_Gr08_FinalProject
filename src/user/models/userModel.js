@@ -90,7 +90,7 @@ exports.getNameUser = (username) => {
 exports.getProfilePicUser = async(username)=>{
     const user = await userCollection.findOne({username: username});
     if (user)
-        return user.profilePic;
+        return user.imageProfile;
     else 
         return null;
 }
