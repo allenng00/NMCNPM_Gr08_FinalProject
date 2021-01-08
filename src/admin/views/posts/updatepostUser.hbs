@@ -43,7 +43,7 @@
                 <input type="text" name="txtDescription" placeholder="Nhập mô tả ngắn" value="{{post.descriptions}}" required>
 
                 <label><b>Chi tiết (*)</b></label>
-                <textarea class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea>
+                <textarea id="editor" class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea>
                 <br>
 
                 <label><b>Thể loại (*)</b></label>
@@ -54,14 +54,14 @@
             
             <div class="row">
                  <div class="col-lg-3">
-                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/posts/admin"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</a>
+                    <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/posts/user"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</a>
                 </div>
                 <div class="col-lg-4">
                     <button type="submit" class="drop with--one--item btn-add btn btn-info btn-lg">Duyệt</button>
 
                 </div>
                 <div class="col-2">
-                    <a class="drop with--one--item btn-delete btn btn-secondary btn-lg" href="/home/posts/admin/delete/{{post._id}}">Delete</a>
+                    <a class="drop with--one--item btn-delete btn btn-secondary btn-lg" href="/home/posts/user/delete/{{post._id}}">Delete</a>
                 </div>
 
             </div>

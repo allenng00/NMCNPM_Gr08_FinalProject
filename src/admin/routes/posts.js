@@ -26,6 +26,10 @@ router.post('/admin/update/:id', postsController.update);
 router.get('/user/update/:id', isLogged, postsController.renderUpdatePost2);
 router.post('/user/update/:id', postsController.update2);
 
+router.get('/admin/delete/:id', isLogged, postsController.delete1);
+router.get('/user/delete/:id', isLogged, postsController.delete2);
+
+
 router.get('/admin/comments/:id', isLogged, commentsController.renderComment);
 router.post('/admin/comments/:id', isLogged, commentsController.add_comment);
 

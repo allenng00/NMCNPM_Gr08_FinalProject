@@ -361,12 +361,12 @@ exports.update_0_0_2 = async(req, id) => {
     })
 }
 
-// exports.delete = async(id) => {
-//     const book = await postsCollection.findOne({ _id: ObjectId(id) });
-//     await book.updateOne({
-//         isDeleted: true
-//     });
-// }
+exports.delete = async(id) => {
+    const post = await postsCollection.findOne({ _id: ObjectId(id) });
+    await post.updateOne({
+        isDeleted: true
+    });
+}
 
 // exports.list = async() => {
 //     const books = await postsCollection.find({}).toArray();

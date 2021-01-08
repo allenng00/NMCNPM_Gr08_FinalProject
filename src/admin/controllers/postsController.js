@@ -566,9 +566,14 @@ exports.update2 = async(req, res, next) => {
     });
 };
 
-exports.delete = async(req, res, next) => { //     // Get books from model
+exports.delete1 = async(req, res, next) => { //     // Get books from model
     await postModel.delete(req.params.id); //     // Pass data to view to display list of books
-    res.redirect('../../products');
+    res.redirect('../../admin');
+};
+
+exports.delete2 = async(req, res, next) => { //     // Get books from model
+    await postModel.delete(req.params.id); //     // Pass data to view to display list of books
+    res.redirect('../../user');
 };
 
 // exports.renderTop10 = async(req, res, next) => {
