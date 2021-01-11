@@ -4425,9 +4425,11 @@ h3.widget-title-modal {
     .blog-details .blog-post-details .post_wrapper .post_header h2 {
       font-size: 24px;
       font-weight: 700;
+      font-family: 'Fira Sans', sans-serif;
       line-height: 25px;
       margin-bottom: 5px;
       color: #2e2e2e; }
+      
 	 .blog-date-categori {
 		  border-top: 1px solid #b7b7b7;
 		  margin-top: 20px;
