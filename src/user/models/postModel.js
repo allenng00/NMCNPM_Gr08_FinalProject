@@ -66,7 +66,7 @@ exports.listpost = async(filter, pageNumber, itemPerPage, sort) => {
     let posts = await postsCollection.paginate(filter, {
         page: pageNumber,
         limit: itemPerPage,
-        sort: { unsigned_title: sortOrderArr[sort] }
+        sort: { titleUnsigned: sortOrderArr[sort] }
     });
     return posts;
 }
