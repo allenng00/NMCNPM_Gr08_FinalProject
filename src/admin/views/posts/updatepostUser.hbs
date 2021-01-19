@@ -36,22 +36,27 @@
                                             {{messageImage}}
                                         </div>
                                     {{/if}}
-                <label><b>Người đăng (*)</b></label>
-                <input type="text" name="txtAuthor" placeholder="Nhập người đăng" value="{{post.author}}" required>
-
                 <label><b>Mô tả ngắn (*)</b></label>
-                <input type="text" name="txtDescription" placeholder="Nhập mô tả ngắn" value="{{post.descriptions}}" required>
+                <textarea class="form-control" name="txtDescription" placeholder="Nhập mô tả ngắn"  required>{{post.descriptions}}</textarea>
 
                 <label><b>Chi tiết (*)</b></label>
                 <textarea id="editor" class="form-control" name="txtDetail" placeholder="Nhập chi tiết"  required>{{post.detail}}</textarea>
                 <br>
-
-                <label><b>Thể loại (*)</b></label>
-                <input type="text" name="txtCategory" placeholder="Nhập phân loại" value="{{post.nameCategory}}" required>
-
-                <label><b>Trạng thái </b></label>
-                <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{post.status}}"> 
-            
+                <div class="row">
+                    <div class="col-lg-4 form-group">
+                        <label><b>Người đăng (*)</b></label>
+                        <input type="text" name="txtAuthor" placeholder="Nhập người đăng" value="{{post.author}}" required>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label><b>Thể loại (*)</b></label>
+                    <input type="text" name="txtCategory" placeholder="Nhập phân loại" value="{{post.nameCategory}}" required>
+                </div>
+                <div class="col-lg-4 form-group">
+                        <label><b>Trạng thái (NEW, HOT) </b></label>
+                    <input type="text" name="txtStatus" placeholder="Nhập Trạng thái" value="{{post.status}}">
+                </div>
+                
+            </div>          
             <div class="row">
                  <div class="col-lg-3">
                     <a class="drop with--one--item btn-add btn btn-secondary btn-lg" href="/home/posts/user"><i class="fas fa-long-arrow-alt-left"></i>Trở lại</a>
@@ -61,7 +66,7 @@
 
                 </div>
                 <div class="col-2">
-                    <a class="drop with--one--item btn-delete btn btn-secondary btn-lg" href="/home/posts/user/delete/{{post._id}}">Delete</a>
+                    <a class="drop with--one--item btn-delete btn btn-secondary btn-lg" href="/home/posts/user/delete/{{post._id}}">X Delete</a>
                 </div>
 
             </div>
