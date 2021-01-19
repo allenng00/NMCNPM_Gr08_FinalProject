@@ -82,7 +82,9 @@ exports.listpost = async(filter, pageNumber, itemPerPage, sort) => {
 exports.get = async(id) => {
     //const postsCollection = db().collection('posts');
     const post = await postsCollection.findOne({ _id: ObjectId(id) })
-    return post;
+    if (post)
+        return post;
+    return false;
 }
 
 exports.get_related = async(id, postID) => {

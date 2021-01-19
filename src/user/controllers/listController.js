@@ -92,6 +92,11 @@ exports.index = async(req, res, next) => {
         }
     }
 
+    let hasCat = false;
+    if (nameCat != "Tất cả")
+    {
+        hasCat = true;
+    }
     const paginate = await postModel.listpost(filter, page, item_per_page, sort);
     const category = await postModel.listcategory();
     const prevPageQueryString = {...req.query, page: paginate.prevPage };
@@ -104,6 +109,7 @@ exports.index = async(req, res, next) => {
         category,
         search,
         nameCat,
+        hasCat,
         nameSort: nameSortArr[sort],
         catID,
         nameSearch: search,
@@ -124,8 +130,10 @@ exports.detail = async(req, res, next) => {
     const category = await postModel.listcategory();
     const postID = req.params.id;
     const post = await postModel.get(postID);
-    const postCatRelated = await postModel.get_related(post.categoryID, postID);
 
+    if (post)
+    {
+    const postCatRelated = await postModel.get_related(post.categoryID, postID);  
     const search = req.query.search;
     if (search)
     {
@@ -169,6 +177,9 @@ exports.detail = async(req, res, next) => {
           lastPage: pages,
           show_active_2: "show active"
       });
+    }
+    else
+        res.render('error');
     
   };
   

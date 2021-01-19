@@ -3,11 +3,11 @@
 	<div class="page-blog-details section-padding--lg bg--white">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-9 col-12">
+				<div class="col-lg-12 col-12">
 					<div class="blog-details content">
 						<article class="blog-post-details">
 							<div class="post-thumbnail">
-								<img src="{{post.cover}}" alt="post images">
+								<img src="{{post.cover}}" alt="post images" width="1200px" height="600px">
 							</div>
 							<div class="post_wrapper">
 								<div class="post_header">
@@ -28,30 +28,7 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
-				<div class="wn__sidebar">
-					<!-- Start Single Widget -->
-					<aside class="widget recent_widget">
-						<h3 class="widget-title">Hình ảnh</h3>
-						 {{#if post.listImages}}
-						<div class="recent-posts">
-							<ul>
-								{{#each post.listImages}}
-								<li>
-									<div class="">
-										<div class="thumb">
-											<img src="{{this}}" alt="blog images" width="300" height="200">
-										</div>
-									</div>
-								</li>
-								{{/each}}
-							</ul>
-						</div>
-						{{else}}
-                            <p>Chưa có hình ảnh</p>
-                        {{/if}}
-					</aside>
-					<!-- End Single Widget -->
-				</div>
+				
 			</div>
 			</div>
 		</div>

@@ -19,9 +19,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="shop__list__wrapper d-flex flex-wrap flex-md-nowrap justify-content-between">
-                            <div class="shop__list nav justify-content-center" role="tablist">
-                            </div>
-                            <p>Số lượng: {{totalPosts}} bài viết </p>
+                           
+                            {{#if hasCat}}
+                                <span><p>Danh sách bài viết theo mục <span style="color: red;">{{nameCat}}</span>: </p>
+                            {{/if}}
+                            <p>{{totalPosts}} bài viết </p></span>
                             <div class="orderby__wrapper">
                                 <span>Sắp xếp</span>
                                  <div class="btn-group">
