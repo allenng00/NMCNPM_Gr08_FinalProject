@@ -10,7 +10,7 @@ cloudinary.config({
     api_secret: 'mQ8tpbcRdL84rx8Azz_VtCAJRZ0'
 });
 
-const ITEM_PER_PAGE = 5;
+const ITEM_PER_PAGE = 10;
 const categoriesCollection = require('../models/MongooseModel/categoriesMongooseModel');
 const AllID = "5ff4814feb4a4a05dc5f4961";
 
