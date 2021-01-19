@@ -632,7 +632,8 @@ a {
   background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/29.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center; }
+  background-position: center center;
+ }
 .bg-image--2 {
   background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/8-1.jpg);
   background-repeat: no-repeat;
@@ -642,7 +643,8 @@ a {
   background-image: url(https://webhoclamvuon.files.wordpress.com/2020/10/nha-dam-2-1.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center; }
+  background-position: center center;
+  opacity: 0.8; }
 .bg-image--4 {
   background-image: url(images/bg/4.jpg);
   background-repeat: no-repeat;
@@ -3024,7 +3026,7 @@ h3.widget-title-modal {
   font-size: 60px;
 }
 .slide .slider__content h2 {
-  color: #068158 ;
+  color: #d36e4f ;
   font-size: 68px;
   font-family: poppins;
   font-weight: 700;
@@ -3065,7 +3067,7 @@ h3.widget-title-modal {
   .slide .slider__content a.shopbtn:hover {
     color: #e59285; }
     .slider--15 .slide .slider__content h2 span {
-      color:  #fcda42; }
+      color:  #74bba0; }
   .slider--15 .slide .slider__content h1 {
     color: #3c3c3c;
     font-family: "tex_gyre_adventorbold";
@@ -3571,7 +3573,8 @@ h3.widget-title-modal {
   .blog-page .blog__post .thumb {
     flex-basis: 50%; }
     .blog-page .blog__post .thumb a img {
-      width: 100%; }
+      width: 100%;
+      height: 250px ; }
   .blog-page .blog__post .content {
     flex-basis: 50%;
     padding: 0 0 0 20px; }

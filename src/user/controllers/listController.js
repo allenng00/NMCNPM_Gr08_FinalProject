@@ -98,10 +98,11 @@ exports.index = async(req, res, next) => {
     const nextPageQueryString = {...req.query, page: paginate.nextPage };
 
     res.render('./posts/listpost', {
-        title: "Sách",
+        title: "Danh mục bài viết",
         posts: paginate.docs,
         totalPosts: paginate.totalDocs,
         category,
+        search,
         nameCat,
         nameSort: nameSortArr[sort],
         catID,
@@ -123,7 +124,13 @@ exports.detail = async(req, res, next) => {
     const category = await postModel.listcategory();
     const postID = req.params.id;
     const post = await postModel.get(postID);
-    const postCat = await postModel.get_name_cat(post.categoryID);
+    const postCatRelated = await postModel.get_related(post.categoryID, postID);
+
+    const search = req.query.search;
+    if (search)
+    {
+        res.redirect('/listpost?search='+search);
+    }
       // tính toán phân trang bình luận
       const perpage = 4;
       const current = parseInt(req.query.page) || 1;
@@ -150,7 +157,7 @@ exports.detail = async(req, res, next) => {
           category,
           post,
           postID,
-          postCat,
+          postCatRelated,
           comment,
           current,
           nextPage,

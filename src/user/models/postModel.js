@@ -85,6 +85,11 @@ exports.get = async(id) => {
     return post;
 }
 
+exports.get_related = async(id, postID) => {
+    //const postsCollection = db().collection('posts');
+    const post = await postsCollection.find({ categoryID: ObjectId(id), _id: {$ne:  ObjectId(postID)} })
+    return post;
+}
 
 // 
 exports.getRelatedPosts = async(catID, postID) => {

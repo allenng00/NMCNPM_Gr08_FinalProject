@@ -7,14 +7,14 @@
 					<div class="blog-details content">
 						<article class="blog-post-details">
 							<div class="post-thumbnail">
-								<img src="{{post.cover}}" alt="post images">
+								<img src="{{post.cover}}" alt="post images" width="800px" height="500px">
 							</div>
 							<div class="post_wrapper">
 								<div class="post_header">
 									<h2>{{post.title}}</h2>
 									<div class="blog-date-categori">
 										<ul>
-											<li>June 27, 2020</li>
+											<li>December 24, 2020</li>
 											<li><a title="Posts by boighor" rel="author">{{post.author}}</a></li>
 										</ul>
 									</div>
@@ -107,7 +107,7 @@
                             <form class="comment__form" action="/listpost/add_comment/{{post._id}}" method="POST">
                                 <div class="input__box">
                                     {{#not user}}
-                                        <input class="form-control" id="nickname_field" name="nickname" value="{{nickname}}" placeholder="Nhập tên của bạn">
+                                        <input class="form-control" id="nickname_field" name="nickname" value="{{nickname}}" placeholder="Nhập tên của bạn"  required>
                                         <br>
                                         {{#if err}}
                                             <div class="alert alert-danger">
@@ -115,7 +115,7 @@
                                             </div>
                                         {{/if}}
                                     {{/not}}
-                                    <textarea name="content" placeholder="Nhập bình luận ở đây">{{content}}</textarea>
+                                    <textarea name="content" placeholder="Nhập bình luận ở đây" required>{{content}}</textarea>
                                 </div>
                                 <div class="submite__btn">
                                     <button type="submit" class="btn btn-success">Gửi bình luận</button>
@@ -129,24 +129,24 @@
 				<div class="wn__sidebar">
 					<!-- Start Single Widget -->
 					<aside class="widget recent_widget">
-						<h3 class="widget-title">Hình ảnh</h3>
-                        {{#if post.listImages}}
+						<h3 class="widget-title">Bài viết liên quan</h3>
+                        {{#each postCatRelated}}
 						<div class="recent-posts">
 							<ul>
-								{{#each post.listImages}}
+								
 								<li>
 									<div class="">
 										<div class="thumb">
-											<img src="{{this}}" alt="post images" width="300" height="200">
+											<a href="/listpost/{{_id}}"><img src="{{cover}}" alt="post images" width="300" height="200"></a>
+											<h4 style="font-family:'Roboto Condensed', sans-serif;"><a href="/listpost/{{_id}}">{{title}}</a></h4>
 										</div>
 									</div>
 								</li>
-								{{/each}}
+								
 							</ul>
 						</div>
-						{{else}}
-                            <p>Chưa có hình ảnh</p>
-                        {{/if}}
+			
+                        {{/each}}
 					</aside>
 					<!-- End Single Widget -->
 				</div>
