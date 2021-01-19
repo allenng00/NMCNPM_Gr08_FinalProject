@@ -28,12 +28,12 @@
                                 <div class="single-contact-form space-between">
                                     <input type="text" name="txtTitle" placeholder="Tiêu đề bài viết*" value="{{txtTitle}}" required>
                                     {{!-- <input type="text" name="nameCategory" placeholder="Thể loại*" value="{{nameCategory}}" required> --}}
-                                    <select class="form-select" aria-label="Default select example">
-                                    <option selected>Thể loại</option>
+                                    <select class="form-select" aria-label="Default select example" name="optionCat">                       
                                     {{#each category}}
-                                    <option value="{{_id}}">{{nameCategory}}</option>                                  
+                                    <option value="{{_id}}" selected >{{nameCategory}}</option>
+                                     {{/each}}                                  
                                     </select>
-                                    {{/each}}
+                                   
                                 </div>
                                 {{!-- <div class="single-contact-form">
                                     <input type="text" name="description" placeholder="Thêm mô tả nội dung ngắn gọn cho tiêu đề*" required>

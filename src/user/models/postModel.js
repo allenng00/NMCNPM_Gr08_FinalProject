@@ -18,6 +18,12 @@ exports.listcategory = async() => {
     return cat;
 }
 
+// lấy ra danh sách thể loại bài viết
+exports.listcategory_1 = async() => {
+    const cat = await categoryCollection.find({nameCategory: {$ne:  "Tất cả"}});
+    return cat;
+}
+
 //
 exports.getlistcatID = async(listcategory) => {
     var res = [];
@@ -113,9 +119,9 @@ exports.add_comment = async(id, cmt) => {
 // đóng góp bài viết
 exports.add_post = async(req, username) => {
 
-    const { txtTitle, nameCategory, description, detail, cover, listImages } = req;
-    const cat = await categoryCollection.findOne({ nameCategory: nameCategory });
-    const catID = cat._id;
+    const { txtTitle, nameCategory, description, detail, cover, listImages, optionCat } = req;
+    // const cat = await categoryCollection.findOne({ nameCategory: nameCategory });
+    // const catID = cat._id;
     await postsCollection.create({
         cover: cover,
         title: txtTitle,
@@ -123,8 +129,8 @@ exports.add_post = async(req, username) => {
         descriptions: description,
         detail: detail,
         isDeleted: false,
-        nameCategory: nameCategory,
-        categoryID: ObjectId(catID),
+        //nameCategory: nameCategory,
+        categoryID: ObjectId(optionCat),
         titleUnsigned: showUnsignedString(txtTitle),
         author: username,
         status2: "Đợi duyệt",
