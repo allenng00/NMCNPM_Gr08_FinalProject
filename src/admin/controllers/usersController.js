@@ -2,7 +2,7 @@ const queryString = require('query-string');
 const userModel = require('../models/userModel');
 const { ObjectId } = require('mongodb');
 
-const ITEM_PER_PAGE = 1;
+const ITEM_PER_PAGE = 10;
 
 exports.renderUsers = async(req, res, next) => {
     const page = parseInt(req.query.page) || 1;
