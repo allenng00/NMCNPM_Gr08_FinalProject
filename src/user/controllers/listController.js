@@ -92,17 +92,24 @@ exports.index = async(req, res, next) => {
         }
     }
 
+    let hasCat = false;
+    if (nameCat != "Tất cả")
+    {
+        hasCat = true;
+    }
     const paginate = await postModel.listpost(filter, page, item_per_page, sort);
     const category = await postModel.listcategory();
     const prevPageQueryString = {...req.query, page: paginate.prevPage };
     const nextPageQueryString = {...req.query, page: paginate.nextPage };
 
     res.render('./posts/listpost', {
-        title: "Sách",
+        title: "Danh mục bài viết",
         posts: paginate.docs,
         totalPosts: paginate.totalDocs,
         category,
+        search,
         nameCat,
+        hasCat,
         nameSort: nameSortArr[sort],
         catID,
         nameSearch: search,
@@ -123,7 +130,15 @@ exports.detail = async(req, res, next) => {
     const category = await postModel.listcategory();
     const postID = req.params.id;
     const post = await postModel.get(postID);
-    const postCat = await postModel.get_name_cat(post.categoryID);
+
+    if (post)
+    {
+    const postCatRelated = await postModel.get_related(post.categoryID, postID);  
+    const search = req.query.search;
+    if (search)
+    {
+        res.redirect('/listpost?search='+search);
+    }
       // tính toán phân trang bình luận
       const perpage = 4;
       const current = parseInt(req.query.page) || 1;
@@ -150,7 +165,7 @@ exports.detail = async(req, res, next) => {
           category,
           post,
           postID,
-          postCat,
+          postCatRelated,
           comment,
           current,
           nextPage,
@@ -162,6 +177,9 @@ exports.detail = async(req, res, next) => {
           lastPage: pages,
           show_active_2: "show active"
       });
+    }
+    else
+        res.render('error');
     
   };
   
@@ -216,13 +234,14 @@ exports.mypost = async(req, res, next) => {
 
 exports.addpost_page = async(req, res, next) => {
 
-    res.render('posts/addpost', { title: 'Đóng góp bài viết' });
+    const category =  await postModel.listcategory_1();
+    res.render('posts/addpost', { title: 'Đóng góp bài viết', category });
 };
 
 exports.addpost = async(req, res, next) => {
-
-
+    
     const form = formidable({ multiples: true });
+    const category =  await postModel.listcategory_1();
     var arr = [];
     form.parse(req, async(err, fields, files) => {
         if (err) {
@@ -230,97 +249,38 @@ exports.addpost = async(req, res, next) => {
             return;
         }
 
-        const { txtTitle, nameCategory, description, detail } = fields;
-        const category = await postModel.get_name_category(nameCategory);
-
-        if (category) {
-            // do nothing
-        } else {
-            return res.render('posts/addpost', {
-                title: 'Đóng góp bài viết',
-                messageError: "Thể loại không tồn tại",
-                txtTitle,
-                nameCategory,
-                description,
-                detail
-            });
-        }
+        const { txtTitle, nameCategory, description, detail, optionCat} = fields;
+       
+        //const category = await postModel.get_name_category(nameCategory);
+        // if (category) {
+        //     // do nothing
+        // } else {
+        //     return res.render('posts/addpost', {
+        //         title: 'Đóng góp bài viết',
+        //         messageError: "Thể loại không tồn tại",
+        //         txtTitle,
+        //         nameCategory,
+        //         description,
+        //         detail
+        //     });
+        // }
 
         // kiểm tra ảnh
         const coverImage = files.cover;
-        const listImages = files.listImages;
+       
         const imageType = ["image/png", "image/jpeg"];
 
         if (imageType.indexOf(coverImage.type) >= 0) // cover là 1 ảnh
         {
-            console.log("hello1");
-
-            if (listImages.size > 0 && imageType.indexOf(listImages.type) >= 0) // chỉ thêm 1 ảnh
-            {
-                console.log("hello2");
-                cloudinary.uploader.upload(coverImage.path, function(err, result) {
-                    fields.cover = result.url;
-                    cloudinary.uploader.upload(listImages.path, function(err, result) {
-                        fields.listImages = result.url;
-                        postModel.add_post(fields, req.user.username).then(() => {
-                            return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
-                        });
-
-                    });
+            console.log("hello");
+            cloudinary.uploader.upload(coverImage.path, function(err, result) {
+                fields.cover = result.url;
+                postModel.add_post(fields, req.user.username).then(() => {
+                    return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin", category });
                 });
-            } else if (listImages.length > 0) //thêm 1 mảng
-            {
-                console.log("hello3");
-                // phát hiện 1 file không phải ảnh
-                for (var index in listImages)
-                    if (imageType.indexOf(listImages[index].type) === -1)
-                        return res.render('posts/addpost', {
-                            title: "Đóng góp bài viết",
-                            messageError: "Chỉ được chọn ảnh",
-                            txtTitle,
-                            description,
-                            detail,
-                            nameCategory
-                        });
-
-                    // mảng toàn file ảnh
-                for (var index in listImages) {
-                    cloudinary.uploader.upload(listImages[index].path, function(err, result) {
-                        arr.push(result.url);
-                    }).then(() => {
-                        if (arr.length === listImages.length) {
-                            cloudinary.uploader.upload(coverImage.path, function(err, result) {
-                                fields.cover = result.url;
-                                fields.listImages = arr;
-                                postModel.add_post(fields, req.user.username).then(() => {
-                                    return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
-                                });
-                            });
-                        }
-                    });
-                }
-            } else if (listImages.size > 0 && imageType.indexOf(listImages.type) === -1) // chỉ 1 file nhưng ko phải file ảnh
-            {
-                console.log("hello4");
-                return res.render('posts/addpost', {
-                    title: "Đóng góp bài viết",
-                    messageError: "Chỉ được chọn ảnh",
-                    txtTitle,
-                    description,
-                    detail,
-                    nameCategory
-                });
-            } else // ko có ảnh thêm
-            {
-                console.log("hello");
-                cloudinary.uploader.upload(coverImage.path, function(err, result) {
-                    fields.cover = result.url;
-                    postModel.add_post(fields, req.user.username).then(() => {
-                        return res.render('posts/addpost', { title: 'Đóng góp bài viết', messageSuccess: "Đóng góp bài viết thành công, bài viết được xem xét bởi admin" });
-                    });
-                });
-            }
-        } else // ko phải ảnh
+            });
+        }
+        else // ko phải ảnh
         {
             return res.render('posts/addpost', {
                 title: "Đóng góp bài viết",
