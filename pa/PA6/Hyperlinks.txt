@@ -1,0 +1,12 @@
+Trello: https://trello.com/b/M0BBRXum/group08
+Github: https://github.com/nhkhang2002/NMCNPM_Gr08_FinalProject
+Google Drive: https://drive.google.com/drive/folders/1aBrXH8EwdseqFzNSe5gfrbny5gWo70VZ?usp=sharing
+Timelog: https://docs.google.com/spreadsheets/d/1kM6nhQT_pT8BV4U6nvBfu1ILoV8DUXj9Jucj59q3Q8Q/edit?usp=sharing
+Figma:
+	Admin UI
+	https://www.figma.com/file/TJzEyHDIO5nGNiUualuhMR/web-huong-dan-trong-cay?node-id=2%3A0
+
+	User UI
+	https://www.figma.com/file/WKcgGQJ65RtUhnDUOD8V0z/User-UI?node-id=0%3A1
+
+Contact: m.me/nhkitusk18

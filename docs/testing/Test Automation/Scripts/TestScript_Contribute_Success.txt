@@ -1,0 +1,51 @@
+import static com.kms.katalon.core.checkpoint.CheckpointFactory.findCheckpoint
+import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
+import static com.kms.katalon.core.testdata.TestDataFactory.findTestData
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+import static com.kms.katalon.core.testobject.ObjectRepository.findWindowsObject
+import com.kms.katalon.core.checkpoint.Checkpoint as Checkpoint
+import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as CucumberKW
+import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
+import com.kms.katalon.core.model.FailureHandling as FailureHandling
+import com.kms.katalon.core.testcase.TestCase as TestCase
+import com.kms.katalon.core.testdata.TestData as TestData
+import com.kms.katalon.core.testobject.TestObject as TestObject
+import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
+import internal.GlobalVariable as GlobalVariable
+
+WebUI.openBrowser('http://localhost:4000/')
+
+WebUI.delay(3)
+
+WebUI.click(findTestObject('Object Repository/Page_Trang ch/span_ng nhp'))
+
+WebUI.setText(findTestObject('Object Repository/Page_ng nhp/input__username'), 'tincute')
+
+WebUI.setEncryptedText(findTestObject('Object Repository/Page_ng nhp/input__password'), 'tzH6RvlfSTg=')
+
+WebUI.sendKeys(findTestObject('Object Repository/Page_ng nhp/input__password'), Keys.chord(Keys.ENTER))
+
+WebUI.click(findTestObject('Object Repository/Page_Trang ch/img'))
+
+WebUI.click(findTestObject('Object Repository/Page_Trang ch/a_ng gp bi vit'))
+
+WebUI.setText(findTestObject('Object Repository/Page_ng gp bi vit/input_Ni dung bi vit_txtTitle'), Tittle)
+
+WebUI.setText(findTestObject('Object Repository/Page_ng gp bi vit/input_Ni dung bi vit_nameCategory'), Kind)
+
+WebUI.setText(findTestObject('Object Repository/Page_ng gp bi vit/textarea_Ni dung bi vit_description'), Description)
+
+WebUI.setText(findTestObject('Object Repository/Page_ng gp bi vit/textarea_Ni dung bi vit_detail'), Detail)
+
+WebUI.uploadFile(findTestObject('Object Repository/Page_ng gp bi vit/input__cover'), '"E:\\Downloads\\kĩ thuật trồng ớt 3.jpg"')
+
+WebUI.click(findTestObject('Object Repository/Page_ng gp bi vit/button_ng gp bi vit'))
+
+String prompt = WebUI.getText(findTestObject('Object Repository/Page_ng gp bi vit/div_ng gp bi vit thnh cng, bi vit c xem xt _1583e0'))
+
+WebUI.verifyEqual(prompt, 'Đóng góp bài viết thành công, bài viết được xem xét bởi admin')
+
+WebUI.closeBrowser()
+
